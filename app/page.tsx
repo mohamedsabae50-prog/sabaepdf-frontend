@@ -11,6 +11,7 @@ const t = {
     back: "عودة للأدوات 🔙", 
     process: "ابدأ الآن ⚡", 
     processing: "...جاري التنفيذ", 
+    finalizing: "...جاري اللمسات الأخيرة (انتظر قليلاً)",
     alertNoFiles: "ارفع ملفاتك الأول يا بطل!",
     loginHeader: "أدوات المحترفين هنا 🔥",
     loginSub: "سجل دخولك لفتح مساحة العمل",
@@ -41,6 +42,7 @@ const t = {
     back: "Back to Tools 🔙", 
     process: "Start Now ⚡", 
     processing: "Processing...", 
+    finalizing: "Finalizing... (Please wait)",
     alertNoFiles: "Upload your files first!",
     loginHeader: "Pro Tools Are Here 🔥",
     loginSub: "Login to open your workspace",
@@ -188,9 +190,16 @@ export default function Home() {
     
     setLoading(true);
     setProgress(0);
+    
+    // 👈 العداد الذكي: بطيء في الآخر عشان ما يستفزش المستخدم
     const interval = setInterval(() => {
-      setProgress((prev) => (prev >= 95 ? prev : prev + (prev < 60 ? 10 : 2)));
-    }, 400);
+      setProgress((prev) => {
+        if (prev >= 98) return prev;
+        if (prev > 85) return prev + 1; // بطيء جداً في النهاية
+        if (prev > 50) return prev + 5; // سرعة متوسطة
+        return prev + 15; // طيارة في الأول
+      });
+    }, 600);
 
     const formData = new FormData();
     files.forEach(f => formData.append("files", f));
@@ -212,8 +221,6 @@ export default function Home() {
     } catch (err: any) {
         console.error("Server Error:", err);
         let errorMsg = err.message || "Unknown Error";
-        
-        // 👈 الكود ده بيفك التشفير عن الخطأ لو السيرفر بعته كـ Blob (ملف)
         if (err.response && err.response.data) {
             if (err.response.data instanceof Blob) {
                 try {
@@ -384,10 +391,24 @@ export default function Home() {
                     ) : (
                         <div className="flex flex-wrap gap-5 justify-center w-full relative z-50 p-4">
                         {files.map((file, idx) => (
-                            <div key={idx} className="relative w-32 h-32 rounded-2xl border-2 border-cyan-800 bg-gray-900 flex flex-col items-center justify-center p-2 shadow-2xl transform hover:scale-105 transition-all">
-                            <button onClick={(e) => { e.stopPropagation(); setFiles(files.filter((_, i) => i !== idx)); }} className="absolute -top-3 -right-3 bg-red-500 text-white w-8 h-8 rounded-full flex items-center justify-center font-black z-[60] cursor-pointer">×</button>
-                            <div className="text-4xl">{file.type.startsWith('image/') ? '🖼️' : '📄'}</div>
-                            <div className="text-[10px] text-cyan-400 truncate w-full mt-2" dir="ltr">{file.name}</div>
+                            // 👈 كارت الملف المتطور (شكل أوضح ومساحة الملف)
+                            <div key={idx} className="relative w-36 h-auto min-h-[9rem] rounded-2xl border-2 border-cyan-800 bg-gray-900 flex flex-col items-center justify-center p-3 shadow-2xl transform hover:scale-105 transition-all">
+                              <button onClick={(e) => { e.stopPropagation(); setFiles(files.filter((_, i) => i !== idx)); }} className="absolute -top-3 -right-3 bg-red-500 text-white w-8 h-8 rounded-full flex items-center justify-center font-black z-[60] cursor-pointer">×</button>
+                              
+                              {/* لو صورة هيعرضها، لو PDF هيعرض ايقونة */}
+                              {file.type.startsWith('image/') ? (
+                                <img src={URL.createObjectURL(file)} alt="preview" className="w-16 h-16 object-cover rounded-lg mb-2 border border-gray-700" />
+                              ) : (
+                                <div className="text-5xl mb-2">📄</div>
+                              )}
+                              
+                              {/* اسم الملف بالكامل بيظهر لما تقف عليه بالماوس */}
+                              <div className="text-xs text-cyan-400 w-full text-center break-words px-1 font-bold" dir="ltr" title={file.name}>
+                                {file.name.length > 15 ? file.name.substring(0, 15) + '...' : file.name}
+                              </div>
+                              <div className="text-[10px] text-gray-500 mt-1 font-bold">
+                                {(file.size / (1024 * 1024)).toFixed(2)} MB
+                              </div>
                             </div>
                         ))}
                         <button onClick={() => setFiles([])} className="text-red-500 font-bold w-full mt-6 hover:text-red-400 transition-colors cursor-pointer">{lang === 'ar' ? '× مسح الكل' : '× Clear All'}</button>
@@ -406,7 +427,8 @@ export default function Home() {
                         <button onClick={handleProcess} disabled={loading} className="flex-[2] py-5 rounded-2xl bg-gradient-to-r from-cyan-600 to-blue-600 font-black text-2xl shadow-[0_0_30px_rgba(8,145,178,0.5)] hover:scale-[1.03] transition-all duration-300 cursor-pointer border border-cyan-400/50 relative overflow-hidden">
                             {loading ? (
                             <>
-                                <span className="relative z-10">{progress}% {loc.processing}</span>
+                                {/* 👈 تغيير النص لما السيرفر يطول */}
+                                <span className="relative z-10 text-xl">{progress}% {progress > 90 ? loc.finalizing : loc.processing}</span>
                                 <div className="absolute top-0 left-0 h-full bg-white/20 transition-all duration-500" style={{ width: `${progress}%` }} />
                             </>
                             ) : loc.process}
