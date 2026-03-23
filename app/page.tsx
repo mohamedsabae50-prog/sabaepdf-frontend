@@ -4,8 +4,66 @@ import axios from 'axios';
 import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
 
 const t = {
-  ar: { title: "SABAEPDF PRO ⚡", subtitle: "منصة ذكية للتعامل مع كل ملفاتك", uploadPrompt: "اسحب أو اضغط لرفع الملفات هنا", back: "عودة", process: "ابدأ الآن ⚡", processing: "...جاري التنفيذ", alertNoFiles: "ارفع ملفاتك الأول يا بطل!" },
-  en: { title: "SABAEPDF PRO ⚡", subtitle: "Smart platform for all your files", uploadPrompt: "Drag or click to upload files here", back: "Back", process: "Start Now ⚡", processing: "Processing...", alertNoFiles: "Upload your files first!" }
+  ar: { 
+    title: "SABAEPDF PRO ⚡", 
+    subtitle: "منصة ذكية للتعامل مع كل ملفاتك", 
+    uploadPrompt: "اسحب أو اضغط لرفع الملفات هنا", 
+    back: "عودة", 
+    process: "ابدأ الآن ⚡", 
+    processing: "...جاري التنفيذ", 
+    alertNoFiles: "ارفع ملفاتك الأول يا بطل!",
+    loginHeader: "أدوات المحترفين هنا 🔥",
+    loginSub: "سجل دخولك لفتح مساحة العمل",
+    signupSub: "اعمل حساب جديد وانضم لينا",
+    emailPlaceholder: "الإيميل",
+    passwordPlaceholder: "كلمة السر",
+    loginBtn: "دخول ⚡",
+    signupBtn: "إنشاء حساب 🚀",
+    noAccount: "معندكش حساب؟ سجل دلوقتي",
+    hasAccount: "عندك حساب بالفعل؟ سجل دخول",
+    loggedInAs: "أنت مسجل دخول بإيميل:",
+    freePlan: "المواطن المجاني 🆓",
+    proPlan: "Sabae PRO ⚡",
+    recommended: "موصى به",
+    month: "/شهر",
+    loginToPay: "سجل دخول للاشتراك",
+    browseTools: "تصفح الأدوات",
+    freeFeatures: ["✅ دمج، ضغط، وتدوير الملفات", "✅ عمليات غير محدودة يومياً ∞", "❌ مقفول: التشفير واستخراج الصوت", "❌ مقفول: أدوات الذكاء الاصطناعي (AI)"],
+    proFeatures: ["✅ كل مميزات المجاني (لا نهائي)", "✅ حماية وفك تشفير الملفات 🔒", "✅ فصل واستخراج الصوت (MP3) 🎧", "✅ إزالة الخلفية واستخراج جداول Excel (AI) ✨"],
+    unlimited: "متاح لك عدد لا نهائي من العمليات ∞",
+    proUnlimited: "عمليات غير محدودة 🚀",
+    loginRequired: "سجل دخولك أو رقي حسابك عشان تستخدم الأداة 🔒"
+  },
+  en: { 
+    title: "SABAEPDF PRO ⚡", 
+    subtitle: "Smart platform for all your files", 
+    uploadPrompt: "Drag or click to upload files here", 
+    back: "Back", 
+    process: "Start Now ⚡", 
+    processing: "Processing...", 
+    alertNoFiles: "Upload your files first!",
+    loginHeader: "Pro Tools Are Here 🔥",
+    loginSub: "Login to open your workspace",
+    signupSub: "Create a new account and join us",
+    emailPlaceholder: "Email Address",
+    passwordPlaceholder: "Password",
+    loginBtn: "Login ⚡",
+    signupBtn: "Sign Up 🚀",
+    noAccount: "Don't have an account? Register now",
+    hasAccount: "Already have an account? Login",
+    loggedInAs: "Logged in as:",
+    freePlan: "Free Citizen 🆓",
+    proPlan: "Sabae PRO ⚡",
+    recommended: "Recommended",
+    month: "/month",
+    loginToPay: "Login to Subscribe",
+    browseTools: "Browse Tools",
+    freeFeatures: ["✅ Merge, Compress, Rotate", "✅ Unlimited daily operations ∞", "❌ Locked: Encrypt & Audio", "❌ Locked: AI Tools"],
+    proFeatures: ["✅ All Free features (Unlimited)", "✅ Protect & Unlock PDF 🔒", "✅ Extract Audio (MP3) 🎧", "✅ AI Background Remover & Excel ✨"],
+    unlimited: "Unlimited operations available ∞",
+    proUnlimited: "Unlimited Pro operations 🚀",
+    loginRequired: "Login or upgrade to use this tool 🔒"
+  }
 };
 
 const tools = [
@@ -95,7 +153,7 @@ export default function Home() {
       alert("🎉 مبروك يا هندسة! تم الدفع بنجاح.");
       setView('grid');
     } catch (err) {
-      alert("تم الدفع بس حصلت مشكلة في التفعيل!");
+      alert("تم الدفع بس حصلت مشكلة في تفعيل!");
     }
   };
 
@@ -133,23 +191,24 @@ export default function Home() {
       else if (activeTool.id === 'bg-remover') ext = 'png';
       else if (activeTool.id === 'mp4-to-mp3') ext = 'mp3';
 
-      const a = document.createElement('a'); a.href = url; a.download = `Sabae_${activeTool.id}.${ext}`; a.click();
-   } catch (err: any) {
-      // 👈 هنا بنشوف لو السيرفر بعت رسالة خطأ محددة (زي رسالة الـ PRO)
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `Sabae_${activeTool.id}.${ext}`;
+      a.click();
+    } catch (err: any) {
       if (err.response && err.response.data && err.response.data.detail) {
         alert(err.response.data.detail); 
       } else {
-        // لو الخطأ مجهول بنظهر الرسالة القديمة
         alert(lang === 'ar' ? "حدث خطأ أثناء المعالجة ❌" : "Error during processing ❌");
       }
     } finally {
       clearInterval(interval);
       setTimeout(() => { setLoading(false); setProgress(0); }, 1000);
-    };
+    }
+  };
 
   return (
     <div className={`min-h-screen bg-[#020617] text-white font-sans ${lang === 'ar' ? 'rtl' : 'ltr'} relative overflow-x-hidden`}>
-      {/* الـ Cursor السحري رجع */}
       <div ref={cursorRef} className="fixed top-0 left-0 w-[400px] h-[400px] rounded-full blur-[100px] z-[0] opacity-30 transition-colors duration-700 pointer-events-none"
         style={{ backgroundColor: view === 'grid' || view === 'login' ? hoveredNeon : activeTool.neon, transform: 'translate(calc(var(--x, -100px) - 50%), calc(var(--y, -100px) - 50%))' }} />
 
@@ -181,45 +240,51 @@ export default function Home() {
       <main className="max-w-[1400px] mx-auto px-6 py-16 relative z-50">
         {view === 'login' && (
           <div className="max-w-4xl mx-auto text-center">
-            <h1 className="text-5xl md:text-7xl font-black text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500 mb-6 italic uppercase">أدوات المحترفين هنا 🔥</h1>
-            <p className="text-gray-400 text-xl font-bold mb-12">{authMode === 'login' ? 'سجل دخولك لفتح مساحة العمل' : 'اعمل حساب جديد وانضم لينا'}</p>
+            <h1 className="text-5xl md:text-7xl font-black text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500 mb-6 italic uppercase">{loc.loginHeader}</h1>
+            <p className="text-gray-400 text-xl font-bold mb-12">{authMode === 'login' ? loc.loginSub : loc.signupSub}</p>
             {!user ? (
               <>
                 <form onSubmit={handleAuth} className="flex flex-col gap-4 max-w-md mx-auto mb-6">
-                  <input type="email" value={emailInput} onChange={(e) => setEmailInput(e.target.value)} placeholder="الإيميل" required className="w-full bg-gray-900/80 border-2 border-gray-700 rounded-2xl p-5 text-xl text-white outline-none focus:border-cyan-500 text-center font-bold" />
-                  <input type="password" value={passwordInput} onChange={(e) => setPasswordInput(e.target.value)} placeholder="كلمة السر" required className="w-full bg-gray-900/80 border-2 border-gray-700 rounded-2xl p-5 text-xl text-white outline-none focus:border-cyan-500 text-center font-bold" />
+                  <input type="email" value={emailInput} onChange={(e) => setEmailInput(e.target.value)} placeholder={loc.emailPlaceholder} required className="w-full bg-gray-900/80 border-2 border-gray-700 rounded-2xl p-5 text-xl text-white outline-none focus:border-cyan-500 text-center font-bold" />
+                  <input type="password" value={passwordInput} onChange={(e) => setPasswordInput(e.target.value)} placeholder={loc.passwordPlaceholder} required className="w-full bg-gray-900/80 border-2 border-gray-700 rounded-2xl p-5 text-xl text-white outline-none focus:border-cyan-500 text-center font-bold" />
                   <button type="submit" disabled={loading} className="w-full py-5 rounded-2xl bg-gradient-to-r from-cyan-600 to-blue-600 font-black text-2xl shadow-[0_0_30px_rgba(8,145,178,0.5)] hover:scale-[1.03] transition-all cursor-pointer mt-2">
-                    {loading ? '...' : (authMode === 'login' ? 'دخول ⚡' : 'إنشاء حساب 🚀')}
+                    {loading ? '...' : (authMode === 'login' ? loc.loginBtn : loc.signupBtn)}
                   </button>
                 </form>
                 <button onClick={() => setAuthMode(authMode === 'login' ? 'signup' : 'login')} className="text-gray-400 hover:text-cyan-400 underline font-bold transition-colors cursor-pointer mb-16">
-                  {authMode === 'login' ? 'معندكش حساب؟ سجل دلوقتي' : 'عندك حساب بالفعل؟ سجل دخول'}
+                  {authMode === 'login' ? loc.noAccount : loc.hasAccount}
                 </button>
               </>
             ) : (
-              <div className="mb-16 text-cyan-400 font-bold text-xl flex items-center justify-center gap-2">أنت مسجل دخول بإيميل: {user.email} ✅</div>
+              <div className="mb-16 text-cyan-400 font-bold text-xl flex items-center justify-center gap-2">{loc.loggedInAs} {user.email} ✅</div>
             )}
-            {/* رجوع الخطط بتصميمها الأصلي */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 text-right mb-12">
               <div className="p-8 rounded-[2.5rem] bg-gray-900/40 border-2 border-gray-800 backdrop-blur-md">
-                <h3 className="text-2xl font-black mb-4">المواطن المجاني 🆓</h3>
+                <h3 className="text-2xl font-black mb-4">{loc.freePlan}</h3>
                 <div className="text-5xl font-black mb-6">0$</div>
                 <ul className="space-y-4 mb-8 text-gray-400 font-bold">
-                  <li>✅ دمج، ضغط، وتدوير الملفات</li>
-                  <li>❌ مقفول: أدوات الذكاء الاصطناعي (AI)</li>
+                  {loc.freeFeatures.map((f, i) => <li key={i}>{f}</li>)}
                 </ul>
               </div>
               <div className="p-8 rounded-[2.5rem] bg-gray-900/60 border-2 border-cyan-500 shadow-[0_0_40px_rgba(6,182,212,0.2)] backdrop-blur-md relative overflow-hidden">
-                <div className="absolute top-6 left-[-40px] bg-cyan-500 text-black font-black py-1 px-12 rotate-[-45deg] text-sm">موصى به</div>
-                <h3 className="text-3xl font-black mb-4 text-cyan-400">Sabae PRO ⚡</h3>
-                <div className="text-5xl font-black mb-6">5$ <span className="text-lg text-gray-500">/شهر</span></div>
-                {user && user.plan === 'Free' && (
-                  <PayPalScriptProvider options={{ clientId: PAYPAL_CLIENT_ID, currency: "USD" }}>
-                    <PayPalButtons style={{ layout: "vertical", color: "blue", shape: "pill" }} createOrder={(data, actions) => actions.order.create({ purchase_units: [{ amount: { value: "5.00" } }] })} onApprove={async (data, actions) => { await actions.order?.capture(); handleSuccessfulPayment(); }} />
-                  </PayPalScriptProvider>
+                <div className="absolute top-6 left-[-40px] bg-cyan-500 text-black font-black py-1 px-12 rotate-[-45deg] text-sm">{loc.recommended}</div>
+                <h3 className="text-3xl font-black mb-4 text-cyan-400">{loc.proPlan}</h3>
+                <div className="text-5xl font-black mb-6 text-white">5$ <span className="text-lg text-gray-500">{loc.month}</span></div>
+                <ul className="space-y-4 mb-8 text-gray-300 font-bold">
+                   {loc.proFeatures.map((f, i) => <li key={i}>{f}</li>)}
+                </ul>
+                {(!user || user.plan === 'Free') && (
+                  <div className="mt-6">
+                    {user ? (
+                      <PayPalScriptProvider options={{ clientId: PAYPAL_CLIENT_ID, currency: "USD" }}>
+                        <PayPalButtons style={{ layout: "vertical", color: "blue", shape: "pill" }} createOrder={(data, actions) => actions.order.create({ purchase_units: [{ amount: { value: "5.00" } }] })} onApprove={async (data, actions) => { await actions.order?.capture(); handleSuccessfulPayment(); }} />
+                      </PayPalScriptProvider>
+                    ) : <button onClick={() => alert("سجل دخول الأول!")} className="w-full py-4 bg-gray-700 rounded-xl">{loc.loginToPay}</button>}
+                  </div>
                 )}
               </div>
             </div>
+            <button onClick={() => setView('grid')} className="text-gray-400 hover:text-white underline font-bold transition-colors cursor-pointer">{loc.browseTools}</button>
           </div>
         )}
 
@@ -247,7 +312,7 @@ export default function Home() {
           <div className="max-w-4xl mx-auto bg-gray-900/60 border-2 border-gray-800/80 rounded-[3rem] p-12 shadow-[0_0_80px_rgba(0,0,0,0.6)] backdrop-blur-xl text-center relative overflow-hidden">
             <div className={`w-28 h-28 rounded-[2rem] bg-gradient-to-br ${activeTool.color} flex items-center justify-center text-6xl mx-auto mb-6 shadow-2xl transform hover:scale-110 transition-transform duration-500`}>{activeTool.icon}</div>
             <h2 className="text-5xl font-black text-white mb-4">{lang === 'ar' ? activeTool.nameAr : activeTool.nameEn}</h2>
-            
+            <p className="text-gray-400 font-bold mb-10">{user?.plan === 'Free' && !activeTool.isPro ? loc.unlimited : user?.plan === 'PRO' ? loc.proUnlimited : loc.loginRequired}</p>
             <div className="relative border-2 border-dashed border-gray-600/60 rounded-[2.5rem] p-10 mb-10 bg-black/30 min-h-[250px] flex flex-col items-center justify-center hover:border-cyan-500 transition-all duration-300">
               {files.length === 0 ? (
                 <>
@@ -263,19 +328,19 @@ export default function Home() {
                       <div className="text-[10px] text-cyan-400 truncate w-full mt-2" dir="ltr">{file.name}</div>
                     </div>
                   ))}
-                  <button onClick={() => setFiles([])} className="text-red-500 font-bold w-full mt-6 hover:text-red-400 transition-colors cursor-pointer">× مسح الكل</button>
+                  <button onClick={() => setFiles([])} className="text-red-500 font-bold w-full mt-6 hover:text-red-400 transition-colors cursor-pointer">{lang === 'ar' ? '× مسح الكل' : '× Clear All'}</button>
                 </div>
               )}
             </div>
 
             {(activeTool.inputPlaceholderAr) && (
               <div className="mb-10 relative z-50">
-                <input type="text" value={extraParam} onChange={(e) => setExtraParam(e.target.value)} placeholder={activeTool.inputPlaceholderAr} className="w-full bg-gray-950/80 border-2 border-gray-700 rounded-2xl p-5 text-xl text-white outline-none focus:border-cyan-500 text-center font-bold" />
+                <input type="text" value={extraParam} onChange={(e) => setExtraParam(e.target.value)} placeholder={lang === 'ar' ? activeTool.inputPlaceholderAr : activeTool.id} className="w-full bg-gray-950/80 border-2 border-gray-700 rounded-2xl p-5 text-xl text-white outline-none focus:border-cyan-500 text-center font-bold" />
               </div>
             )}
 
             <div className="flex gap-6 relative z-50">
-              <button onClick={() => { setFiles([]); setExtraParam(""); setView('grid'); }} className="flex-1 py-5 rounded-2xl bg-gray-800 font-black text-xl hover:bg-gray-700 transition-all cursor-pointer border border-gray-700">عودة</button>
+              <button onClick={() => { setFiles([]); setExtraParam(""); setView('grid'); }} className="flex-1 py-5 rounded-2xl bg-gray-800 font-black text-xl hover:bg-gray-700 transition-all cursor-pointer border border-gray-700">{loc.back}</button>
               <button onClick={handleProcess} disabled={loading} className="flex-[2] py-5 rounded-2xl bg-gradient-to-r from-cyan-600 to-blue-600 font-black text-2xl shadow-[0_0_30px_rgba(8,145,178,0.5)] hover:scale-[1.03] transition-all duration-300 cursor-pointer border border-cyan-400/50 relative overflow-hidden">
                 {loading ? (
                   <>
