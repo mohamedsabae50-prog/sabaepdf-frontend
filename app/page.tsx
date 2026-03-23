@@ -402,21 +402,29 @@ export default function Home() {
               </div>
             )}
 
-            <div className="flex gap-6 relative z-50">
-              <button onClick={() => { setFiles([]); setExtraParam(""); setView('grid'); }} className="flex-1 py-5 rounded-2xl bg-gray-800 font-black text-xl hover:bg-gray-700 transition-all cursor-pointer shadow-lg border border-gray-700">{loc.back}</button>
-              <button onClick={handleProcess} disabled={loading} className="flex-[2] py-5 rounded-2xl bg-gradient-to-r from-cyan-600 to-blue-600 font-black text-2xl shadow-[0_0_30px_rgba(8,145,178,0.5)] hover:shadow-[0_0_40px_rgba(8,145,178,0.8)] hover:scale-[1.03] transition-all duration-300 cursor-pointer border border-cyan-400/50">
-                <button onClick={handleProcess} disabled={loading} className="flex-[2] py-5 rounded-2xl bg-gradient-to-r from-cyan-600 to-blue-600 font-black text-2xl shadow-[0_0_30px_rgba(8,145,178,0.5)] hover:scale-[1.03] transition-all duration-300 cursor-pointer border border-cyan-400/50 relative overflow-hidden">
-  {loading ? (
-    <>
-      <span className="relative z-10">{progress}% {loc.processing}</span>
-      <div className="absolute top-0 left-0 h-full bg-white/20 transition-all duration-500" style={{ width: `${progress}%` }} />
-    </>
-  ) : loc.process}
-</button>
+           <div className="flex gap-6 relative z-50">
+              {/* زرار العودة */}
+              <button 
+                onClick={() => { setFiles([]); setExtraParam(""); setView('grid'); }} 
+                className="flex-1 py-5 rounded-2xl bg-gray-800 font-black text-xl hover:bg-gray-700 transition-all cursor-pointer shadow-lg border border-gray-700"
+              >
+                {loc.back}
+              </button>
+
+              {/* زرار التنفيذ مع العداد */}
+              <button 
+                onClick={handleProcess} 
+                disabled={loading} 
+                className="flex-[2] py-5 rounded-2xl bg-gradient-to-r from-cyan-600 to-blue-600 font-black text-2xl shadow-[0_0_30px_rgba(8,145,178,0.5)] hover:scale-[1.03] transition-all duration-300 cursor-pointer border border-cyan-400/50 relative overflow-hidden"
+              >
+                {loading ? (
+                  <>
+                    <span className="relative z-10">{progress}% {loc.processing}</span>
+                    <div 
+                      className="absolute top-0 left-0 h-full bg-white/20 transition-all duration-500" 
+                      style={{ width: `${progress}%` }} 
+                    />
+                  </>
+                ) : loc.process}
+              </button>
             </div>
-          </div>
-        )}
-      </main>
-    </div>
-  );
-}
