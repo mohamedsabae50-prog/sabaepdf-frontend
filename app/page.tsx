@@ -402,7 +402,7 @@ export default function Home() {
               </div>
             )}
 
-           <div className="flex gap-6 relative z-50">
+          <div className="flex gap-6 relative z-50">
               {/* زرار العودة */}
               <button 
                 onClick={() => { setFiles([]); setExtraParam(""); setView('grid'); }} 
@@ -411,7 +411,7 @@ export default function Home() {
                 {loc.back}
               </button>
 
-              {/* زرار التنفيذ مع العداد */}
+              {/* زرار التنفيذ الصافي - شلنا التكرار */}
               <button 
                 onClick={handleProcess} 
                 disabled={loading} 
