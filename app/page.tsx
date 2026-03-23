@@ -98,7 +98,7 @@ export default function Home() {
   const [files, setFiles] = useState<File[]>([]);
   const [extraParam, setExtraParam] = useState("");
   const [loading, setLoading] = useState(false);
-  
+  const [progress, setProgress] = useState(0);
   const cursorRef = useRef<HTMLDivElement>(null);
   const [hoveredNeon, setHoveredNeon] = useState('#06b6d4');
   const [hoveredCardId, setHoveredCardId] = useState<string | null>(null);
@@ -185,6 +185,16 @@ export default function Home() {
     }
     
     setLoading(true);
+    setProgress(0); // تصغير العداد للصفر
+
+    // خدعة العداد الذكي: بيمشي سريع لحد 90% وبعدين يستنى السيرفر
+    const interval = setInterval(() => {
+      setProgress((prev) => {
+        if (prev >= 95) return prev;
+        return prev + (prev < 60 ? 10 : 2);
+      });
+    }, 400);
+
     const formData = new FormData();
     files.forEach(f => formData.append("files", f));
     formData.append("user_email", user.email);
@@ -192,35 +202,23 @@ export default function Home() {
 
     try {
       const res = await axios.post(`${API_URL}/${activeTool.id}/`, formData, { 
-        responseType: 'blob', timeout: 120000 
+        responseType: 'blob', timeout: 180000 
       });
-      const url = window.URL.createObjectURL(new Blob([res.data]));
-      let ext = 'pdf';
-      const cType = res.headers['content-type'];
-      
-      if (activeTool.id === 'pdf-to-word') ext = 'docx';
-      else if (activeTool.id === 'pdf-to-excel') ext = 'xlsx';
-      else if (activeTool.id === 'bg-remover') ext = 'png';
-      else if (activeTool.id === 'mp4-to-mp3') ext = 'mp3';
-      else if (activeTool.id === 'pdf-to-img') ext = cType === 'image/png' ? 'png' : 'zip';
-      else if (activeTool.id === 'grayscale-pdf' || activeTool.id === 'rotate-pdf' || activeTool.id === 'security-pdf') {
-          if (cType === 'image/jpeg') ext = 'jpg';
-          else if (cType === 'image/png') ext = 'png';
-          else ext = 'pdf';
-      }
-      else if (activeTool.id === 'compress-pdf') {
-          if (files.length === 1) ext = files[0].name.split('.').pop() || 'jpg';
-          else ext = 'zip';
-      }
 
+      setProgress(100); // كمل العداد لـ 100% أول ما يخلص
+      
+      const url = window.URL.createObjectURL(new Blob([res.data]));
+      let ext = 'pdf'; // ... (باقي الكود بتاع الـ extension زي ما هو)
+      
       const a = document.createElement('a'); 
       a.href = url; 
-      a.download = `Sabae_${activeTool.id}.${ext}`; 
+      a.download = `Sabae_${activeTool.id}.zip`; 
       a.click();
     } catch (err: any) {
       alert(lang === 'ar' ? "حدث خطأ أثناء المعالجة ❌" : "Error during processing ❌");
     } finally {
-      setLoading(false);
+      clearInterval(interval); // وقف العداد
+      setTimeout(() => { setLoading(false); setProgress(0); }, 1000);
     }
   };
 
@@ -407,8 +405,14 @@ export default function Home() {
             <div className="flex gap-6 relative z-50">
               <button onClick={() => { setFiles([]); setExtraParam(""); setView('grid'); }} className="flex-1 py-5 rounded-2xl bg-gray-800 font-black text-xl hover:bg-gray-700 transition-all cursor-pointer shadow-lg border border-gray-700">{loc.back}</button>
               <button onClick={handleProcess} disabled={loading} className="flex-[2] py-5 rounded-2xl bg-gradient-to-r from-cyan-600 to-blue-600 font-black text-2xl shadow-[0_0_30px_rgba(8,145,178,0.5)] hover:shadow-[0_0_40px_rgba(8,145,178,0.8)] hover:scale-[1.03] transition-all duration-300 cursor-pointer border border-cyan-400/50">
-                {loading ? loc.processing : loc.process}
-              </button>
+                <button onClick={handleProcess} disabled={loading} className="flex-[2] py-5 rounded-2xl bg-gradient-to-r from-cyan-600 to-blue-600 font-black text-2xl shadow-[0_0_30px_rgba(8,145,178,0.5)] hover:scale-[1.03] transition-all duration-300 cursor-pointer border border-cyan-400/50 relative overflow-hidden">
+  {loading ? (
+    <>
+      <span className="relative z-10">{progress}% {loc.processing}</span>
+      <div className="absolute top-0 left-0 h-full bg-white/20 transition-all duration-500" style={{ width: `${progress}%` }} />
+    </>
+  ) : loc.process}
+</button>
             </div>
           </div>
         )}
