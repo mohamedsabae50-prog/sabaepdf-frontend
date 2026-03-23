@@ -103,6 +103,13 @@ export default function Home() {
 
   useEffect(() => {
     setIsMounted(true);
+    
+    // 👈 استرجاع بيانات المستخدم من المتصفح أول ما الموقع يفتح
+    const savedUser = localStorage.getItem('sabae_user');
+    if (savedUser) {
+      setUser(JSON.parse(savedUser));
+    }
+
     const handleMove = (e: MouseEvent) => {
       if (cursorRef.current) {
         cursorRef.current.style.setProperty('--x', `${e.clientX}px`);
@@ -126,7 +133,12 @@ export default function Home() {
       formData.append("password", passwordInput);
       const endpoint = authMode === 'login' ? 'login' : 'signup';
       const res = await axios.post(`${API_URL}/${endpoint}/`, formData);
-      setUser(res.data);
+      
+      const userData = res.data;
+      setUser(userData);
+      // 👈 حفظ البيانات في الذاكرة الدائمة للمتصفح
+      localStorage.setItem('sabae_user', JSON.stringify(userData)); 
+      
       setView('grid');
       setPasswordInput(""); 
     } catch (err: any) {
@@ -138,6 +150,8 @@ export default function Home() {
 
   const handleSignOut = () => {
     setUser(null);
+    // 👈 مسح البيانات من المتصفح لما يعمل تسجيل خروج
+    localStorage.removeItem('sabae_user');
     setFiles([]);
     setExtraParam("");
     setView('login');
@@ -149,11 +163,16 @@ export default function Home() {
       const formData = new FormData();
       formData.append("email", user.email);
       await axios.post(`${API_URL}/upgrade/`, formData);
-      setUser({ ...user, plan: 'PRO' });
+      
+      const updatedUser = { ...user, plan: 'PRO' };
+      setUser(updatedUser);
+      // 👈 تحديث البيانات في المتصفح عشان يفضل PRO
+      localStorage.setItem('sabae_user', JSON.stringify(updatedUser)); 
+      
       alert("🎉 مبروك يا هندسة! تم الدفع بنجاح.");
       setView('grid');
     } catch (err) {
-      alert("تم الدفع بس حصلت مشكلة في تفعيل!");
+      alert("تم الدفع بس حصلت مشكلة في التفعيل!");
     }
   };
 
@@ -177,17 +196,22 @@ export default function Home() {
     const interval = setInterval(() => {
       setProgress((prev) => (prev >= 95 ? prev : prev + (prev < 60 ? 10 : 2)));
     }, 400);
+
     const formData = new FormData();
     files.forEach(f => formData.append("files", f));
     formData.append("user_email", user.email);
     if (extraParam) formData.append("extra_param", extraParam);
+
     try {
       const res = await axios.post(`${API_URL}/${activeTool.id}/`, formData, { responseType: 'blob', timeout: 180000 });
       setProgress(100);
       const url = window.URL.createObjectURL(new Blob([res.data]));
       const a = document.createElement('a'); a.href = url; a.download = `Sabae_${activeTool.id}.zip`; a.click();
     } catch (err: any) {
-        alert(err.response?.data?.detail || "Error ❌");
+        console.error("Server Error:", err);
+        // 👈 الكود ده هيعرضلك سبب الخطأ الحقيقي لو الهوجينج فيس هنج
+        const errorMsg = err.response?.data?.detail || err.message || "Unknown Error";
+        alert(lang === 'ar' ? `فشل المعالجة ❌\nالسبب: ${errorMsg}` : `Failed ❌\nReason: ${errorMsg}`);
     } finally {
       clearInterval(interval);
       setTimeout(() => { setLoading(false); setProgress(0); }, 1000);
@@ -202,7 +226,6 @@ export default function Home() {
         style={{ backgroundColor: view === 'grid' || view === 'login' ? hoveredNeon : activeTool.neon, transform: 'translate(calc(var(--x, -100px) - 50%), calc(var(--y, -100px) - 50%))' }} />
 
       <nav className="p-4 md:p-6 border-b border-gray-800/50 flex justify-between items-center sticky top-0 bg-[#020617]/70 z-[100] backdrop-blur-xl">
-        {/* اللوجو بقى بيرجع للشاشة الرئيسية */}
         <h1 className="text-2xl md:text-3xl font-black italic text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500 uppercase tracking-wider cursor-pointer hover:scale-105 transition-transform" 
             onClick={() => setView('grid')}>SABAEPDF PRO ⚡</h1>
         
@@ -232,7 +255,6 @@ export default function Home() {
       <main className="max-w-[1400px] mx-auto px-6 py-16 relative z-50">
         {view === 'login' && (
           <div className="max-w-4xl mx-auto text-center">
-            {/* زرار العودة للموقع الأساسي في الأعلى */}
             <div className="mb-8 flex justify-center">
                <button onClick={() => setView('grid')} className="bg-gray-800/50 hover:bg-gray-700 text-white px-6 py-3 rounded-2xl border border-gray-700 font-bold flex items-center gap-2 transition-all hover:-translate-y-1">
                   <span>🏠</span> {loc.browseTools}
