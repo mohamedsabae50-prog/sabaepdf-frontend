@@ -210,7 +210,6 @@ export default function Home() {
       setProgress(100);
       const url = window.URL.createObjectURL(new Blob([res.data]));
       
-      // 👈 هنا بقى المراجعة الشاملة لكل الصيغ الممكنة
       let ext = 'pdf'; 
       const cType = res.headers['content-type'] || '';
       
@@ -371,7 +370,19 @@ export default function Home() {
                     </div>
                 )}
                 <div className={`w-20 h-20 rounded-3xl bg-gradient-to-br ${t.color} flex items-center justify-center text-4xl transform group-hover:rotate-12 transition-all duration-500 z-10`}>{t.icon}</div>
-                <h3 className="text-2xl font-black text-white z-10">{lang === 'ar' ? t.nameAr : t.nameEn}</h3>
+                
+                {/* 👈 هنا التعديل السحري لتقسيم الكلمة وتلوينها */}
+                <h3 className="text-2xl font-black text-white z-10 leading-snug">
+                  {lang === 'ar' && t.nameAr.includes(' لـ ') ? (
+                    <>
+                      {t.nameAr.split(' لـ ')[0]} لـ <br/>
+                      <span className="text-cyan-400">{t.nameAr.split(' لـ ')[1]}</span>
+                    </>
+                  ) : (
+                    lang === 'ar' ? t.nameAr : t.nameEn
+                  )}
+                </h3>
+
               </div>
             ))}
           </div>
@@ -380,7 +391,18 @@ export default function Home() {
         {view === 'tool' && (
           <div className="max-w-4xl mx-auto bg-gray-900/60 border-2 border-gray-800/80 rounded-[3rem] p-12 shadow-[0_0_80px_rgba(0,0,0,0.6)] backdrop-blur-xl text-center relative overflow-hidden">
             <div className={`w-28 h-28 rounded-[2rem] bg-gradient-to-br ${activeTool.color} flex items-center justify-center text-6xl mx-auto mb-6 shadow-2xl transform hover:scale-110 transition-transform duration-500`}>{activeTool.icon}</div>
-            <h2 className="text-5xl font-black text-white mb-4">{lang === 'ar' ? activeTool.nameAr : activeTool.nameEn}</h2>
+            
+            {/* 👈 وهنا كمان عشان يبقى نفس الشياكة جوه الأداة */}
+            <h2 className="text-5xl font-black text-white mb-4 leading-tight">
+              {lang === 'ar' && activeTool.nameAr.includes(' لـ ') ? (
+                <>
+                  {activeTool.nameAr.split(' لـ ')[0]} لـ <br/>
+                  <span className="text-cyan-400">{activeTool.nameAr.split(' لـ ')[1]}</span>
+                </>
+              ) : (
+                lang === 'ar' ? activeTool.nameAr : activeTool.nameEn
+              )}
+            </h2>
             
             {isLocked ? (
                 <div className="py-10 px-6 rounded-[2.5rem] bg-gray-900/80 border-2 border-yellow-500/30 backdrop-blur-xl flex flex-col items-center gap-6 shadow-[0_0_50px_rgba(234,179,8,0.1)] mb-6">
