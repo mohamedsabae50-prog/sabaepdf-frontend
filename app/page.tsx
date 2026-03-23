@@ -191,13 +191,12 @@ export default function Home() {
     setLoading(true);
     setProgress(0);
     
-    // 👈 العداد الذكي: بطيء في الآخر عشان ما يستفزش المستخدم
     const interval = setInterval(() => {
       setProgress((prev) => {
         if (prev >= 98) return prev;
-        if (prev > 85) return prev + 1; // بطيء جداً في النهاية
-        if (prev > 50) return prev + 5; // سرعة متوسطة
-        return prev + 15; // طيارة في الأول
+        if (prev > 85) return prev + 1; 
+        if (prev > 50) return prev + 5; 
+        return prev + 15; 
       });
     }, 600);
 
@@ -211,13 +210,34 @@ export default function Home() {
       setProgress(100);
       const url = window.URL.createObjectURL(new Blob([res.data]));
       
-      let ext = 'pdf';
-      const cType = res.headers['content-type'];
+      // 👈 هنا بقى المراجعة الشاملة لكل الصيغ الممكنة
+      let ext = 'pdf'; 
+      const cType = res.headers['content-type'] || '';
+      
       if (activeTool.id === 'pdf-to-word') ext = 'docx';
+      else if (activeTool.id === 'pdf-to-excel') ext = 'xlsx';
       else if (activeTool.id === 'bg-remover') ext = 'png';
       else if (activeTool.id === 'mp4-to-mp3') ext = 'mp3';
+      else if (activeTool.id === 'pdf-to-img') {
+          ext = cType.includes('zip') ? 'zip' : 'png';
+      }
+      else if (activeTool.id === 'compress-pdf') {
+          if (cType.includes('zip')) ext = 'zip';
+          else if (cType.includes('mp4')) ext = 'mp4';
+          else if (cType.includes('jpeg')) ext = 'jpg';
+          else if (cType.includes('png')) ext = 'png';
+          else ext = files.length === 1 ? (files[0].name.split('.').pop() || 'zip') : 'zip';
+      }
+      else if (['grayscale-pdf', 'rotate-pdf', 'security-pdf'].includes(activeTool.id)) {
+          if (cType.includes('jpeg')) ext = 'jpg';
+          else if (cType.includes('png')) ext = 'png';
+          else ext = 'pdf';
+      }
 
-      const a = document.createElement('a'); a.href = url; a.download = `Sabae_${activeTool.id}.${ext}`; a.click();
+      const a = document.createElement('a'); 
+      a.href = url; 
+      a.download = `Sabae_${activeTool.id}.${ext}`; 
+      a.click();
     } catch (err: any) {
         console.error("Server Error:", err);
         let errorMsg = err.message || "Unknown Error";
@@ -391,18 +411,15 @@ export default function Home() {
                     ) : (
                         <div className="flex flex-wrap gap-5 justify-center w-full relative z-50 p-4">
                         {files.map((file, idx) => (
-                            // 👈 كارت الملف المتطور (شكل أوضح ومساحة الملف)
                             <div key={idx} className="relative w-36 h-auto min-h-[9rem] rounded-2xl border-2 border-cyan-800 bg-gray-900 flex flex-col items-center justify-center p-3 shadow-2xl transform hover:scale-105 transition-all">
                               <button onClick={(e) => { e.stopPropagation(); setFiles(files.filter((_, i) => i !== idx)); }} className="absolute -top-3 -right-3 bg-red-500 text-white w-8 h-8 rounded-full flex items-center justify-center font-black z-[60] cursor-pointer">×</button>
                               
-                              {/* لو صورة هيعرضها، لو PDF هيعرض ايقونة */}
                               {file.type.startsWith('image/') ? (
                                 <img src={URL.createObjectURL(file)} alt="preview" className="w-16 h-16 object-cover rounded-lg mb-2 border border-gray-700" />
                               ) : (
                                 <div className="text-5xl mb-2">📄</div>
                               )}
                               
-                              {/* اسم الملف بالكامل بيظهر لما تقف عليه بالماوس */}
                               <div className="text-xs text-cyan-400 w-full text-center break-words px-1 font-bold" dir="ltr" title={file.name}>
                                 {file.name.length > 15 ? file.name.substring(0, 15) + '...' : file.name}
                               </div>
@@ -427,7 +444,6 @@ export default function Home() {
                         <button onClick={handleProcess} disabled={loading} className="flex-[2] py-5 rounded-2xl bg-gradient-to-r from-cyan-600 to-blue-600 font-black text-2xl shadow-[0_0_30px_rgba(8,145,178,0.5)] hover:scale-[1.03] transition-all duration-300 cursor-pointer border border-cyan-400/50 relative overflow-hidden">
                             {loading ? (
                             <>
-                                {/* 👈 تغيير النص لما السيرفر يطول */}
                                 <span className="relative z-10 text-xl">{progress}% {progress > 90 ? loc.finalizing : loc.processing}</span>
                                 <div className="absolute top-0 left-0 h-full bg-white/20 transition-all duration-500" style={{ width: `${progress}%` }} />
                             </>
