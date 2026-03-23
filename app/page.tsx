@@ -3,7 +3,6 @@ import { useState, useRef, useEffect } from 'react';
 import axios from 'axios';
 import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
 
-// 👈 تحديث كائن الترجمات ليشمل كل النصوص
 const t = {
   ar: { 
     title: "SABAEPDF PRO ⚡", 
@@ -83,6 +82,7 @@ const tools = [
 ];
 
 const PAYPAL_CLIENT_ID = "test"; 
+const API_URL = "https://memosssssss-sabaepdf-backen.hf.space";
 
 export default function Home() {
   const [isMounted, setIsMounted] = useState(false);
@@ -128,7 +128,7 @@ export default function Home() {
       formData.append("password", passwordInput);
       
       const endpoint = authMode === 'login' ? 'login' : 'signup';
-      const res = await axios.post(`https://memosssssss-sabaepdf-backen.hf.space/${endpoint}/`, formData);
+      const res = await axios.post(`${API_URL}/${endpoint}/`, formData);
       
       setUser(res.data);
       setView('grid');
@@ -156,7 +156,7 @@ export default function Home() {
     try {
       const formData = new FormData();
       formData.append("email", user.email);
-      await axios.post('https://memosssssss-sabaepdf-backen.hf.space/upgrade/', formData);
+      await axios.post(`${API_URL}/upgrade/`, formData);
       setUser({ ...user, plan: 'PRO' });
       alert(lang === 'ar' ? "🎉 مبروك يا هندسة! تم الدفع بنجاح وحسابك بقى PRO." : "🎉 Congrats! Payment successful. You are now PRO.");
       setView('grid');
@@ -191,7 +191,7 @@ export default function Home() {
     if (extraParam) formData.append("extra_param", extraParam);
 
     try {
-      const res = await axios.post(`https://memosssssss-sabaepdf-backen.hf.space/${activeTool.id}/`, formData, { 
+      const res = await axios.post(`${API_URL}/${activeTool.id}/`, formData, { 
         responseType: 'blob', timeout: 120000 
       });
       const url = window.URL.createObjectURL(new Blob([res.data]));
