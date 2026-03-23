@@ -134,13 +134,18 @@ export default function Home() {
       else if (activeTool.id === 'mp4-to-mp3') ext = 'mp3';
 
       const a = document.createElement('a'); a.href = url; a.download = `Sabae_${activeTool.id}.${ext}`; a.click();
-    } catch (err) {
-      alert("حدث خطأ أثناء المعالجة ❌");
+   } catch (err: any) {
+      // 👈 هنا بنشوف لو السيرفر بعت رسالة خطأ محددة (زي رسالة الـ PRO)
+      if (err.response && err.response.data && err.response.data.detail) {
+        alert(err.response.data.detail); 
+      } else {
+        // لو الخطأ مجهول بنظهر الرسالة القديمة
+        alert(lang === 'ar' ? "حدث خطأ أثناء المعالجة ❌" : "Error during processing ❌");
+      }
     } finally {
       clearInterval(interval);
       setTimeout(() => { setLoading(false); setProgress(0); }, 1000);
-    }
-  };
+    };
 
   return (
     <div className={`min-h-screen bg-[#020617] text-white font-sans ${lang === 'ar' ? 'rtl' : 'ltr'} relative overflow-x-hidden`}>
