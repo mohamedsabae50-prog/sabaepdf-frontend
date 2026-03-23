@@ -321,7 +321,7 @@ export default function Home() {
                 <div className={`w-20 h-20 rounded-3xl bg-gradient-to-br ${t.color} flex items-center justify-center text-4xl shadow-2xl transform group-hover:rotate-12 group-hover:scale-110 transition-all duration-500 z-10`}>{t.icon}</div>
                 <div className="z-10">
                   <h3 className="text-2xl font-black text-white mb-2 group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-white group-hover:to-gray-300 transition-all">{lang === 'ar' ? t.nameAr : t.nameEn}</h3>
-                  <p className="text-gray-400 text-sm font-bold leading-relaxed group-hover:text-gray-300 transition-colors">{lang === 'ar' ? t.descAr : t.descEn}</p>
+                  <p className="text-gray-400 text-sm font-bold leading-relaxed group-hover:text-gray-300 transition-colors">{lang === 'ar' ? (t as any).descAr : (t as any).descEn}</p>
                 </div>
               </div>
             ))}
