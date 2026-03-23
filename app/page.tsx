@@ -8,7 +8,7 @@ const t = {
     title: "SABAEPDF PRO ⚡", 
     subtitle: "منصة ذكية للتعامل مع كل ملفاتك", 
     uploadPrompt: "اسحب أو اضغط لرفع الملفات هنا", 
-    back: "عودة", 
+    back: "عودة للأدوات 🔙", 
     process: "ابدأ الآن ⚡", 
     processing: "...جاري التنفيذ", 
     alertNoFiles: "ارفع ملفاتك الأول يا بطل!",
@@ -27,7 +27,7 @@ const t = {
     recommended: "موصى به",
     month: "/شهر",
     loginToPay: "سجل دخول للاشتراك",
-    browseTools: "تصفح الأدوات",
+    browseTools: "العودة للموقع الأساسي 🏠",
     freeFeatures: ["✅ دمج، ضغط، وتدوير الملفات", "✅ عمليات غير محدودة يومياً ∞", "❌ مقفول: التشفير واستخراج الصوت", "❌ مقفول: أدوات الذكاء الاصطناعي (AI)"],
     proFeatures: ["✅ كل مميزات المجاني (لا نهائي)", "✅ حماية وفك تشفير الملفات 🔒", "✅ فصل واستخراج الصوت (MP3) 🎧", "✅ إزالة الخلفية واستخراج جداول Excel (AI) ✨"],
     unlimited: "متاح لك عدد لا نهائي من العمليات ∞",
@@ -38,7 +38,7 @@ const t = {
     title: "SABAEPDF PRO ⚡", 
     subtitle: "Smart platform for all your files", 
     uploadPrompt: "Drag or click to upload files here", 
-    back: "Back", 
+    back: "Back to Tools 🔙", 
     process: "Start Now ⚡", 
     processing: "Processing...", 
     alertNoFiles: "Upload your files first!",
@@ -57,7 +57,7 @@ const t = {
     recommended: "Recommended",
     month: "/month",
     loginToPay: "Login to Subscribe",
-    browseTools: "Browse Tools",
+    browseTools: "Back to Main Site 🏠",
     freeFeatures: ["✅ Merge, Compress, Rotate", "✅ Unlimited daily operations ∞", "❌ Locked: Encrypt & Audio", "❌ Locked: AI Tools"],
     proFeatures: ["✅ All Free features (Unlimited)", "✅ Protect & Unlock PDF 🔒", "✅ Extract Audio (MP3) 🎧", "✅ AI Background Remover & Excel ✨"],
     unlimited: "Unlimited operations available ∞",
@@ -167,49 +167,33 @@ export default function Home() {
 
   const handleProcess = async () => {
     if (files.length === 0) return alert(loc.alertNoFiles);
-    // 👈 تأكيد إضافي للمنع البرمجي
     if (!user || (activeTool.isPro && user.plan !== 'PRO')) {
         alert("هذه الأداة للمحترفين فقط 🔒");
         setView('login');
         return;
     }
-    
     setLoading(true);
     setProgress(0);
     const interval = setInterval(() => {
       setProgress((prev) => (prev >= 95 ? prev : prev + (prev < 60 ? 10 : 2)));
     }, 400);
-
     const formData = new FormData();
     files.forEach(f => formData.append("files", f));
     formData.append("user_email", user.email);
     if (extraParam) formData.append("extra_param", extraParam);
-
     try {
       const res = await axios.post(`${API_URL}/${activeTool.id}/`, formData, { responseType: 'blob', timeout: 180000 });
       setProgress(100);
       const url = window.URL.createObjectURL(new Blob([res.data]));
-      
-      let ext = 'pdf';
-      const cType = res.headers['content-type'];
-      if (activeTool.id === 'pdf-to-word') ext = 'docx';
-      else if (activeTool.id === 'bg-remover') ext = 'png';
-      else if (activeTool.id === 'mp4-to-mp3') ext = 'mp3';
-
-      const a = document.createElement('a'); a.href = url; a.download = `Sabae_${activeTool.id}.${ext}`; a.click();
+      const a = document.createElement('a'); a.href = url; a.download = `Sabae_${activeTool.id}.zip`; a.click();
     } catch (err: any) {
-        if (err.response && err.response.data && err.response.data.detail) {
-            alert(err.response.data.detail);
-        } else {
-            alert("حدث خطأ أثناء المعالجة ❌");
-        }
+        alert(err.response?.data?.detail || "Error ❌");
     } finally {
       clearInterval(interval);
       setTimeout(() => { setLoading(false); setProgress(0); }, 1000);
     }
   };
 
-  // 👈 دالة للتحقق هل الأداة مقفولة للمستخدم الحالي أم لا
   const isLocked = !user || (activeTool.isPro && user.plan !== 'PRO');
 
   return (
@@ -218,7 +202,10 @@ export default function Home() {
         style={{ backgroundColor: view === 'grid' || view === 'login' ? hoveredNeon : activeTool.neon, transform: 'translate(calc(var(--x, -100px) - 50%), calc(var(--y, -100px) - 50%))' }} />
 
       <nav className="p-4 md:p-6 border-b border-gray-800/50 flex justify-between items-center sticky top-0 bg-[#020617]/70 z-[100] backdrop-blur-xl">
-        <h1 className="text-2xl md:text-3xl font-black italic text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500 uppercase tracking-wider cursor-pointer" onClick={() => setView('grid')}>SABAEPDF PRO ⚡</h1>
+        {/* اللوجو بقى بيرجع للشاشة الرئيسية */}
+        <h1 className="text-2xl md:text-3xl font-black italic text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500 uppercase tracking-wider cursor-pointer hover:scale-105 transition-transform" 
+            onClick={() => setView('grid')}>SABAEPDF PRO ⚡</h1>
+        
         <div className="flex gap-2 md:gap-4 items-center">
           {user ? (
             <div className="flex items-center gap-2 md:gap-3 mr-2 md:mr-4">
@@ -245,8 +232,16 @@ export default function Home() {
       <main className="max-w-[1400px] mx-auto px-6 py-16 relative z-50">
         {view === 'login' && (
           <div className="max-w-4xl mx-auto text-center">
+            {/* زرار العودة للموقع الأساسي في الأعلى */}
+            <div className="mb-8 flex justify-center">
+               <button onClick={() => setView('grid')} className="bg-gray-800/50 hover:bg-gray-700 text-white px-6 py-3 rounded-2xl border border-gray-700 font-bold flex items-center gap-2 transition-all hover:-translate-y-1">
+                  <span>🏠</span> {loc.browseTools}
+               </button>
+            </div>
+
             <h1 className="text-5xl md:text-7xl font-black text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500 mb-6 italic uppercase">{loc.loginHeader}</h1>
             <p className="text-gray-400 text-xl font-bold mb-12">{authMode === 'login' ? loc.loginSub : loc.signupSub}</p>
+            
             {!user ? (
               <>
                 <form onSubmit={handleAuth} className="flex flex-col gap-4 max-w-md mx-auto mb-6">
@@ -263,6 +258,7 @@ export default function Home() {
             ) : (
               <div className="mb-16 text-cyan-400 font-bold text-xl flex items-center justify-center gap-2">{loc.loggedInAs} {user.email} ✅</div>
             )}
+            
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 text-right mb-12">
               <div className="p-8 rounded-[2.5rem] bg-gray-900/40 border-2 border-gray-800 backdrop-blur-md">
                 <h3 className="text-2xl font-black mb-4">{loc.freePlan}</h3>
@@ -284,7 +280,7 @@ export default function Home() {
                       <PayPalScriptProvider options={{ clientId: PAYPAL_CLIENT_ID, currency: "USD" }}>
                         <PayPalButtons style={{ layout: "vertical", color: "blue", shape: "pill" }} createOrder={(data, actions) => actions.order.create({ purchase_units: [{ amount: { value: "5.00" } }] })} onApprove={async (data, actions) => { await actions.order?.capture(); handleSuccessfulPayment(); }} />
                       </PayPalScriptProvider>
-                    ) : <button onClick={() => setAuthMode('signup')} className="w-full py-4 bg-gray-700 rounded-xl font-bold">{loc.loginToPay}</button>}
+                    ) : <button onClick={() => setAuthMode('signup')} className="w-full py-4 bg-gray-700 rounded-xl font-bold hover:bg-gray-600 transition-all">{loc.loginToPay}</button>}
                   </div>
                 )}
               </div>
@@ -321,7 +317,6 @@ export default function Home() {
             <div className={`w-28 h-28 rounded-[2rem] bg-gradient-to-br ${activeTool.color} flex items-center justify-center text-6xl mx-auto mb-6 shadow-2xl transform hover:scale-110 transition-transform duration-500`}>{activeTool.icon}</div>
             <h2 className="text-5xl font-black text-white mb-4">{lang === 'ar' ? activeTool.nameAr : activeTool.nameEn}</h2>
             
-            {/* 👈 المنع المبكر هنا */}
             {isLocked ? (
                 <div className="py-10 px-6 rounded-[2.5rem] bg-gray-900/80 border-2 border-yellow-500/30 backdrop-blur-xl flex flex-col items-center gap-6 shadow-[0_0_50px_rgba(234,179,8,0.1)] mb-6">
                     <div className="text-7xl animate-bounce">🔒</div>
@@ -333,11 +328,11 @@ export default function Home() {
                     </p>
                     <button 
                         onClick={() => setView('login')} 
-                        className="bg-gradient-to-r from-yellow-500 to-orange-500 text-black font-black py-4 px-10 rounded-2xl text-xl hover:scale-105 transition-all shadow-lg"
+                        className="bg-gradient-to-r from-yellow-500 to-orange-500 text-black font-black py-4 px-10 rounded-2xl text-xl hover:scale-105 transition-all shadow-lg cursor-pointer"
                     >
                         {lang === 'ar' ? "ترقية الآن ⚡" : "Upgrade Now ⚡"}
                     </button>
-                    <button onClick={() => setView('grid')} className="text-gray-500 hover:text-white underline font-bold">{loc.back}</button>
+                    <button onClick={() => setView('grid')} className="text-gray-500 hover:text-white underline font-bold cursor-pointer">{loc.browseTools}</button>
                 </div>
             ) : (
                 <>
