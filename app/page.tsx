@@ -361,7 +361,7 @@ export default function Home() {
               )}
             </div>
 
-            {(activeTool.inputPlaceholderAr || activeTool.inputPlaceholderEn) && (
+           {((activeTool as any).inputPlaceholderAr || (activeTool as any).inputPlaceholderEn) && (
               <div className="mb-10 relative z-50">
                 <input type="text" value={extraParam} onChange={(e) => setExtraParam(e.target.value)} placeholder={lang === 'ar' ? activeTool.inputPlaceholderAr : activeTool.inputPlaceholderEn} className="w-full bg-gray-950/80 border-2 border-gray-700 rounded-2xl p-5 text-xl text-white outline-none focus:border-cyan-500 transition-colors text-center font-bold shadow-inner" />
               </div>
