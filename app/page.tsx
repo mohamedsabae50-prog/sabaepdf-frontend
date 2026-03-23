@@ -103,13 +103,10 @@ export default function Home() {
 
   useEffect(() => {
     setIsMounted(true);
-    
-    // 👈 استرجاع بيانات المستخدم من المتصفح أول ما الموقع يفتح
     const savedUser = localStorage.getItem('sabae_user');
     if (savedUser) {
       setUser(JSON.parse(savedUser));
     }
-
     const handleMove = (e: MouseEvent) => {
       if (cursorRef.current) {
         cursorRef.current.style.setProperty('--x', `${e.clientX}px`);
@@ -136,7 +133,6 @@ export default function Home() {
       
       const userData = res.data;
       setUser(userData);
-      // 👈 حفظ البيانات في الذاكرة الدائمة للمتصفح
       localStorage.setItem('sabae_user', JSON.stringify(userData)); 
       
       setView('grid');
@@ -150,7 +146,6 @@ export default function Home() {
 
   const handleSignOut = () => {
     setUser(null);
-    // 👈 مسح البيانات من المتصفح لما يعمل تسجيل خروج
     localStorage.removeItem('sabae_user');
     setFiles([]);
     setExtraParam("");
@@ -166,7 +161,6 @@ export default function Home() {
       
       const updatedUser = { ...user, plan: 'PRO' };
       setUser(updatedUser);
-      // 👈 تحديث البيانات في المتصفح عشان يفضل PRO
       localStorage.setItem('sabae_user', JSON.stringify(updatedUser)); 
       
       alert("🎉 مبروك يا هندسة! تم الدفع بنجاح.");
@@ -191,6 +185,7 @@ export default function Home() {
         setView('login');
         return;
     }
+    
     setLoading(true);
     setProgress(0);
     const interval = setInterval(() => {
@@ -206,11 +201,32 @@ export default function Home() {
       const res = await axios.post(`${API_URL}/${activeTool.id}/`, formData, { responseType: 'blob', timeout: 180000 });
       setProgress(100);
       const url = window.URL.createObjectURL(new Blob([res.data]));
-      const a = document.createElement('a'); a.href = url; a.download = `Sabae_${activeTool.id}.zip`; a.click();
+      
+      let ext = 'pdf';
+      const cType = res.headers['content-type'];
+      if (activeTool.id === 'pdf-to-word') ext = 'docx';
+      else if (activeTool.id === 'bg-remover') ext = 'png';
+      else if (activeTool.id === 'mp4-to-mp3') ext = 'mp3';
+
+      const a = document.createElement('a'); a.href = url; a.download = `Sabae_${activeTool.id}.${ext}`; a.click();
     } catch (err: any) {
         console.error("Server Error:", err);
-        // 👈 الكود ده هيعرضلك سبب الخطأ الحقيقي لو الهوجينج فيس هنج
-        const errorMsg = err.response?.data?.detail || err.message || "Unknown Error";
+        let errorMsg = err.message || "Unknown Error";
+        
+        // 👈 الكود ده بيفك التشفير عن الخطأ لو السيرفر بعته كـ Blob (ملف)
+        if (err.response && err.response.data) {
+            if (err.response.data instanceof Blob) {
+                try {
+                    const text = await err.response.data.text();
+                    const json = JSON.parse(text);
+                    errorMsg = json.detail || text;
+                } catch (e) {
+                    errorMsg = "مشكلة في السيرفر (ممكن يكون الملف كبير أو السيرفر بيهنج)";
+                }
+            } else {
+                errorMsg = err.response.data.detail || errorMsg;
+            }
+        }
         alert(lang === 'ar' ? `فشل المعالجة ❌\nالسبب: ${errorMsg}` : `Failed ❌\nReason: ${errorMsg}`);
     } finally {
       clearInterval(interval);
