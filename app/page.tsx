@@ -71,7 +71,7 @@ export default function Home() {
       formData.append("password", passwordInput);
       
       const endpoint = authMode === 'login' ? 'login' : 'signup';
-      const res = await axios.post(`http://localhost:8080/${endpoint}/`, formData);
+      const res = await axios.post(`https://memosssssss-sabaepdf-backen.hf.space/${endpoint}/`, formData);
       
       setUser(res.data);
       setView('grid');
