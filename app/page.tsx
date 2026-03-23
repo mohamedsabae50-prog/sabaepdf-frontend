@@ -167,7 +167,12 @@ export default function Home() {
 
   const handleProcess = async () => {
     if (files.length === 0) return alert(loc.alertNoFiles);
-    if (!user) { alert("لازم تسجل دخول الأول 🔒"); setView('login'); return; }
+    // 👈 تأكيد إضافي للمنع البرمجي
+    if (!user || (activeTool.isPro && user.plan !== 'PRO')) {
+        alert("هذه الأداة للمحترفين فقط 🔒");
+        setView('login');
+        return;
+    }
     
     setLoading(true);
     setProgress(0);
@@ -191,21 +196,21 @@ export default function Home() {
       else if (activeTool.id === 'bg-remover') ext = 'png';
       else if (activeTool.id === 'mp4-to-mp3') ext = 'mp3';
 
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = `Sabae_${activeTool.id}.${ext}`;
-      a.click();
+      const a = document.createElement('a'); a.href = url; a.download = `Sabae_${activeTool.id}.${ext}`; a.click();
     } catch (err: any) {
-      if (err.response && err.response.data && err.response.data.detail) {
-        alert(err.response.data.detail); 
-      } else {
-        alert(lang === 'ar' ? "حدث خطأ أثناء المعالجة ❌" : "Error during processing ❌");
-      }
+        if (err.response && err.response.data && err.response.data.detail) {
+            alert(err.response.data.detail);
+        } else {
+            alert("حدث خطأ أثناء المعالجة ❌");
+        }
     } finally {
       clearInterval(interval);
       setTimeout(() => { setLoading(false); setProgress(0); }, 1000);
     }
   };
+
+  // 👈 دالة للتحقق هل الأداة مقفولة للمستخدم الحالي أم لا
+  const isLocked = !user || (activeTool.isPro && user.plan !== 'PRO');
 
   return (
     <div className={`min-h-screen bg-[#020617] text-white font-sans ${lang === 'ar' ? 'rtl' : 'ltr'} relative overflow-x-hidden`}>
@@ -279,12 +284,11 @@ export default function Home() {
                       <PayPalScriptProvider options={{ clientId: PAYPAL_CLIENT_ID, currency: "USD" }}>
                         <PayPalButtons style={{ layout: "vertical", color: "blue", shape: "pill" }} createOrder={(data, actions) => actions.order.create({ purchase_units: [{ amount: { value: "5.00" } }] })} onApprove={async (data, actions) => { await actions.order?.capture(); handleSuccessfulPayment(); }} />
                       </PayPalScriptProvider>
-                    ) : <button onClick={() => alert("سجل دخول الأول!")} className="w-full py-4 bg-gray-700 rounded-xl">{loc.loginToPay}</button>}
+                    ) : <button onClick={() => setAuthMode('signup')} className="w-full py-4 bg-gray-700 rounded-xl font-bold">{loc.loginToPay}</button>}
                   </div>
                 )}
               </div>
             </div>
-            <button onClick={() => setView('grid')} className="text-gray-400 hover:text-white underline font-bold transition-colors cursor-pointer">{loc.browseTools}</button>
           </div>
         )}
 
@@ -300,7 +304,11 @@ export default function Home() {
                 onMouseLeave={() => { setHoveredNeon('#06b6d4'); setHoveredCardId(null); }}
                 style={{ boxShadow: hoveredCardId === t.id ? `0 0 30px ${t.neon}70` : '0 10px 30px rgba(0,0,0,0.3)', borderColor: hoveredCardId === t.id ? t.neon : 'rgba(31, 41, 55, 0.8)' }}
                 className={`group p-8 rounded-[2.5rem] bg-gray-900/40 transition-all duration-500 hover:-translate-y-3 flex flex-col items-center gap-5 cursor-pointer backdrop-blur-md border-2 overflow-hidden relative`}>
-                {t.isPro && <div className="absolute top-4 right-4 bg-gradient-to-r from-yellow-400 to-orange-500 text-black text-[10px] font-black py-1 px-3 rounded-full z-20">PRO</div>}
+                {t.isPro && (
+                    <div className="absolute top-4 right-4 bg-gradient-to-r from-yellow-400 to-orange-500 text-black text-[10px] font-black py-1 px-3 rounded-full z-20 flex items-center gap-1">
+                        {(!user || user.plan !== 'PRO') && <span>🔒</span>} PRO
+                    </div>
+                )}
                 <div className={`w-20 h-20 rounded-3xl bg-gradient-to-br ${t.color} flex items-center justify-center text-4xl transform group-hover:rotate-12 transition-all duration-500 z-10`}>{t.icon}</div>
                 <h3 className="text-2xl font-black text-white z-10">{lang === 'ar' ? t.nameAr : t.nameEn}</h3>
               </div>
@@ -312,44 +320,67 @@ export default function Home() {
           <div className="max-w-4xl mx-auto bg-gray-900/60 border-2 border-gray-800/80 rounded-[3rem] p-12 shadow-[0_0_80px_rgba(0,0,0,0.6)] backdrop-blur-xl text-center relative overflow-hidden">
             <div className={`w-28 h-28 rounded-[2rem] bg-gradient-to-br ${activeTool.color} flex items-center justify-center text-6xl mx-auto mb-6 shadow-2xl transform hover:scale-110 transition-transform duration-500`}>{activeTool.icon}</div>
             <h2 className="text-5xl font-black text-white mb-4">{lang === 'ar' ? activeTool.nameAr : activeTool.nameEn}</h2>
-            <p className="text-gray-400 font-bold mb-10">{user?.plan === 'Free' && !activeTool.isPro ? loc.unlimited : user?.plan === 'PRO' ? loc.proUnlimited : loc.loginRequired}</p>
-            <div className="relative border-2 border-dashed border-gray-600/60 rounded-[2.5rem] p-10 mb-10 bg-black/30 min-h-[250px] flex flex-col items-center justify-center hover:border-cyan-500 transition-all duration-300">
-              {files.length === 0 ? (
-                <>
-                  <input type="file" multiple accept={getAcceptTypes()} onChange={(e) => setFiles(Array.from(e.target.files || []))} className="absolute inset-0 opacity-0 cursor-pointer z-50 w-full h-full" />
-                  <p className="text-2xl font-black text-gray-400 uppercase tracking-tighter">{loc.uploadPrompt}</p>
-                </>
-              ) : (
-                <div className="flex flex-wrap gap-5 justify-center w-full relative z-50 p-4">
-                  {files.map((file, idx) => (
-                    <div key={idx} className="relative w-32 h-32 rounded-2xl border-2 border-cyan-800 bg-gray-900 flex flex-col items-center justify-center p-2 shadow-2xl transform hover:scale-105 transition-all">
-                      <button onClick={(e) => { e.stopPropagation(); setFiles(files.filter((_, i) => i !== idx)); }} className="absolute -top-3 -right-3 bg-red-500 text-white w-8 h-8 rounded-full flex items-center justify-center font-black z-[60] cursor-pointer">×</button>
-                      <div className="text-4xl">{file.type.startsWith('image/') ? '🖼️' : '📄'}</div>
-                      <div className="text-[10px] text-cyan-400 truncate w-full mt-2" dir="ltr">{file.name}</div>
-                    </div>
-                  ))}
-                  <button onClick={() => setFiles([])} className="text-red-500 font-bold w-full mt-6 hover:text-red-400 transition-colors cursor-pointer">{lang === 'ar' ? '× مسح الكل' : '× Clear All'}</button>
+            
+            {/* 👈 المنع المبكر هنا */}
+            {isLocked ? (
+                <div className="py-10 px-6 rounded-[2.5rem] bg-gray-900/80 border-2 border-yellow-500/30 backdrop-blur-xl flex flex-col items-center gap-6 shadow-[0_0_50px_rgba(234,179,8,0.1)] mb-6">
+                    <div className="text-7xl animate-bounce">🔒</div>
+                    <h3 className="text-2xl font-black text-yellow-500">ميزة حصرية للمحترفين</h3>
+                    <p className="text-gray-400 font-bold max-w-md">
+                        {lang === 'ar' 
+                            ? "عشان تستخدم الأداة دي، لازم ترقي حسابك لـ SABAEPDF PRO. استمتع بكل الأدوات بدون حدود!" 
+                            : "To use this tool, you need to upgrade to SABAEPDF PRO. Enjoy all tools without limits!"}
+                    </p>
+                    <button 
+                        onClick={() => setView('login')} 
+                        className="bg-gradient-to-r from-yellow-500 to-orange-500 text-black font-black py-4 px-10 rounded-2xl text-xl hover:scale-105 transition-all shadow-lg"
+                    >
+                        {lang === 'ar' ? "ترقية الآن ⚡" : "Upgrade Now ⚡"}
+                    </button>
+                    <button onClick={() => setView('grid')} className="text-gray-500 hover:text-white underline font-bold">{loc.back}</button>
                 </div>
-              )}
-            </div>
+            ) : (
+                <>
+                    <p className="text-gray-400 font-bold mb-10">{user?.plan === 'PRO' ? loc.proUnlimited : loc.unlimited}</p>
+                    <div className="relative border-2 border-dashed border-gray-600/60 rounded-[2.5rem] p-10 mb-10 bg-black/30 min-h-[250px] flex flex-col items-center justify-center hover:border-cyan-500 transition-all duration-300">
+                    {files.length === 0 ? (
+                        <>
+                        <input type="file" multiple accept={getAcceptTypes()} onChange={(e) => setFiles(Array.from(e.target.files || []))} className="absolute inset-0 opacity-0 cursor-pointer z-50 w-full h-full" />
+                        <p className="text-2xl font-black text-gray-400 uppercase tracking-tighter">{loc.uploadPrompt}</p>
+                        </>
+                    ) : (
+                        <div className="flex flex-wrap gap-5 justify-center w-full relative z-50 p-4">
+                        {files.map((file, idx) => (
+                            <div key={idx} className="relative w-32 h-32 rounded-2xl border-2 border-cyan-800 bg-gray-900 flex flex-col items-center justify-center p-2 shadow-2xl transform hover:scale-105 transition-all">
+                            <button onClick={(e) => { e.stopPropagation(); setFiles(files.filter((_, i) => i !== idx)); }} className="absolute -top-3 -right-3 bg-red-500 text-white w-8 h-8 rounded-full flex items-center justify-center font-black z-[60] cursor-pointer">×</button>
+                            <div className="text-4xl">{file.type.startsWith('image/') ? '🖼️' : '📄'}</div>
+                            <div className="text-[10px] text-cyan-400 truncate w-full mt-2" dir="ltr">{file.name}</div>
+                            </div>
+                        ))}
+                        <button onClick={() => setFiles([])} className="text-red-500 font-bold w-full mt-6 hover:text-red-400 transition-colors cursor-pointer">{lang === 'ar' ? '× مسح الكل' : '× Clear All'}</button>
+                        </div>
+                    )}
+                    </div>
 
-            {(activeTool.inputPlaceholderAr) && (
-              <div className="mb-10 relative z-50">
-                <input type="text" value={extraParam} onChange={(e) => setExtraParam(e.target.value)} placeholder={lang === 'ar' ? activeTool.inputPlaceholderAr : activeTool.id} className="w-full bg-gray-950/80 border-2 border-gray-700 rounded-2xl p-5 text-xl text-white outline-none focus:border-cyan-500 text-center font-bold" />
-              </div>
+                    {(activeTool.inputPlaceholderAr) && (
+                    <div className="mb-10 relative z-50">
+                        <input type="text" value={extraParam} onChange={(e) => setExtraParam(e.target.value)} placeholder={lang === 'ar' ? activeTool.inputPlaceholderAr : activeTool.id} className="w-full bg-gray-950/80 border-2 border-gray-700 rounded-2xl p-5 text-xl text-white outline-none focus:border-cyan-500 text-center font-bold" />
+                    </div>
+                    )}
+
+                    <div className="flex gap-6 relative z-50">
+                        <button onClick={() => { setFiles([]); setExtraParam(""); setView('grid'); }} className="flex-1 py-5 rounded-2xl bg-gray-800 font-black text-xl hover:bg-gray-700 transition-all cursor-pointer border border-gray-700">{loc.back}</button>
+                        <button onClick={handleProcess} disabled={loading} className="flex-[2] py-5 rounded-2xl bg-gradient-to-r from-cyan-600 to-blue-600 font-black text-2xl shadow-[0_0_30px_rgba(8,145,178,0.5)] hover:scale-[1.03] transition-all duration-300 cursor-pointer border border-cyan-400/50 relative overflow-hidden">
+                            {loading ? (
+                            <>
+                                <span className="relative z-10">{progress}% {loc.processing}</span>
+                                <div className="absolute top-0 left-0 h-full bg-white/20 transition-all duration-500" style={{ width: `${progress}%` }} />
+                            </>
+                            ) : loc.process}
+                        </button>
+                    </div>
+                </>
             )}
-
-            <div className="flex gap-6 relative z-50">
-              <button onClick={() => { setFiles([]); setExtraParam(""); setView('grid'); }} className="flex-1 py-5 rounded-2xl bg-gray-800 font-black text-xl hover:bg-gray-700 transition-all cursor-pointer border border-gray-700">{loc.back}</button>
-              <button onClick={handleProcess} disabled={loading} className="flex-[2] py-5 rounded-2xl bg-gradient-to-r from-cyan-600 to-blue-600 font-black text-2xl shadow-[0_0_30px_rgba(8,145,178,0.5)] hover:scale-[1.03] transition-all duration-300 cursor-pointer border border-cyan-400/50 relative overflow-hidden">
-                {loading ? (
-                  <>
-                    <span className="relative z-10">{progress}% {loc.processing}</span>
-                    <div className="absolute top-0 left-0 h-full bg-white/20 transition-all duration-500" style={{ width: `${progress}%` }} />
-                  </>
-                ) : loc.process}
-              </button>
-            </div>
           </div>
         )}
       </main>
