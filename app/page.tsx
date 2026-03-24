@@ -101,17 +101,17 @@ const t = {
 };
 
 const tools = [
-  // 🏢 أدوات الـ Business (فتحنا الترجمة الذكية)
+  // 🏢 أدوات الـ Business
   { id: 'ai-pdf-translator', nameAr: 'ترجمة ذكية (AI)', nameEn: 'Smart Translation', icon: '🌍', color: 'from-blue-600 to-indigo-900', neon: '#3b82f6', descAr: 'ترجمة كاملة مع حفظ التنسيق.', reqPlan: 'Business' },
   { id: 'pdf-to-excel', nameAr: 'PDF لـ Excel (OCR)', nameEn: 'Pro OCR to Excel', icon: '📊', color: 'from-green-600 to-emerald-900', neon: '#059669', descAr: 'استخراج الجداول بدقة عالية.', reqPlan: 'Business' },
 
-  // 🚀 أدوات الـ PRO (فتحنا التعديل الذكي والتعتيم)
+  // 🚀 أدوات الـ PRO
   { id: 'ai-pdf-editor', nameAr: 'تعديل ذكي (AI)', nameEn: 'AI Editor', icon: '✨', color: 'from-purple-600 to-fuchsia-800', neon: '#d946ef', descAr: 'أعد صياغة النصوص داخل الملف.', reqPlan: 'PRO', inputPlaceholderAr: 'اكتب التعديل اللي عايزه (مثال: أعد صياغة هذا الملف)...' },
   { id: 'pdf-redaction', nameAr: 'تعتيم حساس', nameEn: 'Smart Redaction', icon: '⬛', color: 'from-gray-700 to-black', neon: '#ffffff', descAr: 'إخفاء الأرقام والأسماء للأبد.', reqPlan: 'PRO', inputPlaceholderAr: 'الكلمة أو الرقم المراد إخفاؤه وتمويهه...' },
   { id: 'ai-summarizer', nameAr: 'تلخيص PDF (AI)', nameEn: 'AI Summarizer', icon: '🧠', color: 'from-indigo-600 to-blue-800', neon: '#4f46e5', descAr: 'لخص 100 صفحة في ثواني.', reqPlan: 'PRO' },
   { id: 'bg-remover', nameAr: 'إزالة الخلفية (AI)', nameEn: 'Remove BG', icon: '✂️', color: 'from-fuchsia-500 to-purple-600', neon: '#d946ef', descAr: 'مسح الخلفية بالذكاء الاصطناعي.', reqPlan: 'PRO' },
   { id: 'image-upscaler', nameAr: 'تكبير الصور (4K)', nameEn: 'Image Upscaler', icon: '🪄', color: 'from-orange-500 to-red-600', neon: '#f97316', descAr: 'تحسين جودة الصور الضعيفة.', reqPlan: 'PRO' },
-  { id: 'mp4-to-mp3', nameAr: 'استخراج الصوت', nameEn: 'MP4 to MP3', icon: '🎧', color: 'from-cyan-500 to-blue-600', neon: '#06b6d4', descAr: 'فصل الصوت كملف MP3.', reqPlan: 'PRO' }, // 👈 الأداة رجعت هنا أهي
+  { id: 'mp4-to-mp3', nameAr: 'استخراج الصوت', nameEn: 'MP4 to MP3', icon: '🎧', color: 'from-cyan-500 to-blue-600', neon: '#06b6d4', descAr: 'فصل الصوت كملف MP3.', reqPlan: 'PRO' }, 
   { id: 'watermark-remover', nameAr: 'مسح العلامة المائية', nameEn: 'Watermark Remover', icon: '💧', color: 'from-cyan-500 to-teal-600', neon: '#06b6d4', descAr: 'إزالة الشعارات من الصور.', reqPlan: 'PRO', isComingSoon: true },
   { id: 'ai-image-gen', nameAr: 'توليد صور (AI)', nameEn: 'AI Image Gen', icon: '🎨', color: 'from-indigo-500 to-purple-600', neon: '#8b5cf6', descAr: 'توليد صور بالوصف.', reqPlan: 'PRO', isPromptOnly: true, inputPlaceholderAr: 'اكتب وصف للصورة (يفضل باللغة الإنجليزية)...' },
   
@@ -247,6 +247,7 @@ export default function Home() {
   const getAcceptTypes = () => {
     if (activeTool.id === 'rotate-pdf') return '.pdf, image/*';
     if (['img-to-pdf', 'image-upscaler', 'watermark-remover', 'bg-remover'].includes(activeTool.id)) return 'image/*';
+    if (activeTool.id === 'mp4-to-mp3') return 'video/*, audio/*';
     if (['ai-summarizer', 'ai-pdf-translator', 'pdf-redaction', 'ai-pdf-editor', 'pdf-editor', 'pdf-to-img', 'grayscale-pdf', 'delete-pages', 'security-pdf', 'pdf-to-word', 'pdf-to-excel'].includes(activeTool.id)) return '.pdf';
     return '.pdf, image/*, video/*';
   };
@@ -296,9 +297,10 @@ export default function Home() {
       let ext = 'pdf'; 
       const cType = res.headers['content-type'] || '';
       
-     if (['pdf-to-word', 'ai-pdf-translator', 'ai-pdf-editor', 'ai-summarizer'].includes(activeTool.id)) ext = 'docx';
+      if (activeTool.id === 'pdf-to-word') ext = 'docx';
       else if (activeTool.id === 'pdf-to-excel') ext = 'xlsx';
       else if (['bg-remover', 'ai-image-gen', 'image-upscaler', 'watermark-remover'].includes(activeTool.id)) ext = 'png'; 
+      else if (activeTool.id === 'mp4-to-mp3') ext = 'mp3';
       else if (['ai-summarizer', 'ai-pdf-translator', 'pdf-redaction', 'ai-pdf-editor', 'pdf-editor'].includes(activeTool.id)) ext = 'pdf'; 
       else if (activeTool.id === 'pdf-to-img') {
           ext = cType.includes('zip') ? 'zip' : 'png';
@@ -327,12 +329,11 @@ export default function Home() {
       a.href = url; 
       a.download = `${finalFileName}.${ext}`; 
       a.click();
-  } catch (err: any) {
+    } catch (err: any) {
         if (axios.isCancel(err)) return; 
         console.error("Server Error:", err);
         let errorMsg = err.message || "خطأ غير معروف";
         
-        // 👈 السحر هنا: لو السيرفر بعت تفاصيل الخطأ هنستخرجها ونعرضها ليك
         if (err.response && err.response.data) {
             if (err.response.data instanceof Blob) {
                 try {
