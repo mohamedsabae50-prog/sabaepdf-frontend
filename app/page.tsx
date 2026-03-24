@@ -34,12 +34,17 @@ const t = {
     unlimited: "متاح لك عدد لا نهائي من العمليات ∞",
     proUnlimited: "عمليات غير محدودة 🚀",
     loginRequired: "سجل دخولك أو رقي حسابك عشان تستخدم الأداة 🔒",
-    // 👈 إضافات الـ Footer بالعربي
     footerDesc: "منصتك الأولى للتعامل مع الملفات بذكاء وسرعة.",
     contactUs: "تواصل معنا",
     terms: "شروط الخدمة",
     privacy: "سياسة الخصوصية",
-    rights: "جميع الحقوق محفوظة © 2026 SABAEPDF PRO"
+    rights: "جميع الحقوق محفوظة © 2026 SABAEPDF PRO",
+    // 👈 نصوص جاهزة للنافذة المنبثقة
+    closeBtn: "إغلاق ❌",
+    termsTitle: "شروط الخدمة 📜",
+    termsText: "1. الاستخدام: تقدم منصة SABAEPDF PRO أدوات مجانية ومدفوعة لتعديل الملفات.\n2. الحماية: نحن لا نحتفظ بملفاتك على خوادمنا، يتم حذفها فوراً بعد اكتمال المعالجة.\n3. المدفوعات: اشتراك الـ PRO يمنحك وصولاً غير محدود لكل الأدوات، ولا يمكن استرداد المبلغ بعد تفعيل الاشتراك.\n4. المسؤولية: المنصة غير مسؤولة عن محتوى الملفات التي تقوم برفعها.",
+    privacyTitle: "سياسة الخصوصية 🔒",
+    privacyText: "خصوصيتك تهمنا ومحفوظة تماماً في SABAEPDF PRO.\n\n- أمان الملفات: جميع الملفات التي تقوم برفعها يتم تشفيرها أثناء النقل، ويتم حذفها بشكل تلقائي ونهائي من خوادمنا بمجرد انتهاء المعالجة وتنزيلك للملف.\n- البيانات الشخصية: نحن لا نبيع أو نشارك بريدك الإلكتروني أو بيانات الدفع الخاصة بك مع أي طرف ثالث.\n- نحن نستخدم أحدث تقنيات التشفير لضمان سرية معلوماتك وملفاتك."
   },
   en: { 
     title: "SABAEPDF PRO ⚡", 
@@ -71,12 +76,17 @@ const t = {
     unlimited: "Unlimited operations available ∞",
     proUnlimited: "Unlimited Pro operations 🚀",
     loginRequired: "Login or upgrade to use this tool 🔒",
-    // 👈 إضافات الـ Footer بالإنجليزي
     footerDesc: "Your premier platform for smart and fast file handling.",
     contactUs: "Contact Us",
     terms: "Terms of Service",
     privacy: "Privacy Policy",
-    rights: "All Rights Reserved © 2026 SABAEPDF PRO"
+    rights: "All Rights Reserved © 2026 SABAEPDF PRO",
+    // 👈 English Modal Text
+    closeBtn: "Close ❌",
+    termsTitle: "Terms of Service 📜",
+    termsText: "1. Usage: SABAEPDF PRO offers free and paid tools for file manipulation.\n2. Security: We do not store your files on our servers; they are deleted immediately after processing.\n3. Payments: The PRO subscription grants unlimited access to all tools and is non-refundable once activated.\n4. Liability: The platform is not responsible for the content of the files you upload.",
+    privacyTitle: "Privacy Policy 🔒",
+    privacyText: "Your privacy matters and is fully protected at SABAEPDF PRO.\n\n- File Security: All uploaded files are encrypted during transit and are automatically and permanently deleted from our servers once processing is complete.\n- Personal Data: We do not sell or share your email or payment details with any third party.\n- We use the latest encryption technologies to ensure the confidentiality of your information."
   }
 };
 
@@ -114,6 +124,9 @@ export default function Home() {
   const cursorRef = useRef<HTMLDivElement>(null);
   const [hoveredNeon, setHoveredNeon] = useState('#06b6d4');
   const [hoveredCardId, setHoveredCardId] = useState<string | null>(null);
+  
+  // 👈 متغير جديد عشان يتحكم في النافذة المنبثقة للخصوصية والشروط
+  const [modalContent, setModalContent] = useState<'terms' | 'privacy' | null>(null);
 
   useEffect(() => {
     setIsMounted(true);
@@ -275,7 +288,6 @@ export default function Home() {
   const isLocked = !user || (activeTool.isPro && user.plan !== 'PRO');
 
   return (
-    // 👈 ضفت flex flex-col هنا عشان الفوتر يفضل دايماً تحت
     <div className={`min-h-screen flex flex-col bg-[#020617] text-white font-sans ${lang === 'ar' ? 'rtl' : 'ltr'} relative overflow-x-hidden`}>
       <div ref={cursorRef} className="fixed top-0 left-0 w-[400px] h-[400px] rounded-full blur-[100px] z-[0] opacity-30 transition-colors duration-700 pointer-events-none"
         style={{ backgroundColor: view === 'grid' || view === 'login' ? hoveredNeon : activeTool.neon, transform: 'translate(calc(var(--x, -100px) - 50%), calc(var(--y, -100px) - 50%))' }} />
@@ -307,7 +319,6 @@ export default function Home() {
         </div>
       </nav>
 
-      {/* 👈 ضفت flex-grow هنا عشان المحتوى ياخد المساحة الأكبر ويزق الفوتر لتحت */}
       <main className="flex-grow max-w-[1400px] w-full mx-auto px-6 py-16 relative z-50">
         {view === 'login' && (
           <div className="max-w-4xl mx-auto text-center">
@@ -490,7 +501,6 @@ export default function Home() {
         )}
       </main>
 
-      {/* 👈 هنا الـ Footer اللي تحت خالص */}
       <footer className="border-t border-gray-800/50 bg-[#020617]/80 backdrop-blur-xl relative z-50 mt-auto">
         <div className="max-w-[1400px] mx-auto px-6 py-8 flex flex-col md:flex-row justify-between items-center gap-6">
           <div className={`text-center ${lang === 'ar' ? 'md:text-right' : 'md:text-left'}`}>
@@ -498,15 +508,38 @@ export default function Home() {
             <p className="text-gray-400 font-bold text-sm">{loc.footerDesc}</p>
           </div>
           <div className="flex flex-wrap justify-center gap-6 text-gray-400 font-bold text-sm">
-            <a href="mailto:mohamedsabae50@gmail.com" className="hover:text-cyan-400 transition-colors cursor-pointer">{loc.contactUs}</a>
-            <button className="hover:text-cyan-400 transition-colors cursor-pointer">{loc.terms}</button>
-            <button className="hover:text-cyan-400 transition-colors cursor-pointer">{loc.privacy}</button>
+            {/* 👈 رابط Gmail المباشر */}
+            <a href="https://mail.google.com/mail/?view=cm&fs=1&to=mohamedsabae50@gmail.com" target="_blank" rel="noopener noreferrer" className="hover:text-cyan-400 transition-colors cursor-pointer">{loc.contactUs}</a>
+            {/* 👈 زراير لفتح النوافذ المنبثقة */}
+            <button onClick={() => setModalContent('terms')} className="hover:text-cyan-400 transition-colors cursor-pointer">{loc.terms}</button>
+            <button onClick={() => setModalContent('privacy')} className="hover:text-cyan-400 transition-colors cursor-pointer">{loc.privacy}</button>
           </div>
         </div>
         <div className="border-t border-gray-800/50 py-6 text-center text-gray-500 text-xs font-bold tracking-widest">
           {loc.rights}
         </div>
       </footer>
+
+      {/* 👈 النافذة المنبثقة (Modal) لشروط الخدمة والخصوصية */}
+      {modalContent && (
+        <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-[200] flex items-center justify-center p-4">
+          <div className="bg-gray-900 border-2 border-cyan-500/50 rounded-[2.5rem] p-8 max-w-2xl w-full text-white relative shadow-[0_0_50px_rgba(6,182,212,0.15)] animate-in fade-in zoom-in duration-300">
+            <h2 className="text-3xl font-black text-cyan-400 mb-6">
+              {modalContent === 'terms' ? loc.termsTitle : loc.privacyTitle}
+            </h2>
+            <div className="text-gray-300 font-bold text-lg leading-relaxed whitespace-pre-line bg-gray-950/50 p-6 rounded-2xl border border-gray-800">
+              {modalContent === 'terms' ? loc.termsText : loc.privacyText}
+            </div>
+            <button 
+              onClick={() => setModalContent(null)} 
+              className="mt-8 w-full py-4 bg-gray-800 hover:bg-gray-700 rounded-xl font-black text-xl transition-all cursor-pointer border border-gray-600"
+            >
+              {loc.closeBtn}
+            </button>
+          </div>
+        </div>
+      )}
+
     </div>
   );
 }
