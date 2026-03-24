@@ -327,10 +327,26 @@ export default function Home() {
       a.href = url; 
       a.download = `${finalFileName}.${ext}`; 
       a.click();
-    } catch (err: any) {
+  } catch (err: any) {
         if (axios.isCancel(err)) return; 
         console.error("Server Error:", err);
-        alert(lang === 'ar' ? `فشل المعالجة ❌\nحاول مجدداً.` : `Failed ❌\nTry again.`);
+        let errorMsg = err.message || "خطأ غير معروف";
+        
+        // 👈 السحر هنا: لو السيرفر بعت تفاصيل الخطأ هنستخرجها ونعرضها ليك
+        if (err.response && err.response.data) {
+            if (err.response.data instanceof Blob) {
+                try {
+                    const text = await err.response.data.text();
+                    const json = JSON.parse(text);
+                    errorMsg = json.detail || text;
+                } catch (e) {
+                    errorMsg = "مشكلة في السيرفر (قد يكون الملف كبير جداً أو هناك ضغط)";
+                }
+            } else {
+                errorMsg = err.response.data.detail || errorMsg;
+            }
+        }
+        alert(lang === 'ar' ? `فشل المعالجة ❌\nالسبب: ${errorMsg}` : `Failed ❌\nReason: ${errorMsg}`);
     } finally {
       clearInterval(interval);
       setTimeout(() => { setLoading(false); setProgress(0); }, 1000);
