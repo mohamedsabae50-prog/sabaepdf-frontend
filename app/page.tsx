@@ -31,7 +31,7 @@ const t = {
     month: "/شهر",
     loginToPay: "سجل دخول للاشتراك",
     browseTools: "العودة للموقع الأساسي 🏠",
-    freeFeatures: ["✅ دمج، ضغط، وتدوير الملفات", "✅ عمليات أساسية غير محدودة", "❌ مقفول: أدوات الـ AI", "❌ مقفول: الترجمة والتعتيم"],
+    freeFeatures: ["✅ تعديل، دمج، ضغط وتدوير", "✅ عمليات أساسية غير محدودة", "❌ مقفول: أدوات الـ AI", "❌ مقفول: الترجمة والتعتيم"],
     proFeatures: ["✅ كل مميزات المجاني", "✅ تعديل وتلخيص بالـ AI 🧠", "✅ تعتيم حساس للمعلومات ⬛", "✅ إزالة العلامات المائية 💧", "✅ توليد صور وتفريغ صوتي 🎙️"],
     businessFeatures: ["✅ كل مميزات الـ PRO", "✅ ترجمة كاملة بنفس التنسيق 🌍", "✅ استخراج نصوص OCR فائق 📊", "✅ أولوية المعالجة على السيرفر 🚀", "✅ دعم فني مخصص"],
     unlimited: "متاح لك عدد لا نهائي من العمليات ∞",
@@ -39,7 +39,7 @@ const t = {
     businessUnlimited: "مرحباً بك في مساحة الأعمال الفائقة 💼",
     loginRequired: "سجل دخولك أو رقي حسابك عشان تستخدم الأداة 🔒",
     comingSoonTitle: "قريباً جداً! 🚀",
-    comingSoonText: "عذراً يا بطل! هذه الأداة تتطلب خوادم فائقة السرعة وجاري العمل على توفيرها لتكون متاحة قريباً جداً.",
+    comingSoonText: "عذراً يا بطل! هذه الأداة تتطلب واجهة وتجهيزات خاصة، وجاري العمل عليها لتكون متاحة قريباً جداً.",
     footerDesc: "منصتك الأولى للتعامل مع الملفات بذكاء وسرعة.",
     contactUs: "تواصل معنا",
     terms: "شروط الخدمة",
@@ -74,7 +74,7 @@ const t = {
     month: "/month",
     loginToPay: "Login to Subscribe",
     browseTools: "Back to Main Site 🏠",
-    freeFeatures: ["✅ Merge, Compress, Rotate", "✅ Unlimited basic operations", "❌ Locked: AI Tools", "❌ Locked: Translation & Redaction"],
+    freeFeatures: ["✅ Edit, Merge, Compress, Rotate", "✅ Unlimited basic operations", "❌ Locked: AI Tools", "❌ Locked: Translation & Redaction"],
     proFeatures: ["✅ All Free features", "✅ AI Edit & Summarize 🧠", "✅ Sensitive Redaction ⬛", "✅ Remove Watermarks 💧", "✅ AI Image & Transcription 🎙️"],
     businessFeatures: ["✅ All PRO features", "✅ Full Layout Translation 🌍", "✅ High-Accuracy OCR 📊", "✅ Priority Server Processing 🚀", "✅ Premium Support"],
     unlimited: "Unlimited operations available ∞",
@@ -82,7 +82,7 @@ const t = {
     businessUnlimited: "Welcome to the Ultimate Business Workspace 💼",
     loginRequired: "Login or upgrade to use this tool 🔒",
     comingSoonTitle: "Coming Soon! 🚀",
-    comingSoonText: "Sorry hero! This tool requires extremely powerful servers. We are currently preparing them.",
+    comingSoonText: "Sorry hero! This tool requires a special interface and setup. We are currently working on it.",
     footerDesc: "Your premier platform for smart and fast file handling.",
     contactUs: "Contact Us",
     terms: "Terms of Service",
@@ -98,16 +98,17 @@ const tools = [
   { id: 'pdf-to-excel', nameAr: 'PDF لـ Excel (OCR)', nameEn: 'Pro OCR to Excel', icon: '📊', color: 'from-green-600 to-emerald-900', neon: '#059669', descAr: 'استخراج الجداول بدقة عالية.', reqPlan: 'Business' },
 
   // 🚀 أدوات الـ PRO
-  { id: 'ai-pdf-editor', nameAr: 'تعديل ذكي (AI)', nameEn: 'AI Editor', icon: '✍️', color: 'from-purple-600 to-fuchsia-800', neon: '#d946ef', descAr: 'أعد صياغة النصوص داخل الملف.', reqPlan: 'PRO', isComingSoon: true },
+  { id: 'ai-pdf-editor', nameAr: 'تعديل ذكي (AI)', nameEn: 'AI Editor', icon: '✨', color: 'from-purple-600 to-fuchsia-800', neon: '#d946ef', descAr: 'أعد صياغة النصوص داخل الملف.', reqPlan: 'PRO', isComingSoon: true },
   { id: 'pdf-redaction', nameAr: 'تعتيم حساس', nameEn: 'Smart Redaction', icon: '⬛', color: 'from-gray-700 to-black', neon: '#ffffff', descAr: 'إخفاء الأرقام والأسماء للأبد.', reqPlan: 'PRO', isComingSoon: true },
   { id: 'ai-summarizer', nameAr: 'تلخيص PDF (AI)', nameEn: 'AI Summarizer', icon: '🧠', color: 'from-indigo-600 to-blue-800', neon: '#4f46e5', descAr: 'لخص 100 صفحة في ثواني.', reqPlan: 'PRO' },
-  { id: 'bg-remover', nameAr: 'إزالة الخلفية (AI)', nameEn: 'Remove BG', icon: '✨', color: 'from-fuchsia-500 to-purple-600', neon: '#d946ef', descAr: 'مسح الخلفية بالذكاء الاصطناعي.', reqPlan: 'PRO' },
+  { id: 'bg-remover', nameAr: 'إزالة الخلفية (AI)', nameEn: 'Remove BG', icon: '✂️', color: 'from-fuchsia-500 to-purple-600', neon: '#d946ef', descAr: 'مسح الخلفية بالذكاء الاصطناعي.', reqPlan: 'PRO' },
   { id: 'image-upscaler', nameAr: 'تكبير الصور (4K)', nameEn: 'Image Upscaler', icon: '🪄', color: 'from-orange-500 to-red-600', neon: '#f97316', descAr: 'تحسين جودة الصور الضعيفة.', reqPlan: 'PRO' },
   { id: 'watermark-remover', nameAr: 'مسح العلامة المائية', nameEn: 'Watermark Remover', icon: '💧', color: 'from-cyan-500 to-teal-600', neon: '#06b6d4', descAr: 'إزالة الشعارات من الصور.', reqPlan: 'PRO', isComingSoon: true },
   { id: 'ai-image-gen', nameAr: 'توليد صور (AI)', nameEn: 'AI Image Gen', icon: '🎨', color: 'from-indigo-500 to-purple-600', neon: '#8b5cf6', descAr: 'توليد صور بالوصف.', reqPlan: 'PRO', isPromptOnly: true, inputPlaceholderAr: 'اكتب وصف للصورة (يفضل باللغة الإنجليزية)...' },
   { id: 'mp4-to-mp3', nameAr: 'استخراج الصوت', nameEn: 'MP4 to MP3', icon: '🎧', color: 'from-cyan-500 to-blue-600', neon: '#06b6d4', descAr: 'فصل الصوت كملف MP3.', reqPlan: 'PRO' },
   
   // 🆓 الأدوات المجانية
+  { id: 'pdf-editor', nameAr: 'تعديل PDF', nameEn: 'Edit PDF', icon: '🖍️', color: 'from-teal-500 to-emerald-600', neon: '#14b8a6', descAr: 'إضافة نصوص، صور، وتوقيع.', reqPlan: 'Free', isComingSoon: true }, // الأداة الجديدة المجانية
   { id: 'pdf-to-word', nameAr: 'PDF لـ Word', nameEn: 'PDF to Word', icon: '📝', color: 'from-emerald-500 to-teal-600', neon: '#10b981', descAr: 'تحويل الملف لنص قابل للتعديل.', reqPlan: 'Free' },
   { id: 'img-to-pdf', nameAr: 'صور لـ PDF', nameEn: 'Images to PDF', icon: '🖼️', color: 'from-orange-500 to-red-600', neon: '#ef4444', descAr: 'تحويل الصور إلى مستندات PDF.', reqPlan: 'Free' },
   { id: 'pdf-to-img', nameAr: 'PDF لـ صور', nameEn: 'PDF to Images', icon: '📸', color: 'from-yellow-400 to-orange-500', neon: '#f59e0b', descAr: 'تحويل صفحات الـ PDF لصور.', reqPlan: 'Free' },
@@ -228,7 +229,7 @@ export default function Home() {
     if (activeTool.id === 'rotate-pdf') return '.pdf, image/*';
     if (['img-to-pdf', 'image-upscaler', 'watermark-remover', 'bg-remover'].includes(activeTool.id)) return 'image/*';
     if (activeTool.id === 'mp4-to-mp3') return 'video/*, audio/*';
-    if (['ai-summarizer', 'ai-pdf-translator', 'pdf-redaction', 'ai-pdf-editor', 'pdf-to-img', 'grayscale-pdf', 'delete-pages', 'security-pdf', 'pdf-to-word', 'pdf-to-excel'].includes(activeTool.id)) return '.pdf';
+    if (['ai-summarizer', 'ai-pdf-translator', 'pdf-redaction', 'ai-pdf-editor', 'pdf-editor', 'pdf-to-img', 'grayscale-pdf', 'delete-pages', 'security-pdf', 'pdf-to-word', 'pdf-to-excel'].includes(activeTool.id)) return '.pdf';
     return '.pdf, image/*, video/*';
   };
 
@@ -281,7 +282,7 @@ export default function Home() {
       else if (activeTool.id === 'pdf-to-excel') ext = 'xlsx';
       else if (['bg-remover', 'ai-image-gen', 'image-upscaler', 'watermark-remover'].includes(activeTool.id)) ext = 'png'; 
       else if (activeTool.id === 'mp4-to-mp3') ext = 'mp3';
-      else if (['ai-summarizer', 'ai-pdf-translator', 'pdf-redaction', 'ai-pdf-editor'].includes(activeTool.id)) ext = 'pdf'; 
+      else if (['ai-summarizer', 'ai-pdf-translator', 'pdf-redaction', 'ai-pdf-editor', 'pdf-editor'].includes(activeTool.id)) ext = 'pdf'; 
       else if (activeTool.id === 'pdf-to-img') {
           ext = cType.includes('zip') ? 'zip' : 'png';
       }
