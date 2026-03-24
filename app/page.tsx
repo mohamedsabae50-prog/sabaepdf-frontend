@@ -101,19 +101,18 @@ const t = {
 };
 
 const tools = [
-  // 🏢 أدوات الـ Business
-  { id: 'ai-pdf-translator', nameAr: 'ترجمة ذكية (AI)', nameEn: 'Smart Translation', icon: '🌍', color: 'from-blue-600 to-indigo-900', neon: '#3b82f6', descAr: 'ترجمة كاملة مع حفظ التنسيق.', reqPlan: 'Business', isComingSoon: true },
+  // 🏢 أدوات الـ Business (فتحنا الترجمة الذكية)
+  { id: 'ai-pdf-translator', nameAr: 'ترجمة ذكية (AI)', nameEn: 'Smart Translation', icon: '🌍', color: 'from-blue-600 to-indigo-900', neon: '#3b82f6', descAr: 'ترجمة كاملة مع حفظ التنسيق.', reqPlan: 'Business' },
   { id: 'pdf-to-excel', nameAr: 'PDF لـ Excel (OCR)', nameEn: 'Pro OCR to Excel', icon: '📊', color: 'from-green-600 to-emerald-900', neon: '#059669', descAr: 'استخراج الجداول بدقة عالية.', reqPlan: 'Business' },
 
-  // 🚀 أدوات الـ PRO
-  { id: 'ai-pdf-editor', nameAr: 'تعديل ذكي (AI)', nameEn: 'AI Editor', icon: '✨', color: 'from-purple-600 to-fuchsia-800', neon: '#d946ef', descAr: 'أعد صياغة النصوص داخل الملف.', reqPlan: 'PRO', isComingSoon: true },
-  { id: 'pdf-redaction', nameAr: 'تعتيم حساس', nameEn: 'Smart Redaction', icon: '⬛', color: 'from-gray-700 to-black', neon: '#ffffff', descAr: 'إخفاء الأرقام والأسماء للأبد.', reqPlan: 'PRO', isComingSoon: true },
+  // 🚀 أدوات الـ PRO (فتحنا التعديل الذكي والتعتيم)
+  { id: 'ai-pdf-editor', nameAr: 'تعديل ذكي (AI)', nameEn: 'AI Editor', icon: '✨', color: 'from-purple-600 to-fuchsia-800', neon: '#d946ef', descAr: 'أعد صياغة النصوص داخل الملف.', reqPlan: 'PRO', inputPlaceholderAr: 'اكتب التعديل اللي عايزه (مثال: أعد صياغة هذا الملف)...' },
+  { id: 'pdf-redaction', nameAr: 'تعتيم حساس', nameEn: 'Smart Redaction', icon: '⬛', color: 'from-gray-700 to-black', neon: '#ffffff', descAr: 'إخفاء الأرقام والأسماء للأبد.', reqPlan: 'PRO', inputPlaceholderAr: 'الكلمة أو الرقم المراد إخفاؤه وتمويهه...' },
   { id: 'ai-summarizer', nameAr: 'تلخيص PDF (AI)', nameEn: 'AI Summarizer', icon: '🧠', color: 'from-indigo-600 to-blue-800', neon: '#4f46e5', descAr: 'لخص 100 صفحة في ثواني.', reqPlan: 'PRO' },
   { id: 'bg-remover', nameAr: 'إزالة الخلفية (AI)', nameEn: 'Remove BG', icon: '✂️', color: 'from-fuchsia-500 to-purple-600', neon: '#d946ef', descAr: 'مسح الخلفية بالذكاء الاصطناعي.', reqPlan: 'PRO' },
   { id: 'image-upscaler', nameAr: 'تكبير الصور (4K)', nameEn: 'Image Upscaler', icon: '🪄', color: 'from-orange-500 to-red-600', neon: '#f97316', descAr: 'تحسين جودة الصور الضعيفة.', reqPlan: 'PRO' },
   { id: 'watermark-remover', nameAr: 'مسح العلامة المائية', nameEn: 'Watermark Remover', icon: '💧', color: 'from-cyan-500 to-teal-600', neon: '#06b6d4', descAr: 'إزالة الشعارات من الصور.', reqPlan: 'PRO', isComingSoon: true },
   { id: 'ai-image-gen', nameAr: 'توليد صور (AI)', nameEn: 'AI Image Gen', icon: '🎨', color: 'from-indigo-500 to-purple-600', neon: '#8b5cf6', descAr: 'توليد صور بالوصف.', reqPlan: 'PRO', isPromptOnly: true, inputPlaceholderAr: 'اكتب وصف للصورة (يفضل باللغة الإنجليزية)...' },
-  { id: 'mp4-to-mp3', nameAr: 'استخراج الصوت', nameEn: 'MP4 to MP3', icon: '🎧', color: 'from-cyan-500 to-blue-600', neon: '#06b6d4', descAr: 'فصل الصوت كملف MP3.', reqPlan: 'PRO' },
   
   // 🆓 الأدوات المجانية
   { id: 'pdf-editor', nameAr: 'تعديل PDF', nameEn: 'Edit PDF', icon: '🖍️', color: 'from-teal-500 to-emerald-600', neon: '#14b8a6', descAr: 'إضافة نصوص، صور، وتوقيع.', reqPlan: 'Free', isComingSoon: true },
@@ -136,7 +135,6 @@ export default function Home() {
   const [lang, setLang] = useState<'ar' | 'en'>('ar');
   const [user, setUser] = useState<{email: string, plan: string} | null>(null);
   
-  // States للنموذج
   const [nameInput, setNameInput] = useState("");
   const [emailInput, setEmailInput] = useState("");
   const [passwordInput, setPasswordInput] = useState("");
@@ -175,6 +173,10 @@ export default function Home() {
   if (!isMounted) return null;
   const loc = t[lang];
 
+  const getCurrentUserPlan = () => user?.plan?.trim().toLowerCase() || 'free';
+  const isBusinessUser = () => getCurrentUserPlan() === 'business';
+  const isProUser = () => getCurrentUserPlan() === 'pro' || getCurrentUserPlan() === 'business'; 
+
   const resetAndGoBack = () => {
     if (abortControllerRef.current) {
         abortControllerRef.current.abort();
@@ -189,12 +191,7 @@ export default function Home() {
 
   const handleAuth = async (e: React.FormEvent) => {
     e.preventDefault();
-    
-    // التحقق من تطابق كلمة السر في حالة التسجيل
-    if (authMode === 'signup' && passwordInput !== confirmPasswordInput) {
-        return alert(loc.passwordMismatch);
-    }
-    
+    if (authMode === 'signup' && passwordInput !== confirmPasswordInput) return alert(loc.passwordMismatch);
     if (!emailInput || !passwordInput) return alert("الرجاء إدخال البيانات المطلوبة!");
     
     setLoading(true);
@@ -249,7 +246,6 @@ export default function Home() {
   const getAcceptTypes = () => {
     if (activeTool.id === 'rotate-pdf') return '.pdf, image/*';
     if (['img-to-pdf', 'image-upscaler', 'watermark-remover', 'bg-remover'].includes(activeTool.id)) return 'image/*';
-    if (activeTool.id === 'mp4-to-mp3') return 'video/*, audio/*';
     if (['ai-summarizer', 'ai-pdf-translator', 'pdf-redaction', 'ai-pdf-editor', 'pdf-editor', 'pdf-to-img', 'grayscale-pdf', 'delete-pages', 'security-pdf', 'pdf-to-word', 'pdf-to-excel'].includes(activeTool.id)) return '.pdf';
     return '.pdf, image/*, video/*';
   };
@@ -258,12 +254,12 @@ export default function Home() {
     if (!activeTool.isPromptOnly && files.length === 0) return alert(loc.alertNoFiles);
     if (activeTool.isPromptOnly && !extraParam.trim()) return alert(loc.alertNoPrompt);
 
-    const requiredPlan = activeTool.reqPlan;
-    if (requiredPlan === 'Business' && user?.plan !== 'Business') {
+    const requiredPlan = activeTool.reqPlan.toLowerCase();
+    if (requiredPlan === 'business' && !isBusinessUser()) {
         alert("هذه الأداة تتطلب اشتراك Business 💼");
         setView('login'); return;
     }
-    if (requiredPlan === 'PRO' && (!user || (user.plan !== 'PRO' && user.plan !== 'Business'))) {
+    if (requiredPlan === 'pro' && !isProUser()) {
         alert("هذه الأداة تتطلب اشتراك PRO ⚡");
         setView('login'); return;
     }
@@ -302,7 +298,6 @@ export default function Home() {
       if (activeTool.id === 'pdf-to-word') ext = 'docx';
       else if (activeTool.id === 'pdf-to-excel') ext = 'xlsx';
       else if (['bg-remover', 'ai-image-gen', 'image-upscaler', 'watermark-remover'].includes(activeTool.id)) ext = 'png'; 
-      else if (activeTool.id === 'mp4-to-mp3') ext = 'mp3';
       else if (['ai-summarizer', 'ai-pdf-translator', 'pdf-redaction', 'ai-pdf-editor', 'pdf-editor'].includes(activeTool.id)) ext = 'pdf'; 
       else if (activeTool.id === 'pdf-to-img') {
           ext = cType.includes('zip') ? 'zip' : 'png';
@@ -343,8 +338,9 @@ export default function Home() {
 
   const isLocked = () => {
     if (!user && activeTool.reqPlan !== 'Free') return true;
-    if (activeTool.reqPlan === 'Business' && user?.plan !== 'Business') return true;
-    if (activeTool.reqPlan === 'PRO' && user?.plan !== 'PRO' && user?.plan !== 'Business') return true;
+    const requiredPlan = activeTool.reqPlan.toLowerCase();
+    if (requiredPlan === 'business' && !isBusinessUser()) return true;
+    if (requiredPlan === 'pro' && !isProUser()) return true;
     return false;
   };
 
@@ -360,8 +356,8 @@ export default function Home() {
         <div className="flex gap-2 md:gap-4 items-center">
           {user ? (
             <div className="flex items-center gap-2 md:gap-3 mr-2 md:mr-4">
-              <div className={`bg-gradient-to-r ${user.plan === 'Business' ? 'from-purple-600 to-indigo-600' : user.plan === 'PRO' ? 'from-cyan-600 to-blue-600' : 'from-gray-600 to-gray-500'} px-4 py-2 rounded-full text-white font-black text-xs md:text-sm shadow-lg flex items-center gap-2`}>
-                <span>{user.plan}</span> {user.plan !== 'Free' && '🚀'}
+              <div className={`bg-gradient-to-r ${isBusinessUser() ? 'from-purple-600 to-indigo-600' : isProUser() ? 'from-cyan-600 to-blue-600' : 'from-gray-600 to-gray-500'} px-4 py-2 rounded-full text-white font-black text-xs md:text-sm shadow-lg flex items-center gap-2`}>
+                <span className="capitalize">{getCurrentUserPlan()}</span> {getCurrentUserPlan() !== 'free' && '🚀'}
               </div>
               <button onClick={handleSignOut} className="bg-gray-800/80 hover:bg-red-500/20 text-gray-300 hover:text-red-400 font-bold py-2 px-4 rounded-full transition-all border border-gray-600 cursor-pointer">🚪</button>
             </div>
@@ -385,9 +381,7 @@ export default function Home() {
 
             {!user ? (
               <div className="mb-16 transition-all duration-500">
-                  {/* 👈 هنا السحر: فصلنا تصميم التسجيل عن الدخول */}
                   {authMode === 'login' ? (
-                      // تصميم تسجيل الدخول (Login Layout)
                       <div className="max-w-md mx-auto bg-gray-900/50 border border-cyan-500/30 p-10 rounded-[2.5rem] shadow-[0_0_50px_rgba(6,182,212,0.1)] backdrop-blur-xl">
                           <div className="text-6xl mb-6">👋</div>
                           <h2 className="text-4xl font-black text-cyan-400 mb-2">{loc.loginHeader}</h2>
@@ -407,7 +401,6 @@ export default function Home() {
                           </div>
                       </div>
                   ) : (
-                      // تصميم إنشاء حساب جديد (Sign Up Layout)
                       <div className="max-w-lg mx-auto bg-gray-900/50 border border-purple-500/30 p-10 rounded-[2.5rem] shadow-[0_0_50px_rgba(168,85,247,0.1)] backdrop-blur-xl">
                           <div className="text-6xl mb-6">🚀</div>
                           <h2 className="text-4xl font-black text-purple-400 mb-2">{loc.signupHeader}</h2>
@@ -446,7 +439,6 @@ export default function Home() {
               </div>
             )}
             
-            {/* 💰 جدول الـ 3 باقات */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-right mb-12">
               <div className="p-8 rounded-[2.5rem] bg-gray-900/40 border-2 border-gray-800 backdrop-blur-md">
                 <h3 className="text-2xl font-black mb-4">{loc.freePlan}</h3>
@@ -463,7 +455,7 @@ export default function Home() {
                 <ul className="space-y-4 mb-8 text-gray-300 font-bold text-sm">
                    {loc.proFeatures.map((f, i) => <li key={i}>{f}</li>)}
                 </ul>
-                {(!user || user.plan === 'Free') && (
+                {(!user || getCurrentUserPlan() === 'free') && (
                   <div className="mt-6 relative z-50">
                     {user ? (
                       <PayPalScriptProvider options={{ clientId: PAYPAL_CLIENT_ID, currency: "USD" }}>
@@ -480,7 +472,7 @@ export default function Home() {
                 <ul className="space-y-4 mb-8 text-gray-300 font-bold text-sm">
                   {loc.businessFeatures.map((f, i) => <li key={i}>{f}</li>)}
                 </ul>
-                {(!user || user.plan !== 'Business') && (
+                {(!user || getCurrentUserPlan() !== 'business') && (
                   <div className="mt-6 relative z-50">
                     {user ? (
                       <PayPalScriptProvider options={{ clientId: PAYPAL_CLIENT_ID, currency: "USD" }}>
@@ -509,12 +501,12 @@ export default function Home() {
                 
                 {t.reqPlan === 'Business' && (
                     <div className="absolute top-4 right-4 bg-gradient-to-r from-purple-500 to-indigo-600 text-white text-[10px] font-black py-1 px-3 rounded-full z-20 flex items-center gap-1">
-                        {(!user || user.plan !== 'Business') && <span>🔒</span>} Business
+                        {(!user || !isBusinessUser()) && <span>🔒</span>} Business
                     </div>
                 )}
                 {t.reqPlan === 'PRO' && (
                     <div className="absolute top-4 right-4 bg-gradient-to-r from-yellow-400 to-orange-500 text-black text-[10px] font-black py-1 px-3 rounded-full z-20 flex items-center gap-1">
-                        {(!user || (user.plan !== 'PRO' && user.plan !== 'Business')) && <span>🔒</span>} PRO
+                        {(!user || !isProUser()) && <span>🔒</span>} PRO
                     </div>
                 )}
                 
@@ -569,7 +561,7 @@ export default function Home() {
                 </div>
             ) : (
                 <>
-                    <p className="text-gray-400 font-bold mb-10">{user?.plan === 'Business' ? loc.businessUnlimited : user?.plan === 'PRO' ? loc.proUnlimited : loc.unlimited}</p>
+                    <p className="text-gray-400 font-bold mb-10">{isBusinessUser() ? loc.businessUnlimited : isProUser() ? loc.proUnlimited : loc.unlimited}</p>
                     
                     {activeTool.isPromptOnly ? (
                       <div className="mb-10 relative z-50">
