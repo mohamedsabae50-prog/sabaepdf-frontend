@@ -13,6 +13,7 @@ const t = {
     processing: "...جاري التنفيذ", 
     finalizing: "...جاري اللمسات الأخيرة (انتظر قليلاً)",
     alertNoFiles: "ارفع ملفاتك الأول يا بطل!",
+    alertNoPrompt: "اكتب وصف خيالك الأول يا بطل عشان الـ AI يشتغل! ✨",
     loginHeader: "أدوات المحترفين هنا 🔥",
     loginSub: "سجل دخولك لفتح مساحة العمل",
     signupSub: "اعمل حساب جديد وانضم لينا",
@@ -30,7 +31,7 @@ const t = {
     loginToPay: "سجل دخول للاشتراك",
     browseTools: "العودة للموقع الأساسي 🏠",
     freeFeatures: ["✅ دمج، ضغط، وتدوير الملفات", "✅ عمليات غير محدودة يومياً ∞", "❌ مقفول: التشفير واستخراج الصوت", "❌ مقفول: أدوات الذكاء الاصطناعي (AI)"],
-    proFeatures: ["✅ كل مميزات المجاني (لا نهائي)", "✅ حماية وفك تشفير الملفات 🔒", "✅ فصل واستخراج الصوت (MP3) 🎧", "✅ إزالة الخلفية واستخراج جداول Excel (AI) ✨"],
+    proFeatures: ["✅ كل مميزات المجاني (لا نهائي)", "✅ حماية وفك تشفير الملفات 🔒", "✅ فصل واستخراج الصوت (MP3) 🎧", "✅ أدوات التوليد وإزالة الخلفية (AI) ✨"],
     unlimited: "متاح لك عدد لا نهائي من العمليات ∞",
     proUnlimited: "عمليات غير محدودة 🚀",
     loginRequired: "سجل دخولك أو رقي حسابك عشان تستخدم الأداة 🔒",
@@ -39,7 +40,6 @@ const t = {
     terms: "شروط الخدمة",
     privacy: "سياسة الخصوصية",
     rights: "جميع الحقوق محفوظة © 2026 SABAEPDF PRO",
-    // 👈 نصوص جاهزة للنافذة المنبثقة
     closeBtn: "إغلاق ❌",
     termsTitle: "شروط الخدمة 📜",
     termsText: "1. الاستخدام: تقدم منصة SABAEPDF PRO أدوات مجانية ومدفوعة لتعديل الملفات.\n2. الحماية: نحن لا نحتفظ بملفاتك على خوادمنا، يتم حذفها فوراً بعد اكتمال المعالجة.\n3. المدفوعات: اشتراك الـ PRO يمنحك وصولاً غير محدود لكل الأدوات، ولا يمكن استرداد المبلغ بعد تفعيل الاشتراك.\n4. المسؤولية: المنصة غير مسؤولة عن محتوى الملفات التي تقوم برفعها.",
@@ -55,6 +55,7 @@ const t = {
     processing: "Processing...", 
     finalizing: "Finalizing... (Please wait)",
     alertNoFiles: "Upload your files first!",
+    alertNoPrompt: "Enter your prompt first for the AI to work! ✨",
     loginHeader: "Pro Tools Are Here 🔥",
     loginSub: "Login to open your workspace",
     signupSub: "Create a new account and join us",
@@ -72,7 +73,7 @@ const t = {
     loginToPay: "Login to Subscribe",
     browseTools: "Back to Main Site 🏠",
     freeFeatures: ["✅ Merge, Compress, Rotate", "✅ Unlimited daily operations ∞", "❌ Locked: Encrypt & Audio", "❌ Locked: AI Tools"],
-    proFeatures: ["✅ All Free features (Unlimited)", "✅ Protect & Unlock PDF 🔒", "✅ Extract Audio (MP3) 🎧", "✅ AI Background Remover & Excel ✨"],
+    proFeatures: ["✅ All Free features (Unlimited)", "✅ Protect & Unlock PDF 🔒", "✅ Extract Audio (MP3) 🎧", "✅ AI Generation & BG Remover ✨"],
     unlimited: "Unlimited operations available ∞",
     proUnlimited: "Unlimited Pro operations 🚀",
     loginRequired: "Login or upgrade to use this tool 🔒",
@@ -81,7 +82,6 @@ const t = {
     terms: "Terms of Service",
     privacy: "Privacy Policy",
     rights: "All Rights Reserved © 2026 SABAEPDF PRO",
-    // 👈 English Modal Text
     closeBtn: "Close ❌",
     termsTitle: "Terms of Service 📜",
     termsText: "1. Usage: SABAEPDF PRO offers free and paid tools for file manipulation.\n2. Security: We do not store your files on our servers; they are deleted immediately after processing.\n3. Payments: The PRO subscription grants unlimited access to all tools and is non-refundable once activated.\n4. Liability: The platform is not responsible for the content of the files you upload.",
@@ -102,7 +102,10 @@ const tools = [
   { id: 'grayscale-pdf', nameAr: 'توفير حبر', nameEn: 'Grayscale', icon: '🏁', color: 'from-gray-500 to-slate-700', neon: '#64748b', descAr: 'تحويل لأبيض وأسود.', isPro: false },
   { id: 'delete-pages', nameAr: 'مسح صفحات', nameEn: 'Delete Pages', icon: '✂️', color: 'from-red-500 to-pink-600', neon: '#ec4899', descAr: 'حذف صفحات من الملف.', isPro: false, inputPlaceholderAr: 'أرقام الصفحات (1, 3)' },
   { id: 'rotate-pdf', nameAr: 'تدوير الملف', nameEn: 'Rotate PDF', icon: '🔄', color: 'from-yellow-500 to-orange-600', neon: '#f59e0b', descAr: 'تدوير الصفحات أو الصور.', isPro: false, inputPlaceholderAr: 'الزاوية (90, 180)' },
-  { id: 'security-pdf', nameAr: 'قفل وفك التشفير', nameEn: 'Lock & Unlock', icon: '🔒', color: 'from-purple-600 to-violet-700', neon: '#a78bfa', descAr: 'تشفير أو فك الحماية.', isPro: true, inputPlaceholderAr: 'اكتب كلمة السر' }
+  { id: 'security-pdf', nameAr: 'قفل وفك التشفير', nameEn: 'Lock & Unlock', icon: '🔒', color: 'from-purple-600 to-violet-700', neon: '#a78bfa', descAr: 'تشفير أو فك الحماية.', isPro: true, inputPlaceholderAr: 'اكتب كلمة السر' },
+  // 👈 أدوات التوليد الجديدة (فيها خاصية isPromptOnly = true)
+  { id: 'ai-image-gen', nameAr: 'توليد صور (AI)', nameEn: 'AI Image Gen', icon: '🎨', color: 'from-indigo-500 to-purple-600', neon: '#8b5cf6', descAr: 'توليد صور بالوصف.', isPro: true, isPromptOnly: true, inputPlaceholderAr: 'اكتب وصف للصورة (يفضل باللغة الإنجليزية)...' },
+  { id: 'ai-video-gen', nameAr: 'توليد فيديو (AI)', nameEn: 'AI Video Gen', icon: '🎬', color: 'from-red-600 to-rose-800', neon: '#e11d48', descAr: 'توليد فيديو بالوصف.', isPro: true, isPromptOnly: true, inputPlaceholderAr: 'اكتب وصف للفيديو (يفضل باللغة الإنجليزية)...' }
 ];
 
 const PAYPAL_CLIENT_ID = "AQtXECvCPx2nWKmNV23EwUPmNRozM16vxJ2vlBP9IQTKzPtkbwMiKR08fVPjYhHP3xrP9OK93sNbWI--"; 
@@ -124,8 +127,6 @@ export default function Home() {
   const cursorRef = useRef<HTMLDivElement>(null);
   const [hoveredNeon, setHoveredNeon] = useState('#06b6d4');
   const [hoveredCardId, setHoveredCardId] = useState<string | null>(null);
-  
-  // 👈 متغير جديد عشان يتحكم في النافذة المنبثقة للخصوصية والشروط
   const [modalContent, setModalContent] = useState<'terms' | 'privacy' | null>(null);
 
   useEffect(() => {
@@ -206,7 +207,10 @@ export default function Home() {
   };
 
   const handleProcess = async () => {
-    if (files.length === 0) return alert(loc.alertNoFiles);
+    // 👈 لو الأداة محتاجة فايل، نتأكد إنه اترفع. لو توليد، نتأكد إن الوصف اتكتب.
+    if (!activeTool.isPromptOnly && files.length === 0) return alert(loc.alertNoFiles);
+    if (activeTool.isPromptOnly && !extraParam.trim()) return alert(loc.alertNoPrompt);
+
     if (!user || (activeTool.isPro && user.plan !== 'PRO')) {
         alert("هذه الأداة للمحترفين فقط 🔒");
         setView('login');
@@ -226,12 +230,15 @@ export default function Home() {
     }, 600);
 
     const formData = new FormData();
-    files.forEach(f => formData.append("files", f));
+    // 👈 نرفع الملفات بس لو الأداة مش توليد
+    if (!activeTool.isPromptOnly) {
+      files.forEach(f => formData.append("files", f));
+    }
     formData.append("user_email", user.email);
-    if (extraParam) formData.append("extra_param", extraParam);
+    if (extraParam) formData.append("extra_param", extraParam); // السيرفر هياخد دي كـ Prompt
 
     try {
-      const res = await axios.post(`${API_URL}/${activeTool.id}/`, formData, { responseType: 'blob', timeout: 180000 });
+      const res = await axios.post(`${API_URL}/${activeTool.id}/`, formData, { responseType: 'blob', timeout: 300000 }); // كبرت الـ timeout عشان التوليد بياخد وقت
       setProgress(100);
       const url = window.URL.createObjectURL(new Blob([res.data]));
       
@@ -240,8 +247,9 @@ export default function Home() {
       
       if (activeTool.id === 'pdf-to-word') ext = 'docx';
       else if (activeTool.id === 'pdf-to-excel') ext = 'xlsx';
-      else if (activeTool.id === 'bg-remover') ext = 'png';
+      else if (activeTool.id === 'bg-remover' || activeTool.id === 'ai-image-gen') ext = 'png'; // 👈 توليد الصور هينزل كـ png
       else if (activeTool.id === 'mp4-to-mp3') ext = 'mp3';
+      else if (activeTool.id === 'ai-video-gen') ext = 'mp4'; // 👈 توليد الفيديو هينزل كـ mp4
       else if (activeTool.id === 'pdf-to-img') {
           ext = cType.includes('zip') ? 'zip' : 'png';
       }
@@ -250,7 +258,7 @@ export default function Home() {
           else if (cType.includes('mp4')) ext = 'mp4';
           else if (cType.includes('jpeg')) ext = 'jpg';
           else if (cType.includes('png')) ext = 'png';
-          else ext = files.length === 1 ? (files[0].name.split('.').pop() || 'zip') : 'zip';
+          else ext = files.length === 1 && files[0] ? (files[0].name.split('.').pop() || 'zip') : 'zip';
       }
       else if (['grayscale-pdf', 'rotate-pdf', 'security-pdf'].includes(activeTool.id)) {
           if (cType.includes('jpeg')) ext = 'jpg';
@@ -447,41 +455,57 @@ export default function Home() {
             ) : (
                 <>
                     <p className="text-gray-400 font-bold mb-10">{user?.plan === 'PRO' ? loc.proUnlimited : loc.unlimited}</p>
-                    <div className="relative border-2 border-dashed border-gray-600/60 rounded-[2.5rem] p-10 mb-10 bg-black/30 min-h-[250px] flex flex-col items-center justify-center hover:border-cyan-500 transition-all duration-300">
-                    {files.length === 0 ? (
-                        <>
-                        <input type="file" multiple accept={getAcceptTypes()} onChange={(e) => setFiles(Array.from(e.target.files || []))} className="absolute inset-0 opacity-0 cursor-pointer z-50 w-full h-full" />
-                        <p className="text-2xl font-black text-gray-400 uppercase tracking-tighter">{loc.uploadPrompt}</p>
-                        </>
+                    
+                    {/* 👈 لو الأداة محتاجة وصف بس هنظهر الـ Textarea الكبيرة، غير كدة هنظهر مربع الرفع */}
+                    {activeTool.isPromptOnly ? (
+                      <div className="mb-10 relative z-50">
+                        <textarea 
+                          value={extraParam} 
+                          onChange={(e) => setExtraParam(e.target.value)} 
+                          placeholder={lang === 'ar' ? activeTool.inputPlaceholderAr : "Enter your prompt here (English is recommended)..."} 
+                          className="w-full bg-gray-950/80 border-2 border-dashed border-gray-600 rounded-[2.5rem] p-8 text-2xl text-cyan-400 outline-none focus:border-cyan-500 font-bold min-h-[250px] resize-y text-center transition-all duration-300 shadow-inner" 
+                          dir={lang === 'ar' ? 'rtl' : 'ltr'}
+                        />
+                      </div>
                     ) : (
-                        <div className="flex flex-wrap gap-5 justify-center w-full relative z-50 p-4">
-                        {files.map((file, idx) => (
-                            <div key={idx} className="relative w-36 h-auto min-h-[9rem] rounded-2xl border-2 border-cyan-800 bg-gray-900 flex flex-col items-center justify-center p-3 shadow-2xl transform hover:scale-105 transition-all">
-                              <button onClick={(e) => { e.stopPropagation(); setFiles(files.filter((_, i) => i !== idx)); }} className="absolute -top-3 -right-3 bg-red-500 text-white w-8 h-8 rounded-full flex items-center justify-center font-black z-[60] cursor-pointer">×</button>
-                              
-                              {file.type.startsWith('image/') ? (
-                                <img src={URL.createObjectURL(file)} alt="preview" className="w-16 h-16 object-cover rounded-lg mb-2 border border-gray-700" />
-                              ) : (
-                                <div className="text-5xl mb-2">📄</div>
-                              )}
-                              
-                              <div className="text-xs text-cyan-400 w-full text-center break-words px-1 font-bold" dir="ltr" title={file.name}>
-                                {file.name.length > 15 ? file.name.substring(0, 15) + '...' : file.name}
-                              </div>
-                              <div className="text-[10px] text-gray-500 mt-1 font-bold">
-                                {(file.size / (1024 * 1024)).toFixed(2)} MB
-                              </div>
+                      <>
+                        <div className="relative border-2 border-dashed border-gray-600/60 rounded-[2.5rem] p-10 mb-10 bg-black/30 min-h-[250px] flex flex-col items-center justify-center hover:border-cyan-500 transition-all duration-300">
+                        {files.length === 0 ? (
+                            <>
+                            <input type="file" multiple accept={getAcceptTypes()} onChange={(e) => setFiles(Array.from(e.target.files || []))} className="absolute inset-0 opacity-0 cursor-pointer z-50 w-full h-full" />
+                            <p className="text-2xl font-black text-gray-400 uppercase tracking-tighter">{loc.uploadPrompt}</p>
+                            </>
+                        ) : (
+                            <div className="flex flex-wrap gap-5 justify-center w-full relative z-50 p-4">
+                            {files.map((file, idx) => (
+                                <div key={idx} className="relative w-36 h-auto min-h-[9rem] rounded-2xl border-2 border-cyan-800 bg-gray-900 flex flex-col items-center justify-center p-3 shadow-2xl transform hover:scale-105 transition-all">
+                                  <button onClick={(e) => { e.stopPropagation(); setFiles(files.filter((_, i) => i !== idx)); }} className="absolute -top-3 -right-3 bg-red-500 text-white w-8 h-8 rounded-full flex items-center justify-center font-black z-[60] cursor-pointer">×</button>
+                                  
+                                  {file.type.startsWith('image/') ? (
+                                    <img src={URL.createObjectURL(file)} alt="preview" className="w-16 h-16 object-cover rounded-lg mb-2 border border-gray-700" />
+                                  ) : (
+                                    <div className="text-5xl mb-2">📄</div>
+                                  )}
+                                  
+                                  <div className="text-xs text-cyan-400 w-full text-center break-words px-1 font-bold" dir="ltr" title={file.name}>
+                                    {file.name.length > 15 ? file.name.substring(0, 15) + '...' : file.name}
+                                  </div>
+                                  <div className="text-[10px] text-gray-500 mt-1 font-bold">
+                                    {(file.size / (1024 * 1024)).toFixed(2)} MB
+                                  </div>
+                                </div>
+                            ))}
+                            <button onClick={() => setFiles([])} className="text-red-500 font-bold w-full mt-6 hover:text-red-400 transition-colors cursor-pointer">{lang === 'ar' ? '× مسح الكل' : '× Clear All'}</button>
                             </div>
-                        ))}
-                        <button onClick={() => setFiles([])} className="text-red-500 font-bold w-full mt-6 hover:text-red-400 transition-colors cursor-pointer">{lang === 'ar' ? '× مسح الكل' : '× Clear All'}</button>
+                        )}
                         </div>
-                    )}
-                    </div>
 
-                    {(activeTool.inputPlaceholderAr) && (
-                    <div className="mb-10 relative z-50">
-                        <input type="text" value={extraParam} onChange={(e) => setExtraParam(e.target.value)} placeholder={lang === 'ar' ? activeTool.inputPlaceholderAr : activeTool.id} className="w-full bg-gray-950/80 border-2 border-gray-700 rounded-2xl p-5 text-xl text-white outline-none focus:border-cyan-500 text-center font-bold" />
-                    </div>
+                        {(activeTool.inputPlaceholderAr) && (
+                        <div className="mb-10 relative z-50">
+                            <input type="text" value={extraParam} onChange={(e) => setExtraParam(e.target.value)} placeholder={lang === 'ar' ? activeTool.inputPlaceholderAr : activeTool.id} className="w-full bg-gray-950/80 border-2 border-gray-700 rounded-2xl p-5 text-xl text-white outline-none focus:border-cyan-500 text-center font-bold" />
+                        </div>
+                        )}
+                      </>
                     )}
 
                     <div className="flex gap-6 relative z-50">
@@ -508,9 +532,7 @@ export default function Home() {
             <p className="text-gray-400 font-bold text-sm">{loc.footerDesc}</p>
           </div>
           <div className="flex flex-wrap justify-center gap-6 text-gray-400 font-bold text-sm">
-            {/* 👈 رابط Gmail المباشر */}
             <a href="https://mail.google.com/mail/?view=cm&fs=1&to=mohamedsabae50@gmail.com" target="_blank" rel="noopener noreferrer" className="hover:text-cyan-400 transition-colors cursor-pointer">{loc.contactUs}</a>
-            {/* 👈 زراير لفتح النوافذ المنبثقة */}
             <button onClick={() => setModalContent('terms')} className="hover:text-cyan-400 transition-colors cursor-pointer">{loc.terms}</button>
             <button onClick={() => setModalContent('privacy')} className="hover:text-cyan-400 transition-colors cursor-pointer">{loc.privacy}</button>
           </div>
@@ -520,7 +542,6 @@ export default function Home() {
         </div>
       </footer>
 
-      {/* 👈 النافذة المنبثقة (Modal) لشروط الخدمة والخصوصية */}
       {modalContent && (
         <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-[200] flex items-center justify-center p-4">
           <div className="bg-gray-900 border-2 border-cyan-500/50 rounded-[2.5rem] p-8 max-w-2xl w-full text-white relative shadow-[0_0_50px_rgba(6,182,212,0.15)] animate-in fade-in zoom-in duration-300">
