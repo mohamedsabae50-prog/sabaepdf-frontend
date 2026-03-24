@@ -14,15 +14,19 @@ const t = {
     finalizing: "...جاري اللمسات الأخيرة (انتظر قليلاً)",
     alertNoFiles: "ارفع ملفاتك الأول يا بطل!",
     alertNoPrompt: "اكتب وصف خيالك الأول يا بطل عشان الـ AI يشتغل! ✨",
-    loginHeader: "أدوات المحترفين هنا 🔥",
-    loginSub: "سجل دخولك لفتح مساحة العمل",
-    signupSub: "اعمل حساب جديد وانضم لينا",
-    emailPlaceholder: "الإيميل",
+    loginHeader: "أهلاً بك مجدداً 👋",
+    signupHeader: "ابدأ رحلتك الآن 🚀",
+    loginSub: "سجل دخولك لمواصلة العمل على ملفاتك",
+    signupSub: "أنشئ حسابك المجاني وانضم لآلاف المحترفين",
+    namePlaceholder: "الاسم بالكامل (اختياري)",
+    emailPlaceholder: "البريد الإلكتروني",
     passwordPlaceholder: "كلمة السر",
-    loginBtn: "دخول ⚡",
-    signupBtn: "إنشاء حساب 🚀",
-    noAccount: "معندكش حساب؟ سجل دلوقتي",
-    hasAccount: "عندك حساب بالفعل؟ سجل دخول",
+    confirmPasswordPlaceholder: "تأكيد كلمة السر",
+    passwordMismatch: "كلمتا السر غير متطابقتين! ❌",
+    loginBtn: "تسجيل الدخول ⚡",
+    signupBtn: "إنشاء حساب جديد 🚀",
+    noAccount: "ليس لديك حساب؟ أنشئ حساباً مجانياً",
+    hasAccount: "لديك حساب بالفعل؟ سجل دخولك",
     loggedInAs: "أنت مسجل دخول بإيميل:",
     freePlan: "المجانية 🆓",
     proPlan: "Sabae PRO ⚡",
@@ -57,14 +61,18 @@ const t = {
     finalizing: "Finalizing... (Please wait)",
     alertNoFiles: "Upload your files first!",
     alertNoPrompt: "Enter your prompt first for the AI to work! ✨",
-    loginHeader: "Pro Tools Are Here 🔥",
-    loginSub: "Login to open your workspace",
-    signupSub: "Create a new account and join us",
+    loginHeader: "Welcome Back 👋",
+    signupHeader: "Start Your Journey 🚀",
+    loginSub: "Login to continue working on your files",
+    signupSub: "Create your free account and join professionals",
+    namePlaceholder: "Full Name (Optional)",
     emailPlaceholder: "Email Address",
     passwordPlaceholder: "Password",
+    confirmPasswordPlaceholder: "Confirm Password",
+    passwordMismatch: "Passwords do not match! ❌",
     loginBtn: "Login ⚡",
-    signupBtn: "Sign Up 🚀",
-    noAccount: "Don't have an account? Register now",
+    signupBtn: "Create New Account 🚀",
+    noAccount: "Don't have an account? Sign up for free",
     hasAccount: "Already have an account? Login",
     loggedInAs: "Logged in as:",
     freePlan: "Free 🆓",
@@ -108,7 +116,7 @@ const tools = [
   { id: 'mp4-to-mp3', nameAr: 'استخراج الصوت', nameEn: 'MP4 to MP3', icon: '🎧', color: 'from-cyan-500 to-blue-600', neon: '#06b6d4', descAr: 'فصل الصوت كملف MP3.', reqPlan: 'PRO' },
   
   // 🆓 الأدوات المجانية
-  { id: 'pdf-editor', nameAr: 'تعديل PDF', nameEn: 'Edit PDF', icon: '🖍️', color: 'from-teal-500 to-emerald-600', neon: '#14b8a6', descAr: 'إضافة نصوص، صور، وتوقيع.', reqPlan: 'Free', isComingSoon: true }, // الأداة الجديدة المجانية
+  { id: 'pdf-editor', nameAr: 'تعديل PDF', nameEn: 'Edit PDF', icon: '🖍️', color: 'from-teal-500 to-emerald-600', neon: '#14b8a6', descAr: 'إضافة نصوص، صور، وتوقيع.', reqPlan: 'Free', isComingSoon: true },
   { id: 'pdf-to-word', nameAr: 'PDF لـ Word', nameEn: 'PDF to Word', icon: '📝', color: 'from-emerald-500 to-teal-600', neon: '#10b981', descAr: 'تحويل الملف لنص قابل للتعديل.', reqPlan: 'Free' },
   { id: 'img-to-pdf', nameAr: 'صور لـ PDF', nameEn: 'Images to PDF', icon: '🖼️', color: 'from-orange-500 to-red-600', neon: '#ef4444', descAr: 'تحويل الصور إلى مستندات PDF.', reqPlan: 'Free' },
   { id: 'pdf-to-img', nameAr: 'PDF لـ صور', nameEn: 'PDF to Images', icon: '📸', color: 'from-yellow-400 to-orange-500', neon: '#f59e0b', descAr: 'تحويل صفحات الـ PDF لصور.', reqPlan: 'Free' },
@@ -127,8 +135,13 @@ export default function Home() {
   const [isMounted, setIsMounted] = useState(false);
   const [lang, setLang] = useState<'ar' | 'en'>('ar');
   const [user, setUser] = useState<{email: string, plan: string} | null>(null);
+  
+  // States للنموذج
+  const [nameInput, setNameInput] = useState("");
   const [emailInput, setEmailInput] = useState("");
   const [passwordInput, setPasswordInput] = useState("");
+  const [confirmPasswordInput, setConfirmPasswordInput] = useState("");
+  
   const [authMode, setAuthMode] = useState<'login' | 'signup'>('login');
   const [view, setView] = useState<'grid' | 'login' | 'tool'>('grid');
   const [activeTool, setActiveTool] = useState(tools[0]);
@@ -176,7 +189,14 @@ export default function Home() {
 
   const handleAuth = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!emailInput || !passwordInput) return alert("اكتب الإيميل والباسورد!");
+    
+    // التحقق من تطابق كلمة السر في حالة التسجيل
+    if (authMode === 'signup' && passwordInput !== confirmPasswordInput) {
+        return alert(loc.passwordMismatch);
+    }
+    
+    if (!emailInput || !passwordInput) return alert("الرجاء إدخال البيانات المطلوبة!");
+    
     setLoading(true);
     try {
       const formData = new FormData();
@@ -191,6 +211,7 @@ export default function Home() {
       
       setView('grid');
       setPasswordInput(""); 
+      setConfirmPasswordInput("");
     } catch (err: any) {
         alert(err.response?.data?.detail || "Error 🚨");
     } finally {
@@ -362,27 +383,70 @@ export default function Home() {
                </button>
             </div>
 
-            <h1 className="text-5xl md:text-7xl font-black text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500 mb-6 italic uppercase">{loc.loginHeader}</h1>
-            <p className="text-gray-400 text-xl font-bold mb-12">{authMode === 'login' ? loc.loginSub : loc.signupSub}</p>
-            
             {!user ? (
-              <>
-                <form onSubmit={handleAuth} className="flex flex-col gap-4 max-w-md mx-auto mb-6">
-                  <input type="email" value={emailInput} onChange={(e) => setEmailInput(e.target.value)} placeholder={loc.emailPlaceholder} required className="w-full bg-gray-900/80 border-2 border-gray-700 rounded-2xl p-5 text-xl text-white outline-none focus:border-cyan-500 text-center font-bold" />
-                  <input type="password" value={passwordInput} onChange={(e) => setPasswordInput(e.target.value)} placeholder={loc.passwordPlaceholder} required className="w-full bg-gray-900/80 border-2 border-gray-700 rounded-2xl p-5 text-xl text-white outline-none focus:border-cyan-500 text-center font-bold" />
-                  <button type="submit" disabled={loading} className="w-full py-5 rounded-2xl bg-gradient-to-r from-cyan-600 to-blue-600 font-black text-2xl shadow-[0_0_30px_rgba(8,145,178,0.5)] hover:scale-[1.03] transition-all cursor-pointer mt-2">
-                    {loading ? '...' : (authMode === 'login' ? loc.loginBtn : loc.signupBtn)}
-                  </button>
-                </form>
-                <button onClick={() => setAuthMode(authMode === 'login' ? 'signup' : 'login')} className="text-gray-400 hover:text-cyan-400 underline font-bold transition-colors cursor-pointer mb-16">
-                  {authMode === 'login' ? loc.noAccount : loc.hasAccount}
-                </button>
-              </>
+              <div className="mb-16 transition-all duration-500">
+                  {/* 👈 هنا السحر: فصلنا تصميم التسجيل عن الدخول */}
+                  {authMode === 'login' ? (
+                      // تصميم تسجيل الدخول (Login Layout)
+                      <div className="max-w-md mx-auto bg-gray-900/50 border border-cyan-500/30 p-10 rounded-[2.5rem] shadow-[0_0_50px_rgba(6,182,212,0.1)] backdrop-blur-xl">
+                          <div className="text-6xl mb-6">👋</div>
+                          <h2 className="text-4xl font-black text-cyan-400 mb-2">{loc.loginHeader}</h2>
+                          <p className="text-gray-400 font-bold mb-8">{loc.loginSub}</p>
+                          
+                          <form onSubmit={handleAuth} className="flex flex-col gap-5">
+                              <input type="email" value={emailInput} onChange={(e) => setEmailInput(e.target.value)} placeholder={loc.emailPlaceholder} required className="w-full bg-gray-950/80 border-2 border-gray-700 rounded-2xl p-4 text-lg text-white outline-none focus:border-cyan-500 text-center font-bold transition-all" />
+                              <input type="password" value={passwordInput} onChange={(e) => setPasswordInput(e.target.value)} placeholder={loc.passwordPlaceholder} required className="w-full bg-gray-950/80 border-2 border-gray-700 rounded-2xl p-4 text-lg text-white outline-none focus:border-cyan-500 text-center font-bold transition-all" />
+                              <button type="submit" disabled={loading} className="w-full py-4 mt-2 rounded-2xl bg-gradient-to-r from-cyan-600 to-blue-600 font-black text-xl shadow-[0_0_20px_rgba(8,145,178,0.4)] hover:scale-[1.02] transition-transform cursor-pointer">
+                                  {loading ? '...' : loc.loginBtn}
+                              </button>
+                          </form>
+                          <div className="mt-8 pt-6 border-t border-gray-800">
+                              <button onClick={() => { setAuthMode('signup'); setEmailInput(""); setPasswordInput(""); }} className="text-gray-400 hover:text-cyan-400 font-bold transition-colors cursor-pointer text-sm">
+                                  {loc.noAccount}
+                              </button>
+                          </div>
+                      </div>
+                  ) : (
+                      // تصميم إنشاء حساب جديد (Sign Up Layout)
+                      <div className="max-w-lg mx-auto bg-gray-900/50 border border-purple-500/30 p-10 rounded-[2.5rem] shadow-[0_0_50px_rgba(168,85,247,0.1)] backdrop-blur-xl">
+                          <div className="text-6xl mb-6">🚀</div>
+                          <h2 className="text-4xl font-black text-purple-400 mb-2">{loc.signupHeader}</h2>
+                          <p className="text-gray-400 font-bold mb-8">{loc.signupSub}</p>
+                          
+                          <form onSubmit={handleAuth} className="flex flex-col gap-5">
+                              <input type="text" value={nameInput} onChange={(e) => setNameInput(e.target.value)} placeholder={loc.namePlaceholder} className="w-full bg-gray-950/80 border-2 border-gray-700 rounded-2xl p-4 text-lg text-white outline-none focus:border-purple-500 text-center font-bold transition-all" />
+                              <input type="email" value={emailInput} onChange={(e) => setEmailInput(e.target.value)} placeholder={loc.emailPlaceholder} required className="w-full bg-gray-950/80 border-2 border-gray-700 rounded-2xl p-4 text-lg text-white outline-none focus:border-purple-500 text-center font-bold transition-all" />
+                              
+                              <div className="grid grid-cols-2 gap-3">
+                                  <input type="password" value={passwordInput} onChange={(e) => setPasswordInput(e.target.value)} placeholder={loc.passwordPlaceholder} required className="w-full bg-gray-950/80 border-2 border-gray-700 rounded-2xl p-4 text-lg text-white outline-none focus:border-purple-500 text-center font-bold transition-all" />
+                                  <input type="password" value={confirmPasswordInput} onChange={(e) => setConfirmPasswordInput(e.target.value)} placeholder={loc.confirmPasswordPlaceholder} required className="w-full bg-gray-950/80 border-2 border-gray-700 rounded-2xl p-4 text-lg text-white outline-none focus:border-purple-500 text-center font-bold transition-all" />
+                              </div>
+                              
+                              <button type="submit" disabled={loading} className="w-full py-4 mt-2 rounded-2xl bg-gradient-to-r from-purple-600 to-indigo-600 font-black text-xl shadow-[0_0_20px_rgba(168,85,247,0.4)] hover:scale-[1.02] transition-transform cursor-pointer">
+                                  {loading ? '...' : loc.signupBtn}
+                              </button>
+                          </form>
+                          <div className="mt-8 pt-6 border-t border-gray-800">
+                              <button onClick={() => { setAuthMode('login'); setEmailInput(""); setPasswordInput(""); setConfirmPasswordInput(""); }} className="text-gray-400 hover:text-purple-400 font-bold transition-colors cursor-pointer text-sm">
+                                  {loc.hasAccount}
+                              </button>
+                          </div>
+                      </div>
+                  )}
+              </div>
             ) : (
-              <div className="mb-16 text-cyan-400 font-bold text-xl flex items-center justify-center gap-2">{loc.loggedInAs} {user.email} ✅</div>
+              <div className="mb-16 bg-gray-900/50 border border-cyan-500/30 p-8 rounded-[2rem] inline-block shadow-[0_0_30px_rgba(6,182,212,0.1)]">
+                 <div className="text-cyan-400 font-bold text-2xl flex items-center justify-center gap-3">
+                     <span className="text-4xl">✅</span> 
+                     <div>
+                         <div className="text-sm text-gray-400 mb-1">{loc.loggedInAs}</div>
+                         <div>{user.email}</div>
+                     </div>
+                 </div>
+              </div>
             )}
             
-            {/* 💰 جدول الـ 3 باقات الجديد */}
+            {/* 💰 جدول الـ 3 باقات */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-right mb-12">
               <div className="p-8 rounded-[2.5rem] bg-gray-900/40 border-2 border-gray-800 backdrop-blur-md">
                 <h3 className="text-2xl font-black mb-4">{loc.freePlan}</h3>
