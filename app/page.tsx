@@ -31,7 +31,7 @@ const t = {
     loginToPay: "سجل دخول للاشتراك",
     browseTools: "العودة للموقع الأساسي 🏠",
     freeFeatures: ["✅ دمج، ضغط، وتدوير الملفات", "✅ عمليات غير محدودة يومياً ∞", "❌ مقفول: التشفير واستخراج الصوت", "❌ مقفول: أدوات الذكاء الاصطناعي (AI)"],
-    proFeatures: ["✅ كل مميزات المجاني (لا نهائي)", "✅ تلخيص وتفريغ صوتي (AI) 🎙️", "✅ تحسين جودة الصور 4K ✨", "✅ إزالة العلامات المائية والخلفيات 💧", "✅ توليد صور بالذكاء الاصطناعي 🎨"],
+    proFeatures: ["✅ كل مميزات المجاني (لا نهائي)", "✅ تلخيص PDF (AI) 🧠", "✅ تحسين جودة الصور 4K ✨", "✅ إزالة العلامات المائية والخلفيات 💧", "✅ توليد صور بالذكاء الاصطناعي 🎨"],
     unlimited: "متاح لك عدد لا نهائي من العمليات ∞",
     proUnlimited: "عمليات غير محدودة 🚀",
     loginRequired: "سجل دخولك أو رقي حسابك عشان تستخدم الأداة 🔒",
@@ -75,7 +75,7 @@ const t = {
     loginToPay: "Login to Subscribe",
     browseTools: "Back to Main Site 🏠",
     freeFeatures: ["✅ Merge, Compress, Rotate", "✅ Unlimited daily operations ∞", "❌ Locked: Encrypt & Audio", "❌ Locked: AI Tools"],
-    proFeatures: ["✅ All Free features (Unlimited)", "✅ AI Summarize & Transcribe 🎙️", "✅ 4K Image Upscaler ✨", "✅ Remove Watermarks & BG 💧", "✅ AI Image Generation 🎨"],
+    proFeatures: ["✅ All Free features (Unlimited)", "✅ AI Summarize PDF 🧠", "✅ 4K Image Upscaler ✨", "✅ Remove Watermarks & BG 💧", "✅ AI Image Generation 🎨"],
     unlimited: "Unlimited operations available ∞",
     proUnlimited: "Unlimited Pro operations 🚀",
     loginRequired: "Login or upgrade to use this tool 🔒",
@@ -95,9 +95,8 @@ const t = {
 };
 
 const tools = [
-  // الأدوات الجديدة (AI Premium) 🔥 - لاحظ اضافة isComingSoon للادوات التقيلة
+  // الأدوات الجديدة (AI Premium) 🔥
   { id: 'ai-summarizer', nameAr: 'تلخيص PDF (AI)', nameEn: 'AI Summarizer', icon: '🧠', color: 'from-indigo-600 to-blue-800', neon: '#4f46e5', descAr: 'لخص 100 صفحة في ثواني.', isPro: true },
-  { id: 'audio-transcription', nameAr: 'تفريغ الصوت (AI)', nameEn: 'Transcription', icon: '🎙️', color: 'from-emerald-500 to-green-700', neon: '#10b981', descAr: 'تحويل الصوت/الفيديو لملف PDF.', isPro: true },
   { id: 'image-upscaler', nameAr: 'تكبير الصور (4K)', nameEn: 'Image Upscaler', icon: '🪄', color: 'from-orange-500 to-red-600', neon: '#f97316', descAr: 'تحسين جودة الصور الضعيفة.', isPro: true },
   { id: 'watermark-remover', nameAr: 'مسح العلامة المائية', nameEn: 'Watermark Remover', icon: '💧', color: 'from-cyan-500 to-teal-600', neon: '#06b6d4', descAr: 'إزالة الشعارات من الصور.', isPro: true, isComingSoon: true },
   { id: 'ai-image-gen', nameAr: 'توليد صور (AI)', nameEn: 'AI Image Gen', icon: '🎨', color: 'from-indigo-500 to-purple-600', neon: '#8b5cf6', descAr: 'توليد صور بالوصف.', isPro: true, isPromptOnly: true, inputPlaceholderAr: 'اكتب وصف للصورة (يفضل باللغة الإنجليزية)...' },
@@ -139,7 +138,6 @@ export default function Home() {
   const [hoveredCardId, setHoveredCardId] = useState<string | null>(null);
   const [modalContent, setModalContent] = useState<'terms' | 'privacy' | null>(null);
 
-  // 👈 الدرع الجديد: متحكم الإلغاء
   const abortControllerRef = useRef<AbortController | null>(null);
 
   useEffect(() => {
@@ -161,10 +159,9 @@ export default function Home() {
   if (!isMounted) return null;
   const loc = t[lang];
 
-  // 👈 دالة العودة وتصفير كل حاجة وقتل التحميل
   const resetAndGoBack = () => {
     if (abortControllerRef.current) {
-        abortControllerRef.current.abort(); // بيوقف أي طلب بيحمل في الخلفية
+        abortControllerRef.current.abort();
         abortControllerRef.current = null;
     }
     setFiles([]);
@@ -226,7 +223,7 @@ export default function Home() {
   const getAcceptTypes = () => {
     if (activeTool.id === 'rotate-pdf') return '.pdf, image/*';
     if (['img-to-pdf', 'bg-remover', 'image-upscaler', 'watermark-remover'].includes(activeTool.id)) return 'image/*';
-    if (['mp4-to-mp3', 'audio-transcription'].includes(activeTool.id)) return 'video/*, audio/*';
+    if (activeTool.id === 'mp4-to-mp3') return 'video/*, audio/*';
     if (activeTool.id === 'ai-summarizer') return '.pdf';
     return '.pdf, image/*, video/*';
   };
@@ -244,7 +241,6 @@ export default function Home() {
     setLoading(true);
     setProgress(0);
     
-    // إنشاء متحكم الإلغاء للعملية دي
     abortControllerRef.current = new AbortController();
     
     const interval = setInterval(() => {
@@ -267,7 +263,7 @@ export default function Home() {
       const res = await axios.post(`${API_URL}/${activeTool.id}/`, formData, { 
           responseType: 'blob', 
           timeout: 300000,
-          signal: abortControllerRef.current.signal // 👈 ربط الطلب بمتحكم الإلغاء
+          signal: abortControllerRef.current.signal
       });
       setProgress(100);
       const url = window.URL.createObjectURL(new Blob([res.data]));
@@ -280,7 +276,7 @@ export default function Home() {
       else if (['bg-remover', 'ai-image-gen', 'image-upscaler', 'watermark-remover'].includes(activeTool.id)) ext = 'png'; 
       else if (activeTool.id === 'mp4-to-mp3') ext = 'mp3';
       else if (activeTool.id === 'ai-video-gen') ext = 'mp4';
-      else if (['audio-transcription', 'ai-summarizer'].includes(activeTool.id)) ext = 'pdf'; 
+      else if (activeTool.id === 'ai-summarizer') ext = 'pdf'; 
       else if (activeTool.id === 'pdf-to-img') {
           ext = cType.includes('zip') ? 'zip' : 'png';
       }
@@ -311,7 +307,6 @@ export default function Home() {
       a.download = `${finalFileName}.${ext}`; 
       a.click();
     } catch (err: any) {
-        // 👈 لو المستخدم هو اللي لغى العملية وداس عودة، منتطلعش رسالة خطأ مزعجة
         if (axios.isCancel(err)) {
             console.log("تم إلغاء العملية بواسطة المستخدم");
             return; 
@@ -481,7 +476,6 @@ export default function Home() {
               )}
             </h2>
             
-            {/* 👈 شاشة "قريباً" للأدوات اللي لسه بتجهز لمنع استهلاك النت والوقت */}
             {(activeTool as any).isComingSoon ? (
                 <div className="py-10 px-6 rounded-[2.5rem] bg-gray-900/80 border-2 border-cyan-500/30 backdrop-blur-xl flex flex-col items-center gap-6 shadow-[0_0_50px_rgba(6,182,212,0.1)] mb-6">
                     <div className="text-7xl animate-pulse">🚀</div>
