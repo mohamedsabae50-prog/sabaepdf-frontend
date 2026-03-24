@@ -6,7 +6,7 @@ import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
 const t = {
   ar: { 
     title: "SABAEPDF PRO ⚡", 
-    subtitle: "منصة ذكية للتعامل مع كل ملفاتك", 
+    subtitle: "منصة الأعمال الأولى للتعامل مع مستنداتك بذكاء", 
     uploadPrompt: "اسحب أو اضغط لرفع الملفات هنا", 
     back: "عودة للأدوات 🔙", 
     process: "ابدأ الآن ⚡", 
@@ -24,33 +24,32 @@ const t = {
     noAccount: "معندكش حساب؟ سجل دلوقتي",
     hasAccount: "عندك حساب بالفعل؟ سجل دخول",
     loggedInAs: "أنت مسجل دخول بإيميل:",
-    freePlan: "المواطن المجاني 🆓",
+    freePlan: "المجانية 🆓",
     proPlan: "Sabae PRO ⚡",
-    recommended: "موصى به",
+    businessPlan: "Business 💼",
+    recommended: "الأكثر مبيعاً",
     month: "/شهر",
     loginToPay: "سجل دخول للاشتراك",
     browseTools: "العودة للموقع الأساسي 🏠",
-    freeFeatures: ["✅ دمج، ضغط، وتدوير الملفات", "✅ عمليات غير محدودة يومياً ∞", "❌ مقفول: التشفير واستخراج الصوت", "❌ مقفول: أدوات الذكاء الاصطناعي (AI)"],
-    proFeatures: ["✅ كل مميزات المجاني (لا نهائي)", "✅ تلخيص PDF (AI) 🧠", "✅ تحسين جودة الصور 4K ✨", "✅ إزالة العلامات المائية والخلفيات 💧", "✅ توليد صور بالذكاء الاصطناعي 🎨"],
+    freeFeatures: ["✅ دمج، ضغط، وتدوير الملفات", "✅ عمليات أساسية غير محدودة", "❌ مقفول: أدوات الـ AI", "❌ مقفول: الترجمة والتعتيم"],
+    proFeatures: ["✅ كل مميزات المجاني", "✅ تعديل وتلخيص بالـ AI 🧠", "✅ تعتيم حساس للمعلومات ⬛", "✅ إزالة العلامات المائية 💧", "✅ توليد صور وتفريغ صوتي 🎙️"],
+    businessFeatures: ["✅ كل مميزات الـ PRO", "✅ ترجمة كاملة بنفس التنسيق 🌍", "✅ استخراج نصوص OCR فائق 📊", "✅ أولوية المعالجة على السيرفر 🚀", "✅ دعم فني مخصص"],
     unlimited: "متاح لك عدد لا نهائي من العمليات ∞",
-    proUnlimited: "عمليات غير محدودة 🚀",
+    proUnlimited: "مرحباً بك في مساحة المحترفين 🚀",
+    businessUnlimited: "مرحباً بك في مساحة الأعمال الفائقة 💼",
     loginRequired: "سجل دخولك أو رقي حسابك عشان تستخدم الأداة 🔒",
     comingSoonTitle: "قريباً جداً! 🚀",
-    comingSoonText: "عذراً يا بطل! هذه الأداة تتطلب خوادم فائقة السرعة (GPU) وجاري العمل على توفيرها لتكون متاحة قريباً جداً في المنصة.",
+    comingSoonText: "عذراً يا بطل! هذه الأداة تتطلب خوادم فائقة السرعة وجاري العمل على توفيرها لتكون متاحة قريباً جداً.",
     footerDesc: "منصتك الأولى للتعامل مع الملفات بذكاء وسرعة.",
     contactUs: "تواصل معنا",
     terms: "شروط الخدمة",
     privacy: "سياسة الخصوصية",
     rights: "جميع الحقوق محفوظة © 2026 SABAEPDF PRO",
     closeBtn: "إغلاق ❌",
-    termsTitle: "شروط الخدمة 📜",
-    termsText: "1. الاستخدام: تقدم منصة SABAEPDF PRO أدوات مجانية ومدفوعة لتعديل الملفات.\n2. الحماية: نحن لا نحتفظ بملفاتك على خوادمنا، يتم حذفها فوراً بعد اكتمال المعالجة.\n3. المدفوعات: اشتراك الـ PRO يمنحك وصولاً غير محدود لكل الأدوات، ولا يمكن استرداد المبلغ بعد تفعيل الاشتراك.\n4. المسؤولية: المنصة غير مسؤولة عن محتوى الملفات التي تقوم برفعها.",
-    privacyTitle: "سياسة الخصوصية 🔒",
-    privacyText: "خصوصيتك تهمنا ومحفوظة تماماً في SABAEPDF PRO.\n\n- أمان الملفات: جميع الملفات التي تقوم برفعها يتم تشفيرها أثناء النقل، ويتم حذفها بشكل تلقائي ونهائي من خوادمنا بمجرد انتهاء المعالجة وتنزيلك للملف.\n- البيانات الشخصية: نحن لا نبيع أو نشارك بريدك الإلكتروني أو بيانات الدفع الخاصة بك مع أي طرف ثالث.\n- نحن نستخدم أحدث تقنيات التشفير لضمان سرية معلوماتك وملفاتك."
   },
   en: { 
     title: "SABAEPDF PRO ⚡", 
-    subtitle: "Smart platform for all your files", 
+    subtitle: "The premier business platform for smart documents", 
     uploadPrompt: "Drag or click to upload files here", 
     back: "Back to Tools 🔙", 
     process: "Start Now ⚡", 
@@ -68,53 +67,51 @@ const t = {
     noAccount: "Don't have an account? Register now",
     hasAccount: "Already have an account? Login",
     loggedInAs: "Logged in as:",
-    freePlan: "Free Citizen 🆓",
+    freePlan: "Free 🆓",
     proPlan: "Sabae PRO ⚡",
-    recommended: "Recommended",
+    businessPlan: "Business 💼",
+    recommended: "Best Seller",
     month: "/month",
     loginToPay: "Login to Subscribe",
     browseTools: "Back to Main Site 🏠",
-    freeFeatures: ["✅ Merge, Compress, Rotate", "✅ Unlimited daily operations ∞", "❌ Locked: Encrypt & Audio", "❌ Locked: AI Tools"],
-    proFeatures: ["✅ All Free features (Unlimited)", "✅ AI Summarize PDF 🧠", "✅ 4K Image Upscaler ✨", "✅ Remove Watermarks & BG 💧", "✅ AI Image Generation 🎨"],
+    freeFeatures: ["✅ Merge, Compress, Rotate", "✅ Unlimited basic operations", "❌ Locked: AI Tools", "❌ Locked: Translation & Redaction"],
+    proFeatures: ["✅ All Free features", "✅ AI Edit & Summarize 🧠", "✅ Sensitive Redaction ⬛", "✅ Remove Watermarks 💧", "✅ AI Image & Transcription 🎙️"],
+    businessFeatures: ["✅ All PRO features", "✅ Full Layout Translation 🌍", "✅ High-Accuracy OCR 📊", "✅ Priority Server Processing 🚀", "✅ Premium Support"],
     unlimited: "Unlimited operations available ∞",
-    proUnlimited: "Unlimited Pro operations 🚀",
+    proUnlimited: "Welcome to the Pro Workspace 🚀",
+    businessUnlimited: "Welcome to the Ultimate Business Workspace 💼",
     loginRequired: "Login or upgrade to use this tool 🔒",
     comingSoonTitle: "Coming Soon! 🚀",
-    comingSoonText: "Sorry hero! This tool requires extremely powerful GPU servers. We are currently preparing them and the tool will be available very soon.",
+    comingSoonText: "Sorry hero! This tool requires extremely powerful servers. We are currently preparing them.",
     footerDesc: "Your premier platform for smart and fast file handling.",
     contactUs: "Contact Us",
     terms: "Terms of Service",
     privacy: "Privacy Policy",
     rights: "All Rights Reserved © 2026 SABAEPDF PRO",
     closeBtn: "Close ❌",
-    termsTitle: "Terms of Service 📜",
-    termsText: "1. Usage: SABAEPDF PRO offers free and paid tools for file manipulation.\n2. Security: We do not store your files on our servers; they are deleted immediately after processing.\n3. Payments: The PRO subscription grants unlimited access to all tools and is non-refundable once activated.\n4. Liability: The platform is not responsible for the content of the files you upload.",
-    privacyTitle: "Privacy Policy 🔒",
-    privacyText: "Your privacy matters and is fully protected at SABAEPDF PRO.\n\n- File Security: All uploaded files are encrypted during transit and are automatically and permanently deleted from our servers once processing is complete.\n- Personal Data: We do not sell or share your email or payment details with any third party.\n- We use the latest encryption technologies to ensure the confidentiality of your information."
   }
 };
 
 const tools = [
-  // الأدوات الجديدة (AI Premium) 🔥
-  { id: 'ai-summarizer', nameAr: 'تلخيص PDF (AI)', nameEn: 'AI Summarizer', icon: '🧠', color: 'from-indigo-600 to-blue-800', neon: '#4f46e5', descAr: 'لخص 100 صفحة في ثواني.', isPro: true },
-  { id: 'image-upscaler', nameAr: 'تكبير الصور (4K)', nameEn: 'Image Upscaler', icon: '🪄', color: 'from-orange-500 to-red-600', neon: '#f97316', descAr: 'تحسين جودة الصور الضعيفة.', isPro: true },
-  { id: 'watermark-remover', nameAr: 'مسح العلامة المائية', nameEn: 'Watermark Remover', icon: '💧', color: 'from-cyan-500 to-teal-600', neon: '#06b6d4', descAr: 'إزالة الشعارات من الصور.', isPro: true, isComingSoon: true },
-  { id: 'ai-image-gen', nameAr: 'توليد صور (AI)', nameEn: 'AI Image Gen', icon: '🎨', color: 'from-indigo-500 to-purple-600', neon: '#8b5cf6', descAr: 'توليد صور بالوصف.', isPro: true, isPromptOnly: true, inputPlaceholderAr: 'اكتب وصف للصورة (يفضل باللغة الإنجليزية)...' },
-  { id: 'ai-video-gen', nameAr: 'توليد فيديو (AI)', nameEn: 'AI Video Gen', icon: '🎬', color: 'from-red-600 to-rose-800', neon: '#e11d48', descAr: 'توليد فيديو بالوصف.', isPro: true, isPromptOnly: true, inputPlaceholderAr: 'اكتب وصف للفيديو (يفضل باللغة الإنجليزية)...', isComingSoon: true },
+  // 🏢 أدوات الـ Business
+  { id: 'ai-pdf-translator', nameAr: 'ترجمة ذكية (AI)', nameEn: 'Smart Translation', icon: '🌍', color: 'from-blue-600 to-indigo-900', neon: '#3b82f6', descAr: 'ترجمة كاملة مع حفظ التنسيق.', reqPlan: 'Business', isComingSoon: true },
+  { id: 'pdf-to-excel', nameAr: 'PDF لـ Excel (OCR)', nameEn: 'Pro OCR to Excel', icon: '📊', color: 'from-green-600 to-emerald-900', neon: '#059669', descAr: 'استخراج الجداول بدقة عالية.', reqPlan: 'Business' },
+
+  // 🚀 أدوات الـ PRO
+  { id: 'ai-pdf-editor', nameAr: 'تعديل ذكي (AI)', nameEn: 'AI Editor', icon: '✍️', color: 'from-purple-600 to-fuchsia-800', neon: '#d946ef', descAr: 'أعد صياغة النصوص داخل الملف.', reqPlan: 'PRO', isComingSoon: true },
+  { id: 'pdf-redaction', nameAr: 'تعتيم حساس', nameEn: 'Smart Redaction', icon: '⬛', color: 'from-gray-700 to-black', neon: '#ffffff', descAr: 'إخفاء الأرقام والأسماء للأبد.', reqPlan: 'PRO', isComingSoon: true },
+  { id: 'ai-summarizer', nameAr: 'تلخيص PDF (AI)', nameEn: 'AI Summarizer', icon: '🧠', color: 'from-indigo-600 to-blue-800', neon: '#4f46e5', descAr: 'لخص 100 صفحة في ثواني.', reqPlan: 'PRO' },
+  { id: 'image-upscaler', nameAr: 'تكبير الصور (4K)', nameEn: 'Image Upscaler', icon: '🪄', color: 'from-orange-500 to-red-600', neon: '#f97316', descAr: 'تحسين جودة الصور الضعيفة.', reqPlan: 'PRO' },
+  { id: 'watermark-remover', nameAr: 'مسح العلامة المائية', nameEn: 'Watermark Remover', icon: '💧', color: 'from-cyan-500 to-teal-600', neon: '#06b6d4', descAr: 'إزالة الشعارات من الصور.', reqPlan: 'PRO', isComingSoon: true },
+  { id: 'ai-image-gen', nameAr: 'توليد صور (AI)', nameEn: 'AI Image Gen', icon: '🎨', color: 'from-indigo-500 to-purple-600', neon: '#8b5cf6', descAr: 'توليد صور بالوصف.', reqPlan: 'PRO', isPromptOnly: true, inputPlaceholderAr: 'اكتب وصف للصورة (يفضل باللغة الإنجليزية)...' },
+  { id: 'mp4-to-mp3', nameAr: 'استخراج الصوت', nameEn: 'MP4 to MP3', icon: '🎧', color: 'from-cyan-500 to-blue-600', neon: '#06b6d4', descAr: 'فصل الصوت كملف MP3.', reqPlan: 'PRO' },
   
-  // الأدوات الأساسية 🛠️
-  { id: 'pdf-to-word', nameAr: 'PDF لـ Word', nameEn: 'PDF to Word', icon: '📝', color: 'from-emerald-500 to-teal-600', neon: '#10b981', descAr: 'تحويل الملف لنص قابل للتعديل.', isPro: false },
-  { id: 'img-to-pdf', nameAr: 'صور لـ PDF', nameEn: 'Images to PDF', icon: '🖼️', color: 'from-orange-500 to-red-600', neon: '#ef4444', descAr: 'تحويل الصور إلى مستندات PDF.', isPro: false },
-  { id: 'merge-pdf', nameAr: 'دمج ملفات', nameEn: 'Merge PDF', icon: '📑', color: 'from-blue-600 to-indigo-700', neon: '#3b82f6', descAr: 'دمج عدة ملفات في مستند واحد.', isPro: false },
-  { id: 'pdf-to-img', nameAr: 'PDF لـ صور', nameEn: 'PDF to Images', icon: '📸', color: 'from-yellow-400 to-orange-500', neon: '#f59e0b', descAr: 'تحويل صفحات الـ PDF لصور.', isPro: false },
-  { id: 'compress-pdf', nameAr: 'ضغط الميديا', nameEn: 'Compress Media', icon: '📉', color: 'from-pink-500 to-rose-600', neon: '#f43f5e', descAr: 'ضغط حجم الصور والفيديوهات.', isPro: false },
-  { id: 'mp4-to-mp3', nameAr: 'استخراج الصوت', nameEn: 'MP4 to MP3', icon: '🎧', color: 'from-cyan-500 to-blue-600', neon: '#06b6d4', descAr: 'فصل الصوت كملف MP3.', isPro: true },
-  { id: 'bg-remover', nameAr: 'إزالة الخلفية (AI)', nameEn: 'Remove BG', icon: '✨', color: 'from-fuchsia-500 to-purple-600', neon: '#d946ef', descAr: 'مسح الخلفية بالذكاء الاصطناعي.', isPro: true },
-  { id: 'pdf-to-excel', nameAr: 'PDF لـ Excel (AI)', nameEn: 'PDF to Excel', icon: '📊', color: 'from-green-600 to-emerald-800', neon: '#059669', descAr: 'استخراج الجداول بدقة عالية.', isPro: true },
-  { id: 'grayscale-pdf', nameAr: 'توفير حبر', nameEn: 'Grayscale', icon: '🏁', color: 'from-gray-500 to-slate-700', neon: '#64748b', descAr: 'تحويل لأبيض وأسود.', isPro: false },
-  { id: 'delete-pages', nameAr: 'مسح صفحات', nameEn: 'Delete Pages', icon: '✂️', color: 'from-red-500 to-pink-600', neon: '#ec4899', descAr: 'حذف صفحات من الملف.', isPro: false, inputPlaceholderAr: 'أرقام الصفحات (1, 3)' },
-  { id: 'rotate-pdf', nameAr: 'تدوير الملف', nameEn: 'Rotate PDF', icon: '🔄', color: 'from-yellow-500 to-orange-600', neon: '#f59e0b', descAr: 'تدوير الصفحات أو الصور.', isPro: false, inputPlaceholderAr: 'الزاوية (90, 180)' },
-  { id: 'security-pdf', nameAr: 'قفل وفك التشفير', nameEn: 'Lock & Unlock', icon: '🔒', color: 'from-purple-600 to-violet-700', neon: '#a78bfa', descAr: 'تشفير أو فك الحماية.', isPro: true, inputPlaceholderAr: 'اكتب كلمة السر' }
+  // 🆓 الأدوات المجانية
+  { id: 'pdf-to-word', nameAr: 'PDF لـ Word', nameEn: 'PDF to Word', icon: '📝', color: 'from-emerald-500 to-teal-600', neon: '#10b981', descAr: 'تحويل الملف لنص قابل للتعديل.', reqPlan: 'Free' },
+  { id: 'img-to-pdf', nameAr: 'صور لـ PDF', nameEn: 'Images to PDF', icon: '🖼️', color: 'from-orange-500 to-red-600', neon: '#ef4444', descAr: 'تحويل الصور إلى مستندات PDF.', reqPlan: 'Free' },
+  { id: 'merge-pdf', nameAr: 'دمج ملفات', nameEn: 'Merge PDF', icon: '📑', color: 'from-blue-600 to-indigo-700', neon: '#3b82f6', descAr: 'دمج عدة ملفات في مستند واحد.', reqPlan: 'Free' },
+  { id: 'compress-pdf', nameAr: 'ضغط الميديا', nameEn: 'Compress Media', icon: '📉', color: 'from-pink-500 to-rose-600', neon: '#f43f5e', descAr: 'ضغط حجم الصور والفيديوهات.', reqPlan: 'Free' },
+  { id: 'security-pdf', nameAr: 'قفل وفك التشفير', nameEn: 'Lock & Unlock', icon: '🔒', color: 'from-purple-600 to-violet-700', neon: '#a78bfa', descAr: 'تشفير أو فك الحماية.', reqPlan: 'Free', inputPlaceholderAr: 'اكتب كلمة السر' }
 ];
 
 const PAYPAL_CLIENT_ID = "AQtXECvCPx2nWKmNV23EwUPmNRozM16vxJ2vlBP9IQTKzPtkbwMiKR08fVPjYhHP3xrP9OK93sNbWI--"; 
@@ -173,7 +170,7 @@ export default function Home() {
 
   const handleAuth = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!emailInput || !passwordInput) return alert("اكتب الإيميل والباسورد يا بطل!");
+    if (!emailInput || !passwordInput) return alert("اكتب الإيميل والباسورد!");
     setLoading(true);
     try {
       const formData = new FormData();
@@ -202,18 +199,20 @@ export default function Home() {
     setView('login');
   };
 
-  const handleSuccessfulPayment = async () => {
+  const handleSuccessfulPayment = async (planType: string) => {
     if (!user) return;
     try {
       const formData = new FormData();
       formData.append("email", user.email);
-      await axios.post(`${API_URL}/upgrade/`, formData);
+      formData.append("plan", planType);
       
-      const updatedUser = { ...user, plan: 'PRO' };
+      await axios.post(`${API_URL}/upgrade/`, formData); // هنحتاج نحدث الباك اند يقبل اسم الباقة
+      
+      const updatedUser = { ...user, plan: planType };
       setUser(updatedUser);
       localStorage.setItem('sabae_user', JSON.stringify(updatedUser)); 
       
-      alert("🎉 مبروك يا هندسة! تم الدفع بنجاح.");
+      alert(`🎉 مبروك! تم تفعيل اشتراك ${planType} بنجاح.`);
       setView('grid');
     } catch (err) {
       alert("تم الدفع بس حصلت مشكلة في التفعيل!");
@@ -222,9 +221,9 @@ export default function Home() {
 
   const getAcceptTypes = () => {
     if (activeTool.id === 'rotate-pdf') return '.pdf, image/*';
-    if (['img-to-pdf', 'bg-remover', 'image-upscaler', 'watermark-remover'].includes(activeTool.id)) return 'image/*';
+    if (['img-to-pdf', 'image-upscaler', 'watermark-remover'].includes(activeTool.id)) return 'image/*';
     if (activeTool.id === 'mp4-to-mp3') return 'video/*, audio/*';
-    if (activeTool.id === 'ai-summarizer') return '.pdf';
+    if (['ai-summarizer', 'ai-pdf-translator', 'pdf-redaction', 'ai-pdf-editor'].includes(activeTool.id)) return '.pdf';
     return '.pdf, image/*, video/*';
   };
 
@@ -232,22 +231,25 @@ export default function Home() {
     if (!activeTool.isPromptOnly && files.length === 0) return alert(loc.alertNoFiles);
     if (activeTool.isPromptOnly && !extraParam.trim()) return alert(loc.alertNoPrompt);
 
-    if (!user || (activeTool.isPro && user.plan !== 'PRO')) {
-        alert("هذه الأداة للمحترفين فقط 🔒");
-        setView('login');
-        return;
+    // نظام قفل ذكي حسب الباقة
+    const requiredPlan = activeTool.reqPlan;
+    if (requiredPlan === 'Business' && user?.plan !== 'Business') {
+        alert("هذه الأداة تتطلب اشتراك Business 💼");
+        setView('login'); return;
+    }
+    if (requiredPlan === 'PRO' && (!user || (user.plan !== 'PRO' && user.plan !== 'Business'))) {
+        alert("هذه الأداة تتطلب اشتراك PRO ⚡");
+        setView('login'); return;
     }
     
     setLoading(true);
     setProgress(0);
-    
     abortControllerRef.current = new AbortController();
     
     const interval = setInterval(() => {
       setProgress((prev) => {
         if (prev >= 98) return prev;
         if (prev > 85) return prev + 1; 
-        if (prev > 50) return prev + 5; 
         return prev + 10; 
       });
     }, 800);
@@ -256,7 +258,7 @@ export default function Home() {
     if (!activeTool.isPromptOnly) {
       files.forEach(f => formData.append("files", f));
     }
-    formData.append("user_email", user.email);
+    formData.append("user_email", user?.email || "guest");
     if (extraParam) formData.append("extra_param", extraParam);
 
     try {
@@ -275,23 +277,7 @@ export default function Home() {
       else if (activeTool.id === 'pdf-to-excel') ext = 'xlsx';
       else if (['bg-remover', 'ai-image-gen', 'image-upscaler', 'watermark-remover'].includes(activeTool.id)) ext = 'png'; 
       else if (activeTool.id === 'mp4-to-mp3') ext = 'mp3';
-      else if (activeTool.id === 'ai-video-gen') ext = 'mp4';
-      else if (activeTool.id === 'ai-summarizer') ext = 'pdf'; 
-      else if (activeTool.id === 'pdf-to-img') {
-          ext = cType.includes('zip') ? 'zip' : 'png';
-      }
-      else if (activeTool.id === 'compress-pdf') {
-          if (cType.includes('zip')) ext = 'zip';
-          else if (cType.includes('mp4')) ext = 'mp4';
-          else if (cType.includes('jpeg')) ext = 'jpg';
-          else if (cType.includes('png')) ext = 'png';
-          else ext = files.length === 1 && files[0] ? (files[0].name.split('.').pop() || 'zip') : 'zip';
-      }
-      else if (['grayscale-pdf', 'rotate-pdf', 'security-pdf'].includes(activeTool.id)) {
-          if (cType.includes('jpeg')) ext = 'jpg';
-          else if (cType.includes('png')) ext = 'png';
-          else ext = 'pdf';
-      }
+      else if (activeTool.id === 'compress-pdf') ext = cType.includes('zip') ? 'zip' : (files[0]?.name.split('.').pop() || 'pdf');
 
       let finalFileName = "Processed_File";
       if (files.length > 0) {
@@ -307,34 +293,21 @@ export default function Home() {
       a.download = `${finalFileName}.${ext}`; 
       a.click();
     } catch (err: any) {
-        if (axios.isCancel(err)) {
-            console.log("تم إلغاء العملية بواسطة المستخدم");
-            return; 
-        }
-
+        if (axios.isCancel(err)) return; 
         console.error("Server Error:", err);
-        let errorMsg = err.message || "Unknown Error";
-        if (err.response && err.response.data) {
-            if (err.response.data instanceof Blob) {
-                try {
-                    const text = await err.response.data.text();
-                    const json = JSON.parse(text);
-                    errorMsg = json.detail || text;
-                } catch (e) {
-                    errorMsg = "مشكلة في السيرفر (ممكن يكون الملف كبير أو السيرفر بيهنج)";
-                }
-            } else {
-                errorMsg = err.response.data.detail || errorMsg;
-            }
-        }
-        alert(lang === 'ar' ? `فشل المعالجة ❌\nالسبب: ${errorMsg}` : `Failed ❌\nReason: ${errorMsg}`);
+        alert(lang === 'ar' ? `فشل المعالجة ❌\nحاول مجدداً.` : `Failed ❌\nTry again.`);
     } finally {
       clearInterval(interval);
       setTimeout(() => { setLoading(false); setProgress(0); }, 1000);
     }
   };
 
-  const isLocked = !user || (activeTool.isPro && user.plan !== 'PRO');
+  const isLocked = () => {
+    if (!user && activeTool.reqPlan !== 'Free') return true;
+    if (activeTool.reqPlan === 'Business' && user?.plan !== 'Business') return true;
+    if (activeTool.reqPlan === 'PRO' && user?.plan !== 'PRO' && user?.plan !== 'Business') return true;
+    return false;
+  };
 
   return (
     <div className={`min-h-screen flex flex-col bg-[#020617] text-white font-sans ${lang === 'ar' ? 'rtl' : 'ltr'} relative overflow-x-hidden`}>
@@ -348,16 +321,10 @@ export default function Home() {
         <div className="flex gap-2 md:gap-4 items-center">
           {user ? (
             <div className="flex items-center gap-2 md:gap-3 mr-2 md:mr-4">
-              {user.plan === 'PRO' ? (
-                <div className="bg-gradient-to-r from-cyan-600 to-blue-600 px-4 py-2 rounded-full text-white font-black text-xs md:text-sm border border-cyan-400/50 shadow-[0_0_15px_rgba(8,145,178,0.4)] flex items-center gap-2">
-                  <span>Premium</span> 🚀
-                </div>
-              ) : (
-                <button onClick={() => { resetAndGoBack(); setView('login'); }} className="bg-gradient-to-r from-yellow-500 to-orange-500 hover:scale-105 text-black font-black py-2 px-4 rounded-full transition-all text-xs md:text-sm shadow-[0_0_15px_rgba(245,158,11,0.5)] border border-yellow-300 flex items-center gap-1 cursor-pointer">
-                  {lang === 'ar' ? 'الاشتراك Premium' : 'Get Premium'} ⚡
-                </button>
-              )}
-              <button onClick={handleSignOut} className="bg-gray-800/80 hover:bg-red-500/20 text-gray-300 hover:text-red-400 font-bold py-2 px-4 rounded-full transition-all duration-300 border border-gray-600 cursor-pointer">🚪</button>
+              <div className={`bg-gradient-to-r ${user.plan === 'Business' ? 'from-purple-600 to-indigo-600' : user.plan === 'PRO' ? 'from-cyan-600 to-blue-600' : 'from-gray-600 to-gray-500'} px-4 py-2 rounded-full text-white font-black text-xs md:text-sm shadow-lg flex items-center gap-2`}>
+                <span>{user.plan}</span> {user.plan !== 'Free' && '🚀'}
+              </div>
+              <button onClick={handleSignOut} className="bg-gray-800/80 hover:bg-red-500/20 text-gray-300 hover:text-red-400 font-bold py-2 px-4 rounded-full transition-all border border-gray-600 cursor-pointer">🚪</button>
             </div>
           ) : (
             <button onClick={() => { resetAndGoBack(); setView('login'); }} className="bg-gradient-to-r from-cyan-600 to-blue-600 hover:scale-105 text-white font-bold py-2 px-6 rounded-full transition-all shadow-[0_0_15px_rgba(8,145,178,0.5)] border border-cyan-500/50 cursor-pointer text-xs md:text-sm">Login / PRO ⚡</button>
@@ -370,7 +337,7 @@ export default function Home() {
 
       <main className="flex-grow max-w-[1400px] w-full mx-auto px-6 py-16 relative z-50">
         {view === 'login' && (
-          <div className="max-w-4xl mx-auto text-center">
+          <div className="max-w-6xl mx-auto text-center">
             <div className="mb-8 flex justify-center">
                <button onClick={resetAndGoBack} className="bg-gray-800/50 hover:bg-gray-700 text-white px-6 py-3 rounded-2xl border border-gray-700 font-bold flex items-center gap-2 transition-all hover:-translate-y-1">
                   <span>🏠</span> {loc.browseTools}
@@ -397,28 +364,47 @@ export default function Home() {
               <div className="mb-16 text-cyan-400 font-bold text-xl flex items-center justify-center gap-2">{loc.loggedInAs} {user.email} ✅</div>
             )}
             
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 text-right mb-12">
+            {/* 💰 جدول الـ 3 باقات الجديد */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-right mb-12">
               <div className="p-8 rounded-[2.5rem] bg-gray-900/40 border-2 border-gray-800 backdrop-blur-md">
                 <h3 className="text-2xl font-black mb-4">{loc.freePlan}</h3>
                 <div className="text-5xl font-black mb-6">0$</div>
-                <ul className="space-y-4 mb-8 text-gray-400 font-bold">
+                <ul className="space-y-4 mb-8 text-gray-400 font-bold text-sm">
                   {loc.freeFeatures.map((f, i) => <li key={i}>{f}</li>)}
                 </ul>
               </div>
-              <div className="p-8 rounded-[2.5rem] bg-gray-900/60 border-2 border-cyan-500 shadow-[0_0_40px_rgba(6,182,212,0.2)] backdrop-blur-md relative overflow-hidden">
-                <div className="absolute top-6 left-[-40px] bg-cyan-500 text-black font-black py-1 px-12 rotate-[-45deg] text-sm">{loc.recommended}</div>
+              
+              <div className="p-8 rounded-[2.5rem] bg-gray-900/60 border-2 border-cyan-500 shadow-[0_0_40px_rgba(6,182,212,0.2)] backdrop-blur-md relative overflow-hidden transform md:-translate-y-4">
+                <div className="absolute top-6 left-[-40px] bg-cyan-500 text-black font-black py-1 px-12 rotate-[-45deg] text-xs">{loc.recommended}</div>
                 <h3 className="text-3xl font-black mb-4 text-cyan-400">{loc.proPlan}</h3>
-                <div className="text-5xl font-black mb-6 text-white">5$ <span className="text-lg text-gray-500">{loc.month}</span></div>
-                <ul className="space-y-4 mb-8 text-gray-300 font-bold">
+                <div className="text-5xl font-black mb-6 text-white">10$ <span className="text-lg text-gray-500">{loc.month}</span></div>
+                <ul className="space-y-4 mb-8 text-gray-300 font-bold text-sm">
                    {loc.proFeatures.map((f, i) => <li key={i}>{f}</li>)}
                 </ul>
                 {(!user || user.plan === 'Free') && (
-                  <div className="mt-6">
+                  <div className="mt-6 relative z-50">
                     {user ? (
                       <PayPalScriptProvider options={{ clientId: PAYPAL_CLIENT_ID, currency: "USD" }}>
-                        <PayPalButtons style={{ layout: "vertical", color: "blue", shape: "pill" }} createOrder={(data, actions) => actions.order.create({ purchase_units: [{ amount: { value: "5.00" } }] })} onApprove={async (data, actions) => { await actions.order?.capture(); handleSuccessfulPayment(); }} />
+                        <PayPalButtons style={{ layout: "horizontal", color: "blue", height: 40 }} createOrder={(d, a) => a.order.create({ purchase_units: [{ amount: { value: "10.00" } }] })} onApprove={async (d, a) => { await a.order?.capture(); handleSuccessfulPayment('PRO'); }} />
                       </PayPalScriptProvider>
-                    ) : <button onClick={() => setAuthMode('signup')} className="w-full py-4 bg-gray-700 rounded-xl font-bold hover:bg-gray-600 transition-all">{loc.loginToPay}</button>}
+                    ) : <button onClick={() => setAuthMode('signup')} className="w-full py-3 bg-gray-700 rounded-xl font-bold hover:bg-gray-600 transition-all">{loc.loginToPay}</button>}
+                  </div>
+                )}
+              </div>
+
+              <div className="p-8 rounded-[2.5rem] bg-gradient-to-br from-gray-900 to-indigo-950 border-2 border-purple-500 shadow-[0_0_40px_rgba(168,85,247,0.15)] backdrop-blur-md">
+                <h3 className="text-2xl font-black mb-4 text-purple-400">{loc.businessPlan}</h3>
+                <div className="text-5xl font-black mb-6">25$ <span className="text-lg text-gray-500">{loc.month}</span></div>
+                <ul className="space-y-4 mb-8 text-gray-300 font-bold text-sm">
+                  {loc.businessFeatures.map((f, i) => <li key={i}>{f}</li>)}
+                </ul>
+                {(!user || user.plan !== 'Business') && (
+                  <div className="mt-6 relative z-50">
+                    {user ? (
+                      <PayPalScriptProvider options={{ clientId: PAYPAL_CLIENT_ID, currency: "USD" }}>
+                        <PayPalButtons style={{ layout: "horizontal", color: "black", height: 40 }} createOrder={(d, a) => a.order.create({ purchase_units: [{ amount: { value: "25.00" } }] })} onApprove={async (d, a) => { await a.order?.capture(); handleSuccessfulPayment('Business'); }} />
+                      </PayPalScriptProvider>
+                    ) : <button onClick={() => setAuthMode('signup')} className="w-full py-3 bg-gray-700 rounded-xl font-bold hover:bg-gray-600 transition-all">{loc.loginToPay}</button>}
                   </div>
                 )}
               </div>
@@ -438,11 +424,18 @@ export default function Home() {
                 onMouseLeave={() => { setHoveredNeon('#06b6d4'); setHoveredCardId(null); }}
                 style={{ boxShadow: hoveredCardId === t.id ? `0 0 30px ${t.neon}70` : '0 10px 30px rgba(0,0,0,0.3)', borderColor: hoveredCardId === t.id ? t.neon : 'rgba(31, 41, 55, 0.8)' }}
                 className={`group p-8 rounded-[2.5rem] bg-gray-900/40 transition-all duration-500 hover:-translate-y-3 flex flex-col items-center gap-5 cursor-pointer backdrop-blur-md border-2 overflow-hidden relative`}>
-                {t.isPro && (
-                    <div className="absolute top-4 right-4 bg-gradient-to-r from-yellow-400 to-orange-500 text-black text-[10px] font-black py-1 px-3 rounded-full z-20 flex items-center gap-1">
-                        {(!user || user.plan !== 'PRO') && <span>🔒</span>} PRO
+                
+                {t.reqPlan === 'Business' && (
+                    <div className="absolute top-4 right-4 bg-gradient-to-r from-purple-500 to-indigo-600 text-white text-[10px] font-black py-1 px-3 rounded-full z-20 flex items-center gap-1">
+                        {(!user || user.plan !== 'Business') && <span>🔒</span>} Business
                     </div>
                 )}
+                {t.reqPlan === 'PRO' && (
+                    <div className="absolute top-4 right-4 bg-gradient-to-r from-yellow-400 to-orange-500 text-black text-[10px] font-black py-1 px-3 rounded-full z-20 flex items-center gap-1">
+                        {(!user || (user.plan !== 'PRO' && user.plan !== 'Business')) && <span>🔒</span>} PRO
+                    </div>
+                )}
+                
                 <div className={`w-20 h-20 rounded-3xl bg-gradient-to-br ${t.color} flex items-center justify-center text-4xl transform group-hover:rotate-12 transition-all duration-500 z-10`}>{t.icon}</div>
                 
                 <h3 className="text-2xl font-black text-white z-10 leading-snug">
@@ -466,14 +459,7 @@ export default function Home() {
             <div className={`w-28 h-28 rounded-[2rem] bg-gradient-to-br ${activeTool.color} flex items-center justify-center text-6xl mx-auto mb-6 shadow-2xl transform hover:scale-110 transition-transform duration-500`}>{activeTool.icon}</div>
             
             <h2 className="text-5xl font-black text-white mb-4 leading-tight">
-              {lang === 'ar' && activeTool.nameAr.includes(' لـ ') ? (
-                <>
-                  {activeTool.nameAr.split(' لـ ')[0]} لـ <br/>
-                  <span className="text-cyan-400">{activeTool.nameAr.split(' لـ ')[1]}</span>
-                </>
-              ) : (
-                lang === 'ar' ? activeTool.nameAr : activeTool.nameEn
-              )}
+              {lang === 'ar' ? activeTool.nameAr : activeTool.nameEn}
             </h2>
             
             {(activeTool as any).isComingSoon ? (
@@ -483,43 +469,29 @@ export default function Home() {
                     <p className="text-gray-300 font-bold max-w-lg text-lg leading-relaxed">
                         {loc.comingSoonText}
                     </p>
-                    <button 
-                        onClick={resetAndGoBack} 
-                        className="mt-6 bg-gray-800 hover:bg-gray-700 text-white font-black py-4 px-10 rounded-2xl text-xl transition-all border border-gray-600 cursor-pointer shadow-lg hover:-translate-y-1"
-                    >
+                    <button onClick={resetAndGoBack} className="mt-6 bg-gray-800 hover:bg-gray-700 text-white font-black py-4 px-10 rounded-2xl text-xl transition-all border border-gray-600 cursor-pointer shadow-lg">
                         {loc.back}
                     </button>
                 </div>
-            ) : isLocked ? (
+            ) : isLocked() ? (
                 <div className="py-10 px-6 rounded-[2.5rem] bg-gray-900/80 border-2 border-yellow-500/30 backdrop-blur-xl flex flex-col items-center gap-6 shadow-[0_0_50px_rgba(234,179,8,0.1)] mb-6">
                     <div className="text-7xl animate-bounce">🔒</div>
-                    <h3 className="text-2xl font-black text-yellow-500">ميزة حصرية للمحترفين</h3>
+                    <h3 className="text-2xl font-black text-yellow-500">ميزة حصرية للمشتركين</h3>
                     <p className="text-gray-400 font-bold max-w-md">
-                        {lang === 'ar' 
-                            ? "عشان تستخدم الأداة دي، لازم ترقي حسابك لـ SABAEPDF PRO. استمتع بكل الأدوات بدون حدود!" 
-                            : "To use this tool, you need to upgrade to SABAEPDF PRO. Enjoy all tools without limits!"}
+                        للوصول لهذه الأداة، تحتاج إلى الترقية لباقة أعلى. استمتع بقوة الذكاء الاصطناعي في إدارة أعمالك!
                     </p>
-                    <button 
-                        onClick={() => { resetAndGoBack(); setView('login'); }} 
-                        className="bg-gradient-to-r from-yellow-500 to-orange-500 text-black font-black py-4 px-10 rounded-2xl text-xl hover:scale-105 transition-all shadow-lg cursor-pointer"
-                    >
-                        {lang === 'ar' ? "ترقية الآن ⚡" : "Upgrade Now ⚡"}
+                    <button onClick={() => { resetAndGoBack(); setView('login'); }} className="bg-gradient-to-r from-yellow-500 to-orange-500 text-black font-black py-4 px-10 rounded-2xl text-xl hover:scale-105 transition-all shadow-lg cursor-pointer">
+                        الترقية الآن ⚡
                     </button>
                     <button onClick={resetAndGoBack} className="text-gray-500 hover:text-white underline font-bold cursor-pointer">{loc.browseTools}</button>
                 </div>
             ) : (
                 <>
-                    <p className="text-gray-400 font-bold mb-10">{user?.plan === 'PRO' ? loc.proUnlimited : loc.unlimited}</p>
+                    <p className="text-gray-400 font-bold mb-10">{user?.plan === 'Business' ? loc.businessUnlimited : user?.plan === 'PRO' ? loc.proUnlimited : loc.unlimited}</p>
                     
                     {activeTool.isPromptOnly ? (
                       <div className="mb-10 relative z-50">
-                        <textarea 
-                          value={extraParam} 
-                          onChange={(e) => setExtraParam(e.target.value)} 
-                          placeholder={lang === 'ar' ? activeTool.inputPlaceholderAr : "Enter your prompt here (English is recommended)..."} 
-                          className="w-full bg-gray-950/80 border-2 border-dashed border-gray-600 rounded-[2.5rem] p-8 text-2xl text-cyan-400 outline-none focus:border-cyan-500 font-bold min-h-[250px] resize-y text-center transition-all duration-300 shadow-inner" 
-                          dir={lang === 'ar' ? 'rtl' : 'ltr'}
-                        />
+                        <textarea value={extraParam} onChange={(e) => setExtraParam(e.target.value)} placeholder={lang === 'ar' ? activeTool.inputPlaceholderAr : "Enter your prompt..."} className="w-full bg-gray-950/80 border-2 border-dashed border-gray-600 rounded-[2.5rem] p-8 text-2xl text-cyan-400 outline-none focus:border-cyan-500 font-bold min-h-[250px] resize-y text-center transition-all shadow-inner" dir={lang === 'ar' ? 'rtl' : 'ltr'} />
                       </div>
                     ) : (
                       <>
@@ -534,29 +506,17 @@ export default function Home() {
                             {files.map((file, idx) => (
                                 <div key={idx} className="relative w-36 h-auto min-h-[9rem] rounded-2xl border-2 border-cyan-800 bg-gray-900 flex flex-col items-center justify-center p-3 shadow-2xl transform hover:scale-105 transition-all">
                                   <button onClick={(e) => { e.stopPropagation(); setFiles(files.filter((_, i) => i !== idx)); }} className="absolute -top-3 -right-3 bg-red-500 text-white w-8 h-8 rounded-full flex items-center justify-center font-black z-[60] cursor-pointer">×</button>
-                                  
-                                  {file.type.startsWith('image/') ? (
-                                    <img src={URL.createObjectURL(file)} alt="preview" className="w-16 h-16 object-cover rounded-lg mb-2 border border-gray-700" />
-                                  ) : (
-                                    <div className="text-5xl mb-2">📄</div>
-                                  )}
-                                  
-                                  <div className="text-xs text-cyan-400 w-full text-center break-words px-1 font-bold" dir="ltr" title={file.name}>
-                                    {file.name.length > 15 ? file.name.substring(0, 15) + '...' : file.name}
-                                  </div>
-                                  <div className="text-[10px] text-gray-500 mt-1 font-bold">
-                                    {(file.size / (1024 * 1024)).toFixed(2)} MB
-                                  </div>
+                                  {file.type.startsWith('image/') ? <img src={URL.createObjectURL(file)} alt="preview" className="w-16 h-16 object-cover rounded-lg mb-2" /> : <div className="text-5xl mb-2">📄</div>}
+                                  <div className="text-xs text-cyan-400 w-full text-center break-words px-1 font-bold" dir="ltr" title={file.name}>{file.name.length > 15 ? file.name.substring(0, 15) + '...' : file.name}</div>
                                 </div>
                             ))}
-                            <button onClick={() => setFiles([])} className="text-red-500 font-bold w-full mt-6 hover:text-red-400 transition-colors cursor-pointer">{lang === 'ar' ? '× مسح الكل' : '× Clear All'}</button>
+                            <button onClick={() => setFiles([])} className="text-red-500 font-bold w-full mt-6 hover:text-red-400 cursor-pointer">× مسح الكل</button>
                             </div>
                         )}
                         </div>
-
                         {(activeTool.inputPlaceholderAr) && (
                         <div className="mb-10 relative z-50">
-                            <input type="text" value={extraParam} onChange={(e) => setExtraParam(e.target.value)} placeholder={lang === 'ar' ? activeTool.inputPlaceholderAr : activeTool.id} className="w-full bg-gray-950/80 border-2 border-gray-700 rounded-2xl p-5 text-xl text-white outline-none focus:border-cyan-500 text-center font-bold" />
+                            <input type="text" value={extraParam} onChange={(e) => setExtraParam(e.target.value)} placeholder={lang === 'ar' ? activeTool.inputPlaceholderAr : ''} className="w-full bg-gray-950/80 border-2 border-gray-700 rounded-2xl p-5 text-xl text-white outline-none focus:border-cyan-500 text-center font-bold" />
                         </div>
                         )}
                       </>
@@ -565,12 +525,8 @@ export default function Home() {
                     <div className="flex gap-6 relative z-50">
                         <button onClick={resetAndGoBack} className="flex-1 py-5 rounded-2xl bg-gray-800 font-black text-xl hover:bg-gray-700 transition-all cursor-pointer border border-gray-700">{loc.back}</button>
                         <button onClick={handleProcess} disabled={loading} className="flex-[2] py-5 rounded-2xl bg-gradient-to-r from-cyan-600 to-blue-600 font-black text-2xl shadow-[0_0_30px_rgba(8,145,178,0.5)] hover:scale-[1.03] transition-all duration-300 cursor-pointer border border-cyan-400/50 relative overflow-hidden">
-                            {loading ? (
-                            <>
-                                <span className="relative z-10 text-xl">{progress}% {progress > 90 ? loc.finalizing : loc.processing}</span>
-                                <div className="absolute top-0 left-0 h-full bg-white/20 transition-all duration-500" style={{ width: `${progress}%` }} />
-                            </>
-                            ) : loc.process}
+                            {loading ? <span className="relative z-10 text-xl">{progress}% {progress > 90 ? loc.finalizing : loc.processing}</span> : loc.process}
+                            {loading && <div className="absolute top-0 left-0 h-full bg-white/20 transition-all duration-500" style={{ width: `${progress}%` }} />}
                         </button>
                     </div>
                 </>
@@ -578,43 +534,6 @@ export default function Home() {
           </div>
         )}
       </main>
-
-      <footer className="border-t border-gray-800/50 bg-[#020617]/80 backdrop-blur-xl relative z-50 mt-auto">
-        <div className="max-w-[1400px] mx-auto px-6 py-8 flex flex-col md:flex-row justify-between items-center gap-6">
-          <div className={`text-center ${lang === 'ar' ? 'md:text-right' : 'md:text-left'}`}>
-            <h2 className="text-2xl font-black italic text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500 uppercase tracking-wider mb-2">SABAEPDF PRO ⚡</h2>
-            <p className="text-gray-400 font-bold text-sm">{loc.footerDesc}</p>
-          </div>
-          <div className="flex flex-wrap justify-center gap-6 text-gray-400 font-bold text-sm">
-            <a href="https://mail.google.com/mail/?view=cm&fs=1&to=mohamedsabae50@gmail.com" target="_blank" rel="noopener noreferrer" className="hover:text-cyan-400 transition-colors cursor-pointer">{loc.contactUs}</a>
-            <button onClick={() => setModalContent('terms')} className="hover:text-cyan-400 transition-colors cursor-pointer">{loc.terms}</button>
-            <button onClick={() => setModalContent('privacy')} className="hover:text-cyan-400 transition-colors cursor-pointer">{loc.privacy}</button>
-          </div>
-        </div>
-        <div className="border-t border-gray-800/50 py-6 text-center text-gray-500 text-xs font-bold tracking-widest">
-          {loc.rights}
-        </div>
-      </footer>
-
-      {modalContent && (
-        <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-[200] flex items-center justify-center p-4">
-          <div className="bg-gray-900 border-2 border-cyan-500/50 rounded-[2.5rem] p-8 max-w-2xl w-full text-white relative shadow-[0_0_50px_rgba(6,182,212,0.15)] animate-in fade-in zoom-in duration-300">
-            <h2 className="text-3xl font-black text-cyan-400 mb-6">
-              {modalContent === 'terms' ? loc.termsTitle : loc.privacyTitle}
-            </h2>
-            <div className="text-gray-300 font-bold text-lg leading-relaxed whitespace-pre-line bg-gray-950/50 p-6 rounded-2xl border border-gray-800">
-              {modalContent === 'terms' ? loc.termsText : loc.privacyText}
-            </div>
-            <button 
-              onClick={() => setModalContent(null)} 
-              className="mt-8 w-full py-4 bg-gray-800 hover:bg-gray-700 rounded-xl font-black text-xl transition-all cursor-pointer border border-gray-600"
-            >
-              {loc.closeBtn}
-            </button>
-          </div>
-        </div>
-      )}
-
     </div>
   );
 }
