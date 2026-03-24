@@ -296,7 +296,7 @@ export default function Home() {
       let ext = 'pdf'; 
       const cType = res.headers['content-type'] || '';
       
-      if (activeTool.id === 'pdf-to-word') ext = 'docx';
+     if (['pdf-to-word', 'ai-pdf-translator', 'ai-pdf-editor', 'ai-summarizer'].includes(activeTool.id)) ext = 'docx';
       else if (activeTool.id === 'pdf-to-excel') ext = 'xlsx';
       else if (['bg-remover', 'ai-image-gen', 'image-upscaler', 'watermark-remover'].includes(activeTool.id)) ext = 'png'; 
       else if (['ai-summarizer', 'ai-pdf-translator', 'pdf-redaction', 'ai-pdf-editor', 'pdf-editor'].includes(activeTool.id)) ext = 'pdf'; 
