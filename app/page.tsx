@@ -31,7 +31,7 @@ const t = {
     loginToPay: "سجل دخول للاشتراك",
     browseTools: "العودة للموقع الأساسي 🏠",
     freeFeatures: ["✅ دمج، ضغط، وتدوير الملفات", "✅ عمليات غير محدودة يومياً ∞", "❌ مقفول: التشفير واستخراج الصوت", "❌ مقفول: أدوات الذكاء الاصطناعي (AI)"],
-    proFeatures: ["✅ كل مميزات المجاني (لا نهائي)", "✅ حماية وفك تشفير الملفات 🔒", "✅ فصل واستخراج الصوت (MP3) 🎧", "✅ أدوات التوليد وإزالة الخلفية (AI) ✨"],
+    proFeatures: ["✅ كل مميزات المجاني (لا نهائي)", "✅ تلخيص وتفريغ صوتي (AI) 🎙️", "✅ تحسين جودة الصور 4K ✨", "✅ إزالة العلامات المائية والخلفيات 💧", "✅ توليد صور بالذكاء الاصطناعي 🎨"],
     unlimited: "متاح لك عدد لا نهائي من العمليات ∞",
     proUnlimited: "عمليات غير محدودة 🚀",
     loginRequired: "سجل دخولك أو رقي حسابك عشان تستخدم الأداة 🔒",
@@ -73,7 +73,7 @@ const t = {
     loginToPay: "Login to Subscribe",
     browseTools: "Back to Main Site 🏠",
     freeFeatures: ["✅ Merge, Compress, Rotate", "✅ Unlimited daily operations ∞", "❌ Locked: Encrypt & Audio", "❌ Locked: AI Tools"],
-    proFeatures: ["✅ All Free features (Unlimited)", "✅ Protect & Unlock PDF 🔒", "✅ Extract Audio (MP3) 🎧", "✅ AI Generation & BG Remover ✨"],
+    proFeatures: ["✅ All Free features (Unlimited)", "✅ AI Summarize & Transcribe 🎙️", "✅ 4K Image Upscaler ✨", "✅ Remove Watermarks & BG 💧", "✅ AI Image Generation 🎨"],
     unlimited: "Unlimited operations available ∞",
     proUnlimited: "Unlimited Pro operations 🚀",
     loginRequired: "Login or upgrade to use this tool 🔒",
@@ -91,6 +91,15 @@ const t = {
 };
 
 const tools = [
+  // الأدوات الجديدة (AI Premium) 🔥
+  { id: 'ai-summarizer', nameAr: 'تلخيص PDF (AI)', nameEn: 'AI Summarizer', icon: '🧠', color: 'from-indigo-600 to-blue-800', neon: '#4f46e5', descAr: 'لخص 100 صفحة في ثواني.', isPro: true },
+  { id: 'audio-transcription', nameAr: 'تفريغ الصوت (AI)', nameEn: 'Transcription', icon: '🎙️', color: 'from-emerald-500 to-green-700', neon: '#10b981', descAr: 'تحويل الصوت/الفيديو لملف PDF.', isPro: true },
+  { id: 'image-upscaler', nameAr: 'تكبير الصور (4K)', nameEn: 'Image Upscaler', icon: '🪄', color: 'from-orange-500 to-red-600', neon: '#f97316', descAr: 'تحسين جودة الصور الضعيفة.', isPro: true },
+  { id: 'watermark-remover', nameAr: 'مسح العلامة المائية', nameEn: 'Watermark Remover', icon: '💧', color: 'from-cyan-500 to-teal-600', neon: '#06b6d4', descAr: 'إزالة الشعارات من الصور.', isPro: true },
+  { id: 'ai-image-gen', nameAr: 'توليد صور (AI)', nameEn: 'AI Image Gen', icon: '🎨', color: 'from-indigo-500 to-purple-600', neon: '#8b5cf6', descAr: 'توليد صور بالوصف.', isPro: true, isPromptOnly: true, inputPlaceholderAr: 'اكتب وصف للصورة (يفضل باللغة الإنجليزية)...' },
+  { id: 'ai-video-gen', nameAr: 'توليد فيديو (AI)', nameEn: 'AI Video Gen', icon: '🎬', color: 'from-red-600 to-rose-800', neon: '#e11d48', descAr: 'توليد فيديو بالوصف.', isPro: true, isPromptOnly: true, inputPlaceholderAr: 'اكتب وصف للفيديو (يفضل باللغة الإنجليزية)...' },
+  
+  // الأدوات الأساسية 🛠️
   { id: 'pdf-to-word', nameAr: 'PDF لـ Word', nameEn: 'PDF to Word', icon: '📝', color: 'from-emerald-500 to-teal-600', neon: '#10b981', descAr: 'تحويل الملف لنص قابل للتعديل.', isPro: false },
   { id: 'img-to-pdf', nameAr: 'صور لـ PDF', nameEn: 'Images to PDF', icon: '🖼️', color: 'from-orange-500 to-red-600', neon: '#ef4444', descAr: 'تحويل الصور إلى مستندات PDF.', isPro: false },
   { id: 'merge-pdf', nameAr: 'دمج ملفات', nameEn: 'Merge PDF', icon: '📑', color: 'from-blue-600 to-indigo-700', neon: '#3b82f6', descAr: 'دمج عدة ملفات في مستند واحد.', isPro: false },
@@ -102,10 +111,7 @@ const tools = [
   { id: 'grayscale-pdf', nameAr: 'توفير حبر', nameEn: 'Grayscale', icon: '🏁', color: 'from-gray-500 to-slate-700', neon: '#64748b', descAr: 'تحويل لأبيض وأسود.', isPro: false },
   { id: 'delete-pages', nameAr: 'مسح صفحات', nameEn: 'Delete Pages', icon: '✂️', color: 'from-red-500 to-pink-600', neon: '#ec4899', descAr: 'حذف صفحات من الملف.', isPro: false, inputPlaceholderAr: 'أرقام الصفحات (1, 3)' },
   { id: 'rotate-pdf', nameAr: 'تدوير الملف', nameEn: 'Rotate PDF', icon: '🔄', color: 'from-yellow-500 to-orange-600', neon: '#f59e0b', descAr: 'تدوير الصفحات أو الصور.', isPro: false, inputPlaceholderAr: 'الزاوية (90, 180)' },
-  { id: 'security-pdf', nameAr: 'قفل وفك التشفير', nameEn: 'Lock & Unlock', icon: '🔒', color: 'from-purple-600 to-violet-700', neon: '#a78bfa', descAr: 'تشفير أو فك الحماية.', isPro: true, inputPlaceholderAr: 'اكتب كلمة السر' },
-  // 👈 أدوات التوليد الجديدة (فيها خاصية isPromptOnly = true)
-  { id: 'ai-image-gen', nameAr: 'توليد صور (AI)', nameEn: 'AI Image Gen', icon: '🎨', color: 'from-indigo-500 to-purple-600', neon: '#8b5cf6', descAr: 'توليد صور بالوصف.', isPro: true, isPromptOnly: true, inputPlaceholderAr: 'اكتب وصف للصورة (يفضل باللغة الإنجليزية)...' },
-  { id: 'ai-video-gen', nameAr: 'توليد فيديو (AI)', nameEn: 'AI Video Gen', icon: '🎬', color: 'from-red-600 to-rose-800', neon: '#e11d48', descAr: 'توليد فيديو بالوصف.', isPro: true, isPromptOnly: true, inputPlaceholderAr: 'اكتب وصف للفيديو (يفضل باللغة الإنجليزية)...' }
+  { id: 'security-pdf', nameAr: 'قفل وفك التشفير', nameEn: 'Lock & Unlock', icon: '🔒', color: 'from-purple-600 to-violet-700', neon: '#a78bfa', descAr: 'تشفير أو فك الحماية.', isPro: true, inputPlaceholderAr: 'اكتب كلمة السر' }
 ];
 
 const PAYPAL_CLIENT_ID = "AQtXECvCPx2nWKmNV23EwUPmNRozM16vxJ2vlBP9IQTKzPtkbwMiKR08fVPjYhHP3xrP9OK93sNbWI--"; 
@@ -200,14 +206,13 @@ export default function Home() {
 
   const getAcceptTypes = () => {
     if (activeTool.id === 'rotate-pdf') return '.pdf, image/*';
-    if (activeTool.id === 'img-to-pdf') return 'image/*';
-    if (activeTool.id === 'bg-remover') return 'image/*';
-    if (activeTool.id === 'mp4-to-mp3') return 'video/*';
+    if (['img-to-pdf', 'bg-remover', 'image-upscaler', 'watermark-remover'].includes(activeTool.id)) return 'image/*';
+    if (['mp4-to-mp3', 'audio-transcription'].includes(activeTool.id)) return 'video/*, audio/*';
+    if (activeTool.id === 'ai-summarizer') return '.pdf';
     return '.pdf, image/*, video/*';
   };
 
   const handleProcess = async () => {
-    // 👈 لو الأداة محتاجة فايل، نتأكد إنه اترفع. لو توليد، نتأكد إن الوصف اتكتب.
     if (!activeTool.isPromptOnly && files.length === 0) return alert(loc.alertNoFiles);
     if (activeTool.isPromptOnly && !extraParam.trim()) return alert(loc.alertNoPrompt);
 
@@ -225,20 +230,19 @@ export default function Home() {
         if (prev >= 98) return prev;
         if (prev > 85) return prev + 1; 
         if (prev > 50) return prev + 5; 
-        return prev + 15; 
+        return prev + 10; 
       });
-    }, 600);
+    }, 800);
 
     const formData = new FormData();
-    // 👈 نرفع الملفات بس لو الأداة مش توليد
     if (!activeTool.isPromptOnly) {
       files.forEach(f => formData.append("files", f));
     }
     formData.append("user_email", user.email);
-    if (extraParam) formData.append("extra_param", extraParam); // السيرفر هياخد دي كـ Prompt
+    if (extraParam) formData.append("extra_param", extraParam);
 
     try {
-      const res = await axios.post(`${API_URL}/${activeTool.id}/`, formData, { responseType: 'blob', timeout: 300000 }); // كبرت الـ timeout عشان التوليد بياخد وقت
+      const res = await axios.post(`${API_URL}/${activeTool.id}/`, formData, { responseType: 'blob', timeout: 300000 });
       setProgress(100);
       const url = window.URL.createObjectURL(new Blob([res.data]));
       
@@ -247,9 +251,10 @@ export default function Home() {
       
       if (activeTool.id === 'pdf-to-word') ext = 'docx';
       else if (activeTool.id === 'pdf-to-excel') ext = 'xlsx';
-      else if (activeTool.id === 'bg-remover' || activeTool.id === 'ai-image-gen') ext = 'png'; // 👈 توليد الصور هينزل كـ png
+      else if (['bg-remover', 'ai-image-gen', 'image-upscaler', 'watermark-remover'].includes(activeTool.id)) ext = 'png'; 
       else if (activeTool.id === 'mp4-to-mp3') ext = 'mp3';
-      else if (activeTool.id === 'ai-video-gen') ext = 'mp4'; // 👈 توليد الفيديو هينزل كـ mp4
+      else if (activeTool.id === 'ai-video-gen') ext = 'mp4';
+      else if (['audio-transcription', 'ai-summarizer'].includes(activeTool.id)) ext = 'pdf'; 
       else if (activeTool.id === 'pdf-to-img') {
           ext = cType.includes('zip') ? 'zip' : 'png';
       }
@@ -456,7 +461,6 @@ export default function Home() {
                 <>
                     <p className="text-gray-400 font-bold mb-10">{user?.plan === 'PRO' ? loc.proUnlimited : loc.unlimited}</p>
                     
-                    {/* 👈 لو الأداة محتاجة وصف بس هنظهر الـ Textarea الكبيرة، غير كدة هنظهر مربع الرفع */}
                     {activeTool.isPromptOnly ? (
                       <div className="mb-10 relative z-50">
                         <textarea 
