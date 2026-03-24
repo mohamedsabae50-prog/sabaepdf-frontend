@@ -35,6 +35,8 @@ const t = {
     unlimited: "متاح لك عدد لا نهائي من العمليات ∞",
     proUnlimited: "عمليات غير محدودة 🚀",
     loginRequired: "سجل دخولك أو رقي حسابك عشان تستخدم الأداة 🔒",
+    comingSoonTitle: "قريباً جداً! 🚀",
+    comingSoonText: "عذراً يا بطل! هذه الأداة تتطلب خوادم فائقة السرعة (GPU) وجاري العمل على توفيرها لتكون متاحة قريباً جداً في المنصة.",
     footerDesc: "منصتك الأولى للتعامل مع الملفات بذكاء وسرعة.",
     contactUs: "تواصل معنا",
     terms: "شروط الخدمة",
@@ -77,6 +79,8 @@ const t = {
     unlimited: "Unlimited operations available ∞",
     proUnlimited: "Unlimited Pro operations 🚀",
     loginRequired: "Login or upgrade to use this tool 🔒",
+    comingSoonTitle: "Coming Soon! 🚀",
+    comingSoonText: "Sorry hero! This tool requires extremely powerful GPU servers. We are currently preparing them and the tool will be available very soon.",
     footerDesc: "Your premier platform for smart and fast file handling.",
     contactUs: "Contact Us",
     terms: "Terms of Service",
@@ -91,13 +95,13 @@ const t = {
 };
 
 const tools = [
-  // الأدوات الجديدة (AI Premium) 🔥
+  // الأدوات الجديدة (AI Premium) 🔥 - لاحظ اضافة isComingSoon للادوات التقيلة
   { id: 'ai-summarizer', nameAr: 'تلخيص PDF (AI)', nameEn: 'AI Summarizer', icon: '🧠', color: 'from-indigo-600 to-blue-800', neon: '#4f46e5', descAr: 'لخص 100 صفحة في ثواني.', isPro: true },
   { id: 'audio-transcription', nameAr: 'تفريغ الصوت (AI)', nameEn: 'Transcription', icon: '🎙️', color: 'from-emerald-500 to-green-700', neon: '#10b981', descAr: 'تحويل الصوت/الفيديو لملف PDF.', isPro: true },
   { id: 'image-upscaler', nameAr: 'تكبير الصور (4K)', nameEn: 'Image Upscaler', icon: '🪄', color: 'from-orange-500 to-red-600', neon: '#f97316', descAr: 'تحسين جودة الصور الضعيفة.', isPro: true },
-  { id: 'watermark-remover', nameAr: 'مسح العلامة المائية', nameEn: 'Watermark Remover', icon: '💧', color: 'from-cyan-500 to-teal-600', neon: '#06b6d4', descAr: 'إزالة الشعارات من الصور.', isPro: true },
+  { id: 'watermark-remover', nameAr: 'مسح العلامة المائية', nameEn: 'Watermark Remover', icon: '💧', color: 'from-cyan-500 to-teal-600', neon: '#06b6d4', descAr: 'إزالة الشعارات من الصور.', isPro: true, isComingSoon: true },
   { id: 'ai-image-gen', nameAr: 'توليد صور (AI)', nameEn: 'AI Image Gen', icon: '🎨', color: 'from-indigo-500 to-purple-600', neon: '#8b5cf6', descAr: 'توليد صور بالوصف.', isPro: true, isPromptOnly: true, inputPlaceholderAr: 'اكتب وصف للصورة (يفضل باللغة الإنجليزية)...' },
-  { id: 'ai-video-gen', nameAr: 'توليد فيديو (AI)', nameEn: 'AI Video Gen', icon: '🎬', color: 'from-red-600 to-rose-800', neon: '#e11d48', descAr: 'توليد فيديو بالوصف.', isPro: true, isPromptOnly: true, inputPlaceholderAr: 'اكتب وصف للفيديو (يفضل باللغة الإنجليزية)...' },
+  { id: 'ai-video-gen', nameAr: 'توليد فيديو (AI)', nameEn: 'AI Video Gen', icon: '🎬', color: 'from-red-600 to-rose-800', neon: '#e11d48', descAr: 'توليد فيديو بالوصف.', isPro: true, isPromptOnly: true, inputPlaceholderAr: 'اكتب وصف للفيديو (يفضل باللغة الإنجليزية)...', isComingSoon: true },
   
   // الأدوات الأساسية 🛠️
   { id: 'pdf-to-word', nameAr: 'PDF لـ Word', nameEn: 'PDF to Word', icon: '📝', color: 'from-emerald-500 to-teal-600', neon: '#10b981', descAr: 'تحويل الملف لنص قابل للتعديل.', isPro: false },
@@ -135,6 +139,9 @@ export default function Home() {
   const [hoveredCardId, setHoveredCardId] = useState<string | null>(null);
   const [modalContent, setModalContent] = useState<'terms' | 'privacy' | null>(null);
 
+  // 👈 الدرع الجديد: متحكم الإلغاء
+  const abortControllerRef = useRef<AbortController | null>(null);
+
   useEffect(() => {
     setIsMounted(true);
     const savedUser = localStorage.getItem('sabae_user');
@@ -153,6 +160,19 @@ export default function Home() {
 
   if (!isMounted) return null;
   const loc = t[lang];
+
+  // 👈 دالة العودة وتصفير كل حاجة وقتل التحميل
+  const resetAndGoBack = () => {
+    if (abortControllerRef.current) {
+        abortControllerRef.current.abort(); // بيوقف أي طلب بيحمل في الخلفية
+        abortControllerRef.current = null;
+    }
+    setFiles([]);
+    setExtraParam("");
+    setLoading(false);
+    setProgress(0);
+    setView('grid');
+  };
 
   const handleAuth = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -181,8 +201,7 @@ export default function Home() {
   const handleSignOut = () => {
     setUser(null);
     localStorage.removeItem('sabae_user');
-    setFiles([]);
-    setExtraParam("");
+    resetAndGoBack();
     setView('login');
   };
 
@@ -225,6 +244,9 @@ export default function Home() {
     setLoading(true);
     setProgress(0);
     
+    // إنشاء متحكم الإلغاء للعملية دي
+    abortControllerRef.current = new AbortController();
+    
     const interval = setInterval(() => {
       setProgress((prev) => {
         if (prev >= 98) return prev;
@@ -242,7 +264,11 @@ export default function Home() {
     if (extraParam) formData.append("extra_param", extraParam);
 
     try {
-      const res = await axios.post(`${API_URL}/${activeTool.id}/`, formData, { responseType: 'blob', timeout: 300000 });
+      const res = await axios.post(`${API_URL}/${activeTool.id}/`, formData, { 
+          responseType: 'blob', 
+          timeout: 300000,
+          signal: abortControllerRef.current.signal // 👈 ربط الطلب بمتحكم الإلغاء
+      });
       setProgress(100);
       const url = window.URL.createObjectURL(new Blob([res.data]));
       
@@ -271,7 +297,6 @@ export default function Home() {
           else ext = 'pdf';
       }
 
-      // 👈 التعديل العبقري: استخراج اسم الملف الأصلي عشان ينزل بيه
       let finalFileName = "Processed_File";
       if (files.length > 0) {
           const originalName = files[0].name;
@@ -286,6 +311,12 @@ export default function Home() {
       a.download = `${finalFileName}.${ext}`; 
       a.click();
     } catch (err: any) {
+        // 👈 لو المستخدم هو اللي لغى العملية وداس عودة، منتطلعش رسالة خطأ مزعجة
+        if (axios.isCancel(err)) {
+            console.log("تم إلغاء العملية بواسطة المستخدم");
+            return; 
+        }
+
         console.error("Server Error:", err);
         let errorMsg = err.message || "Unknown Error";
         if (err.response && err.response.data) {
@@ -317,7 +348,7 @@ export default function Home() {
 
       <nav className="p-4 md:p-6 border-b border-gray-800/50 flex justify-between items-center sticky top-0 bg-[#020617]/70 z-[100] backdrop-blur-xl">
         <h1 className="text-2xl md:text-3xl font-black italic text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500 uppercase tracking-wider cursor-pointer hover:scale-105 transition-transform" 
-            onClick={() => setView('grid')}>SABAEPDF PRO ⚡</h1>
+            onClick={resetAndGoBack}>SABAEPDF PRO ⚡</h1>
         
         <div className="flex gap-2 md:gap-4 items-center">
           {user ? (
@@ -327,14 +358,14 @@ export default function Home() {
                   <span>Premium</span> 🚀
                 </div>
               ) : (
-                <button onClick={() => setView('login')} className="bg-gradient-to-r from-yellow-500 to-orange-500 hover:scale-105 text-black font-black py-2 px-4 rounded-full transition-all text-xs md:text-sm shadow-[0_0_15px_rgba(245,158,11,0.5)] border border-yellow-300 flex items-center gap-1 cursor-pointer">
+                <button onClick={() => { resetAndGoBack(); setView('login'); }} className="bg-gradient-to-r from-yellow-500 to-orange-500 hover:scale-105 text-black font-black py-2 px-4 rounded-full transition-all text-xs md:text-sm shadow-[0_0_15px_rgba(245,158,11,0.5)] border border-yellow-300 flex items-center gap-1 cursor-pointer">
                   {lang === 'ar' ? 'الاشتراك Premium' : 'Get Premium'} ⚡
                 </button>
               )}
               <button onClick={handleSignOut} className="bg-gray-800/80 hover:bg-red-500/20 text-gray-300 hover:text-red-400 font-bold py-2 px-4 rounded-full transition-all duration-300 border border-gray-600 cursor-pointer">🚪</button>
             </div>
           ) : (
-            <button onClick={() => setView('login')} className="bg-gradient-to-r from-cyan-600 to-blue-600 hover:scale-105 text-white font-bold py-2 px-6 rounded-full transition-all shadow-[0_0_15px_rgba(8,145,178,0.5)] border border-cyan-500/50 cursor-pointer text-xs md:text-sm">Login / PRO ⚡</button>
+            <button onClick={() => { resetAndGoBack(); setView('login'); }} className="bg-gradient-to-r from-cyan-600 to-blue-600 hover:scale-105 text-white font-bold py-2 px-6 rounded-full transition-all shadow-[0_0_15px_rgba(8,145,178,0.5)] border border-cyan-500/50 cursor-pointer text-xs md:text-sm">Login / PRO ⚡</button>
           )}
           <button onClick={() => setLang(lang === 'ar' ? 'en' : 'ar')} className="bg-gray-800/80 hover:bg-gray-700 text-white font-bold py-2 px-6 rounded-full transition-all border border-gray-600 cursor-pointer text-xs md:text-sm">
             {lang === 'ar' ? 'English' : 'عربي'}
@@ -346,7 +377,7 @@ export default function Home() {
         {view === 'login' && (
           <div className="max-w-4xl mx-auto text-center">
             <div className="mb-8 flex justify-center">
-               <button onClick={() => setView('grid')} className="bg-gray-800/50 hover:bg-gray-700 text-white px-6 py-3 rounded-2xl border border-gray-700 font-bold flex items-center gap-2 transition-all hover:-translate-y-1">
+               <button onClick={resetAndGoBack} className="bg-gray-800/50 hover:bg-gray-700 text-white px-6 py-3 rounded-2xl border border-gray-700 font-bold flex items-center gap-2 transition-all hover:-translate-y-1">
                   <span>🏠</span> {loc.browseTools}
                </button>
             </div>
@@ -407,7 +438,7 @@ export default function Home() {
               <p className="text-gray-400 text-lg md:text-2xl font-bold italic opacity-90">{loc.subtitle}</p>
             </div>
             {tools.map((t) => (
-              <div key={t.id} onClick={() => { setActiveTool(t); setFiles([]); setExtraParam(""); setView('tool'); }} 
+              <div key={t.id} onClick={() => { setActiveTool(t as any); setFiles([]); setExtraParam(""); setView('tool'); }} 
                 onMouseEnter={() => { setHoveredNeon(t.neon); setHoveredCardId(t.id); }} 
                 onMouseLeave={() => { setHoveredNeon('#06b6d4'); setHoveredCardId(null); }}
                 style={{ boxShadow: hoveredCardId === t.id ? `0 0 30px ${t.neon}70` : '0 10px 30px rgba(0,0,0,0.3)', borderColor: hoveredCardId === t.id ? t.neon : 'rgba(31, 41, 55, 0.8)' }}
@@ -450,7 +481,22 @@ export default function Home() {
               )}
             </h2>
             
-            {isLocked ? (
+            {/* 👈 شاشة "قريباً" للأدوات اللي لسه بتجهز لمنع استهلاك النت والوقت */}
+            {(activeTool as any).isComingSoon ? (
+                <div className="py-10 px-6 rounded-[2.5rem] bg-gray-900/80 border-2 border-cyan-500/30 backdrop-blur-xl flex flex-col items-center gap-6 shadow-[0_0_50px_rgba(6,182,212,0.1)] mb-6">
+                    <div className="text-7xl animate-pulse">🚀</div>
+                    <h3 className="text-3xl font-black text-cyan-400">{loc.comingSoonTitle}</h3>
+                    <p className="text-gray-300 font-bold max-w-lg text-lg leading-relaxed">
+                        {loc.comingSoonText}
+                    </p>
+                    <button 
+                        onClick={resetAndGoBack} 
+                        className="mt-6 bg-gray-800 hover:bg-gray-700 text-white font-black py-4 px-10 rounded-2xl text-xl transition-all border border-gray-600 cursor-pointer shadow-lg hover:-translate-y-1"
+                    >
+                        {loc.back}
+                    </button>
+                </div>
+            ) : isLocked ? (
                 <div className="py-10 px-6 rounded-[2.5rem] bg-gray-900/80 border-2 border-yellow-500/30 backdrop-blur-xl flex flex-col items-center gap-6 shadow-[0_0_50px_rgba(234,179,8,0.1)] mb-6">
                     <div className="text-7xl animate-bounce">🔒</div>
                     <h3 className="text-2xl font-black text-yellow-500">ميزة حصرية للمحترفين</h3>
@@ -460,12 +506,12 @@ export default function Home() {
                             : "To use this tool, you need to upgrade to SABAEPDF PRO. Enjoy all tools without limits!"}
                     </p>
                     <button 
-                        onClick={() => setView('login')} 
+                        onClick={() => { resetAndGoBack(); setView('login'); }} 
                         className="bg-gradient-to-r from-yellow-500 to-orange-500 text-black font-black py-4 px-10 rounded-2xl text-xl hover:scale-105 transition-all shadow-lg cursor-pointer"
                     >
                         {lang === 'ar' ? "ترقية الآن ⚡" : "Upgrade Now ⚡"}
                     </button>
-                    <button onClick={() => setView('grid')} className="text-gray-500 hover:text-white underline font-bold cursor-pointer">{loc.browseTools}</button>
+                    <button onClick={resetAndGoBack} className="text-gray-500 hover:text-white underline font-bold cursor-pointer">{loc.browseTools}</button>
                 </div>
             ) : (
                 <>
@@ -523,7 +569,7 @@ export default function Home() {
                     )}
 
                     <div className="flex gap-6 relative z-50">
-                        <button onClick={() => { setFiles([]); setExtraParam(""); setView('grid'); }} className="flex-1 py-5 rounded-2xl bg-gray-800 font-black text-xl hover:bg-gray-700 transition-all cursor-pointer border border-gray-700">{loc.back}</button>
+                        <button onClick={resetAndGoBack} className="flex-1 py-5 rounded-2xl bg-gray-800 font-black text-xl hover:bg-gray-700 transition-all cursor-pointer border border-gray-700">{loc.back}</button>
                         <button onClick={handleProcess} disabled={loading} className="flex-[2] py-5 rounded-2xl bg-gradient-to-r from-cyan-600 to-blue-600 font-black text-2xl shadow-[0_0_30px_rgba(8,145,178,0.5)] hover:scale-[1.03] transition-all duration-300 cursor-pointer border border-cyan-400/50 relative overflow-hidden">
                             {loading ? (
                             <>
