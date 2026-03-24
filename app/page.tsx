@@ -271,9 +271,19 @@ export default function Home() {
           else ext = 'pdf';
       }
 
+      // 👈 التعديل العبقري: استخراج اسم الملف الأصلي عشان ينزل بيه
+      let finalFileName = "Processed_File";
+      if (files.length > 0) {
+          const originalName = files[0].name;
+          const lastDot = originalName.lastIndexOf('.');
+          finalFileName = lastDot !== -1 ? originalName.substring(0, lastDot) : originalName;
+      } else if (activeTool.isPromptOnly && extraParam) {
+          finalFileName = extraParam.substring(0, 20).replace(/[^a-zA-Z0-9\u0600-\u06FF]/g, '_') || "AI_Generated";
+      }
+
       const a = document.createElement('a'); 
       a.href = url; 
-      a.download = `Sabae_${activeTool.id}.${ext}`; 
+      a.download = `${finalFileName}.${ext}`; 
       a.click();
     } catch (err: any) {
         console.error("Server Error:", err);
