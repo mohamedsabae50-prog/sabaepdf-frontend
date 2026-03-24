@@ -101,6 +101,7 @@ const tools = [
   { id: 'ai-pdf-editor', nameAr: 'تعديل ذكي (AI)', nameEn: 'AI Editor', icon: '✍️', color: 'from-purple-600 to-fuchsia-800', neon: '#d946ef', descAr: 'أعد صياغة النصوص داخل الملف.', reqPlan: 'PRO', isComingSoon: true },
   { id: 'pdf-redaction', nameAr: 'تعتيم حساس', nameEn: 'Smart Redaction', icon: '⬛', color: 'from-gray-700 to-black', neon: '#ffffff', descAr: 'إخفاء الأرقام والأسماء للأبد.', reqPlan: 'PRO', isComingSoon: true },
   { id: 'ai-summarizer', nameAr: 'تلخيص PDF (AI)', nameEn: 'AI Summarizer', icon: '🧠', color: 'from-indigo-600 to-blue-800', neon: '#4f46e5', descAr: 'لخص 100 صفحة في ثواني.', reqPlan: 'PRO' },
+  { id: 'bg-remover', nameAr: 'إزالة الخلفية (AI)', nameEn: 'Remove BG', icon: '✨', color: 'from-fuchsia-500 to-purple-600', neon: '#d946ef', descAr: 'مسح الخلفية بالذكاء الاصطناعي.', reqPlan: 'PRO' },
   { id: 'image-upscaler', nameAr: 'تكبير الصور (4K)', nameEn: 'Image Upscaler', icon: '🪄', color: 'from-orange-500 to-red-600', neon: '#f97316', descAr: 'تحسين جودة الصور الضعيفة.', reqPlan: 'PRO' },
   { id: 'watermark-remover', nameAr: 'مسح العلامة المائية', nameEn: 'Watermark Remover', icon: '💧', color: 'from-cyan-500 to-teal-600', neon: '#06b6d4', descAr: 'إزالة الشعارات من الصور.', reqPlan: 'PRO', isComingSoon: true },
   { id: 'ai-image-gen', nameAr: 'توليد صور (AI)', nameEn: 'AI Image Gen', icon: '🎨', color: 'from-indigo-500 to-purple-600', neon: '#8b5cf6', descAr: 'توليد صور بالوصف.', reqPlan: 'PRO', isPromptOnly: true, inputPlaceholderAr: 'اكتب وصف للصورة (يفضل باللغة الإنجليزية)...' },
@@ -109,8 +110,12 @@ const tools = [
   // 🆓 الأدوات المجانية
   { id: 'pdf-to-word', nameAr: 'PDF لـ Word', nameEn: 'PDF to Word', icon: '📝', color: 'from-emerald-500 to-teal-600', neon: '#10b981', descAr: 'تحويل الملف لنص قابل للتعديل.', reqPlan: 'Free' },
   { id: 'img-to-pdf', nameAr: 'صور لـ PDF', nameEn: 'Images to PDF', icon: '🖼️', color: 'from-orange-500 to-red-600', neon: '#ef4444', descAr: 'تحويل الصور إلى مستندات PDF.', reqPlan: 'Free' },
+  { id: 'pdf-to-img', nameAr: 'PDF لـ صور', nameEn: 'PDF to Images', icon: '📸', color: 'from-yellow-400 to-orange-500', neon: '#f59e0b', descAr: 'تحويل صفحات الـ PDF لصور.', reqPlan: 'Free' },
   { id: 'merge-pdf', nameAr: 'دمج ملفات', nameEn: 'Merge PDF', icon: '📑', color: 'from-blue-600 to-indigo-700', neon: '#3b82f6', descAr: 'دمج عدة ملفات في مستند واحد.', reqPlan: 'Free' },
   { id: 'compress-pdf', nameAr: 'ضغط الميديا', nameEn: 'Compress Media', icon: '📉', color: 'from-pink-500 to-rose-600', neon: '#f43f5e', descAr: 'ضغط حجم الصور والفيديوهات.', reqPlan: 'Free' },
+  { id: 'grayscale-pdf', nameAr: 'توفير حبر', nameEn: 'Grayscale', icon: '🏁', color: 'from-gray-500 to-slate-700', neon: '#64748b', descAr: 'تحويل لأبيض وأسود.', reqPlan: 'Free' },
+  { id: 'delete-pages', nameAr: 'مسح صفحات', nameEn: 'Delete Pages', icon: '✂️', color: 'from-red-500 to-pink-600', neon: '#ec4899', descAr: 'حذف صفحات من الملف.', reqPlan: 'Free', inputPlaceholderAr: 'أرقام الصفحات (1, 3)' },
+  { id: 'rotate-pdf', nameAr: 'تدوير الملف', nameEn: 'Rotate PDF', icon: '🔄', color: 'from-yellow-500 to-orange-600', neon: '#f59e0b', descAr: 'تدوير الصفحات أو الصور.', reqPlan: 'Free', inputPlaceholderAr: 'الزاوية (90, 180)' },
   { id: 'security-pdf', nameAr: 'قفل وفك التشفير', nameEn: 'Lock & Unlock', icon: '🔒', color: 'from-purple-600 to-violet-700', neon: '#a78bfa', descAr: 'تشفير أو فك الحماية.', reqPlan: 'Free', inputPlaceholderAr: 'اكتب كلمة السر' }
 ];
 
@@ -206,7 +211,7 @@ export default function Home() {
       formData.append("email", user.email);
       formData.append("plan", planType);
       
-      await axios.post(`${API_URL}/upgrade/`, formData); // هنحتاج نحدث الباك اند يقبل اسم الباقة
+      await axios.post(`${API_URL}/upgrade/`, formData); 
       
       const updatedUser = { ...user, plan: planType };
       setUser(updatedUser);
@@ -221,9 +226,9 @@ export default function Home() {
 
   const getAcceptTypes = () => {
     if (activeTool.id === 'rotate-pdf') return '.pdf, image/*';
-    if (['img-to-pdf', 'image-upscaler', 'watermark-remover'].includes(activeTool.id)) return 'image/*';
+    if (['img-to-pdf', 'image-upscaler', 'watermark-remover', 'bg-remover'].includes(activeTool.id)) return 'image/*';
     if (activeTool.id === 'mp4-to-mp3') return 'video/*, audio/*';
-    if (['ai-summarizer', 'ai-pdf-translator', 'pdf-redaction', 'ai-pdf-editor'].includes(activeTool.id)) return '.pdf';
+    if (['ai-summarizer', 'ai-pdf-translator', 'pdf-redaction', 'ai-pdf-editor', 'pdf-to-img', 'grayscale-pdf', 'delete-pages', 'security-pdf', 'pdf-to-word', 'pdf-to-excel'].includes(activeTool.id)) return '.pdf';
     return '.pdf, image/*, video/*';
   };
 
@@ -231,7 +236,6 @@ export default function Home() {
     if (!activeTool.isPromptOnly && files.length === 0) return alert(loc.alertNoFiles);
     if (activeTool.isPromptOnly && !extraParam.trim()) return alert(loc.alertNoPrompt);
 
-    // نظام قفل ذكي حسب الباقة
     const requiredPlan = activeTool.reqPlan;
     if (requiredPlan === 'Business' && user?.plan !== 'Business') {
         alert("هذه الأداة تتطلب اشتراك Business 💼");
@@ -277,7 +281,20 @@ export default function Home() {
       else if (activeTool.id === 'pdf-to-excel') ext = 'xlsx';
       else if (['bg-remover', 'ai-image-gen', 'image-upscaler', 'watermark-remover'].includes(activeTool.id)) ext = 'png'; 
       else if (activeTool.id === 'mp4-to-mp3') ext = 'mp3';
-      else if (activeTool.id === 'compress-pdf') ext = cType.includes('zip') ? 'zip' : (files[0]?.name.split('.').pop() || 'pdf');
+      else if (['ai-summarizer', 'ai-pdf-translator', 'pdf-redaction', 'ai-pdf-editor'].includes(activeTool.id)) ext = 'pdf'; 
+      else if (activeTool.id === 'pdf-to-img') {
+          ext = cType.includes('zip') ? 'zip' : 'png';
+      }
+      else if (activeTool.id === 'compress-pdf') {
+          if (cType.includes('zip')) ext = 'zip';
+          else if (cType.includes('mp4')) ext = 'mp4';
+          else if (cType.includes('jpeg')) ext = 'jpg';
+          else if (cType.includes('png')) ext = 'png';
+          else ext = files.length === 1 && files[0] ? (files[0].name.split('.').pop() || 'zip') : 'zip';
+      }
+      else if (['grayscale-pdf', 'rotate-pdf', 'security-pdf', 'delete-pages', 'merge-pdf'].includes(activeTool.id)) {
+          ext = 'pdf';
+      }
 
       let finalFileName = "Processed_File";
       if (files.length > 0) {
