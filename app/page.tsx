@@ -33,7 +33,13 @@ const t = {
     proFeatures: ["✅ كل مميزات المجاني (لا نهائي)", "✅ حماية وفك تشفير الملفات 🔒", "✅ فصل واستخراج الصوت (MP3) 🎧", "✅ إزالة الخلفية واستخراج جداول Excel (AI) ✨"],
     unlimited: "متاح لك عدد لا نهائي من العمليات ∞",
     proUnlimited: "عمليات غير محدودة 🚀",
-    loginRequired: "سجل دخولك أو رقي حسابك عشان تستخدم الأداة 🔒"
+    loginRequired: "سجل دخولك أو رقي حسابك عشان تستخدم الأداة 🔒",
+    // 👈 إضافات الـ Footer بالعربي
+    footerDesc: "منصتك الأولى للتعامل مع الملفات بذكاء وسرعة.",
+    contactUs: "تواصل معنا",
+    terms: "شروط الخدمة",
+    privacy: "سياسة الخصوصية",
+    rights: "جميع الحقوق محفوظة © 2026 SABAEPDF PRO"
   },
   en: { 
     title: "SABAEPDF PRO ⚡", 
@@ -64,7 +70,13 @@ const t = {
     proFeatures: ["✅ All Free features (Unlimited)", "✅ Protect & Unlock PDF 🔒", "✅ Extract Audio (MP3) 🎧", "✅ AI Background Remover & Excel ✨"],
     unlimited: "Unlimited operations available ∞",
     proUnlimited: "Unlimited Pro operations 🚀",
-    loginRequired: "Login or upgrade to use this tool 🔒"
+    loginRequired: "Login or upgrade to use this tool 🔒",
+    // 👈 إضافات الـ Footer بالإنجليزي
+    footerDesc: "Your premier platform for smart and fast file handling.",
+    contactUs: "Contact Us",
+    terms: "Terms of Service",
+    privacy: "Privacy Policy",
+    rights: "All Rights Reserved © 2026 SABAEPDF PRO"
   }
 };
 
@@ -263,7 +275,8 @@ export default function Home() {
   const isLocked = !user || (activeTool.isPro && user.plan !== 'PRO');
 
   return (
-    <div className={`min-h-screen bg-[#020617] text-white font-sans ${lang === 'ar' ? 'rtl' : 'ltr'} relative overflow-x-hidden`}>
+    // 👈 ضفت flex flex-col هنا عشان الفوتر يفضل دايماً تحت
+    <div className={`min-h-screen flex flex-col bg-[#020617] text-white font-sans ${lang === 'ar' ? 'rtl' : 'ltr'} relative overflow-x-hidden`}>
       <div ref={cursorRef} className="fixed top-0 left-0 w-[400px] h-[400px] rounded-full blur-[100px] z-[0] opacity-30 transition-colors duration-700 pointer-events-none"
         style={{ backgroundColor: view === 'grid' || view === 'login' ? hoveredNeon : activeTool.neon, transform: 'translate(calc(var(--x, -100px) - 50%), calc(var(--y, -100px) - 50%))' }} />
 
@@ -294,7 +307,8 @@ export default function Home() {
         </div>
       </nav>
 
-      <main className="max-w-[1400px] mx-auto px-6 py-16 relative z-50">
+      {/* 👈 ضفت flex-grow هنا عشان المحتوى ياخد المساحة الأكبر ويزق الفوتر لتحت */}
+      <main className="flex-grow max-w-[1400px] w-full mx-auto px-6 py-16 relative z-50">
         {view === 'login' && (
           <div className="max-w-4xl mx-auto text-center">
             <div className="mb-8 flex justify-center">
@@ -371,7 +385,6 @@ export default function Home() {
                 )}
                 <div className={`w-20 h-20 rounded-3xl bg-gradient-to-br ${t.color} flex items-center justify-center text-4xl transform group-hover:rotate-12 transition-all duration-500 z-10`}>{t.icon}</div>
                 
-                {/* 👈 هنا التعديل السحري لتقسيم الكلمة وتلوينها */}
                 <h3 className="text-2xl font-black text-white z-10 leading-snug">
                   {lang === 'ar' && t.nameAr.includes(' لـ ') ? (
                     <>
@@ -392,7 +405,6 @@ export default function Home() {
           <div className="max-w-4xl mx-auto bg-gray-900/60 border-2 border-gray-800/80 rounded-[3rem] p-12 shadow-[0_0_80px_rgba(0,0,0,0.6)] backdrop-blur-xl text-center relative overflow-hidden">
             <div className={`w-28 h-28 rounded-[2rem] bg-gradient-to-br ${activeTool.color} flex items-center justify-center text-6xl mx-auto mb-6 shadow-2xl transform hover:scale-110 transition-transform duration-500`}>{activeTool.icon}</div>
             
-            {/* 👈 وهنا كمان عشان يبقى نفس الشياكة جوه الأداة */}
             <h2 className="text-5xl font-black text-white mb-4 leading-tight">
               {lang === 'ar' && activeTool.nameAr.includes(' لـ ') ? (
                 <>
@@ -477,6 +489,24 @@ export default function Home() {
           </div>
         )}
       </main>
+
+      {/* 👈 هنا الـ Footer اللي تحت خالص */}
+      <footer className="border-t border-gray-800/50 bg-[#020617]/80 backdrop-blur-xl relative z-50 mt-auto">
+        <div className="max-w-[1400px] mx-auto px-6 py-8 flex flex-col md:flex-row justify-between items-center gap-6">
+          <div className={`text-center ${lang === 'ar' ? 'md:text-right' : 'md:text-left'}`}>
+            <h2 className="text-2xl font-black italic text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500 uppercase tracking-wider mb-2">SABAEPDF PRO ⚡</h2>
+            <p className="text-gray-400 font-bold text-sm">{loc.footerDesc}</p>
+          </div>
+          <div className="flex flex-wrap justify-center gap-6 text-gray-400 font-bold text-sm">
+            <a href="mailto:mohamedsabae50@gmail.com" className="hover:text-cyan-400 transition-colors cursor-pointer">{loc.contactUs}</a>
+            <button className="hover:text-cyan-400 transition-colors cursor-pointer">{loc.terms}</button>
+            <button className="hover:text-cyan-400 transition-colors cursor-pointer">{loc.privacy}</button>
+          </div>
+        </div>
+        <div className="border-t border-gray-800/50 py-6 text-center text-gray-500 text-xs font-bold tracking-widest">
+          {loc.rights}
+        </div>
+      </footer>
     </div>
   );
 }
