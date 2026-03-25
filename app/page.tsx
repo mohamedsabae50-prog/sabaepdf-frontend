@@ -50,7 +50,8 @@ const t = {
     privacy: "سياسة الخصوصية",
     rights: "جميع الحقوق محفوظة © 2026 SABAEPDF PRO",
     closeBtn: "إغلاق ❌",
-    upgradeBtn: "الترقية ⚡"
+    upgradeBtn: "الترقية ⚡",
+    sizeLimitAlert: "الملفات كبيرة جداً على الخطة المجانية! 😅 (أقصى حجم 150 ميجا). يرجى تقليل حجم الملفات أو الترقية لباقة احترافية ⚡"
   },
   en: { 
     title: "SABAEPDF PRO ⚡", 
@@ -98,7 +99,8 @@ const t = {
     privacy: "Privacy Policy",
     rights: "All Rights Reserved © 2026 SABAEPDF PRO",
     closeBtn: "Close ❌",
-    upgradeBtn: "Upgrade ⚡"
+    upgradeBtn: "Upgrade ⚡",
+    sizeLimitAlert: "Files are too large for the free plan! 😅 (Max 150MB). Please reduce file size or upgrade to a Pro plan ⚡"
   }
 };
 
@@ -278,6 +280,16 @@ export default function Home() {
     if (requiredPlan === 'pro' && !isProUser()) {
         alert("هذه الأداة تتطلب اشتراك PRO ⚡");
         setView('login'); return;
+    }
+
+    // 🚀 كشف استباقي لحجم الملف لحماية السيرفر من الوقوع
+    if (getCurrentUserPlan() === 'free') {
+        const MAX_FREE_SIZE = 150 * 1024 * 1024; // 150 ميجابايت كحد أقصى للخطة المجانية
+        const totalSize = files.reduce((acc, file) => acc + file.size, 0);
+        if (totalSize > MAX_FREE_SIZE) {
+            alert(loc.sizeLimitAlert);
+            return;
+        }
     }
     
     setLoading(true);
