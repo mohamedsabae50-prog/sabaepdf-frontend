@@ -311,7 +311,8 @@ export default function Home() {
     if (extraParam) formData.append("extra_param", extraParam);
 
     try {
-      const res = await axios.post(`${API_URL}/${currentTool.id}/`, formData, { 
+      // 🚀 ركز هنا: ضفتلك ?bypass_cache عشان يكسر أي كاش في المتصفح ويوصل للسيرفر الجديد غصب عنه
+      const res = await axios.post(`${API_URL}/${currentTool.id}/?bypass_cache=${Date.now()}`, formData, { 
           responseType: 'blob', 
           timeout: 300000,
           signal: abortControllerRef.current.signal
@@ -365,7 +366,7 @@ export default function Home() {
                     const json = JSON.parse(text);
                     errorMsg = json.detail || text;
                 } catch (e) {
-                    errorMsg = "مشكلة في السيرفر (قد يكون الملف كبير جداً أو هناك ضغط)";
+                    errorMsg = "السيرفرات العالمية مشغولة، جرب وصف آخر لاحقاً.";
                 }
             } else {
                 errorMsg = err.response.data.detail || errorMsg;
