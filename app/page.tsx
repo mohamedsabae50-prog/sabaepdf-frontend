@@ -102,7 +102,7 @@ const t = {
   }
 };
 
-// 🚀 رفعنا الحظر (isComingSoon) عن أداة التعديل والتلخيص
+// تم رفع الـ isComingSoon عن الأدوات المطلوبة عشان تفتح طبيعي
 const tools = [
   { id: 'ai-pdf-translator', nameAr: 'ترجمة ذكية (AI)', nameEn: 'Smart Translation', icon: '🌍', color: 'from-blue-600 to-indigo-900', neon: '#3b82f6', descAr: 'ترجمة كاملة مع حفظ التنسيق.', reqPlan: 'Business', isAI: true },
   { id: 'pdf-to-excel', nameAr: 'PDF لـ Excel (OCR)', nameEn: 'Pro OCR to Excel', icon: '📊', color: 'from-green-600 to-emerald-900', neon: '#059669', descAr: 'استخراج الجداول بدقة عالية.', reqPlan: 'Business' },
@@ -371,7 +371,7 @@ export default function Home() {
           {user ? (
             <div className="flex items-center gap-2 md:gap-3 mr-2 md:mr-4">
               
-              {/* 🚀 الزرار الذهبي للترقية بيظهر بس لو الخطة مجانية */}
+              {/* زرار الترقية السريع للباقات المجانية */}
               {getCurrentUserPlan() === 'free' && (
                   <button onClick={() => { resetAndGoBack(); setView('login'); }} className="bg-gradient-to-r from-yellow-500 to-orange-500 text-black px-4 py-1.5 md:py-2 rounded-full font-black text-xs md:text-sm hover:scale-105 transition-all shadow-[0_0_10px_rgba(234,179,8,0.4)] animate-pulse cursor-pointer">
                       {loc.upgradeBtn}
