@@ -291,11 +291,12 @@ export default function Home() {
       
       let ext = 'pdf'; 
       const cType = res.headers['content-type'] || '';
-     if (['pdf-to-word', 'ai-pdf-translator', 'ai-pdf-editor', 'ai-summarizer'].includes(activeTool.id)) ext = 'docx';
+      
+      if (activeTool.id === 'pdf-to-word') ext = 'docx';
       else if (activeTool.id === 'pdf-to-excel') ext = 'xlsx';
       else if (['bg-remover', 'ai-image-gen', 'image-upscaler', 'watermark-remover'].includes(activeTool.id)) ext = 'png'; 
       else if (activeTool.id === 'mp4-to-mp3') ext = 'mp3';
-      else if (['pdf-redaction', 'pdf-editor'].includes(activeTool.id)) ext = 'pdf';
+      else if (['ai-summarizer', 'ai-pdf-translator', 'pdf-redaction', 'ai-pdf-editor', 'pdf-editor'].includes(activeTool.id)) ext = 'pdf'; 
       else if (activeTool.id === 'pdf-to-img') {
           ext = cType.includes('zip') ? 'zip' : 'png';
       }
