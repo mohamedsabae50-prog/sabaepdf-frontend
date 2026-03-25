@@ -320,11 +320,11 @@ export default function Home() {
     if (extraParam) formData.append("extra_param", extraParam);
 
     try {
-      const res = await axios.post(`${API_URL}/${currentTool.id}/?bypass_cache=${Date.now()}`, formData, { 
-          responseType: 'blob', 
-          timeout: 300000,
-          signal: abortControllerRef.current.signal
-      });
+     const res = await axios.post(`${API_URL}/${currentTool.id}/?bypass_cache=${Date.now()}`, formData, { 
+    responseType: 'blob', 
+    timeout: 0, // 🚀 ممنوع تفصل الاتصال مهما غبت
+    signal: abortControllerRef.current.signal
+});
       setProgress(100);
       const url = window.URL.createObjectURL(new Blob([res.data]));
       
