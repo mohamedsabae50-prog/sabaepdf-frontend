@@ -135,7 +135,10 @@ const tools = [
   { id: 'merge-pdf', nameAr: 'دمج ملفات', nameEn: 'Merge PDF', icon: '📑', color: 'from-blue-600 to-indigo-700', neon: '#3b82f6', descAr: 'دمج عدة ملفات في مستند واحد.', reqPlan: 'Free' },
   { id: 'grayscale-pdf', nameAr: 'توفير حبر', nameEn: 'Grayscale', icon: '🏁', color: 'from-gray-500 to-slate-700', neon: '#64748b', descAr: 'تحويل لأبيض وأسود.', reqPlan: 'Free' },
   { id: 'delete-pages', nameAr: 'مسح صفحات', nameEn: 'Delete Pages', icon: '✂️', color: 'from-red-500 to-pink-600', neon: '#ec4899', descAr: 'حذف صفحات من الملف.', reqPlan: 'Free', inputPlaceholderAr: 'أرقام الصفحات (1, 3)' },
-  { id: 'rotate-pdf', nameAr: 'تدوير الملف', nameEn: 'Rotate PDF', icon: '🔄', color: 'from-yellow-500 to-orange-600', neon: '#f59e0b', descAr: 'تدوير الصفحات أو الصور.', reqPlan: 'Free', inputPlaceholderAr: 'الزاوية (90, 180)' },
+  
+  // 🚀 تم تغيير الوصف ليتناسب مع اقتصارها على ملفات الـ PDF
+  { id: 'rotate-pdf', nameAr: 'تدوير الملف', nameEn: 'Rotate PDF', icon: '🔄', color: 'from-yellow-500 to-orange-600', neon: '#f59e0b', descAr: 'تدوير صفحات الـ PDF.', reqPlan: 'Free', inputPlaceholderAr: 'الزاوية (90, 180)' },
+  
   { id: 'security-pdf', nameAr: 'قفل وفك التشفير', nameEn: 'Lock & Unlock', icon: '🔒', color: 'from-purple-600 to-violet-700', neon: '#a78bfa', descAr: 'تشفير أو فك الحماية.', reqPlan: 'Free', inputPlaceholderAr: 'اكتب كلمة السر' }
 ];
 
@@ -260,11 +263,11 @@ export default function Home() {
     }
   };
 
+  // 🚀 تم إزالة rotate-pdf من الصور وإضافته لـ الـ PDF فقط
   const getAcceptTypes = () => {
-    if (currentTool.id === 'rotate-pdf') return '.pdf, image/*';
     if (['img-to-pdf', 'image-upscaler', 'watermark-remover', 'bg-remover'].includes(currentTool.id)) return 'image/*';
     if (currentTool.id === 'mp4-to-mp3') return 'video/*, audio/*';
-    if (['ai-summarizer', 'ai-pdf-translator', 'pdf-redaction', 'ai-pdf-editor', 'pdf-to-img', 'grayscale-pdf', 'delete-pages', 'security-pdf', 'pdf-to-word', 'pdf-to-excel'].includes(currentTool.id)) return '.pdf';
+    if (['rotate-pdf', 'ai-summarizer', 'ai-pdf-translator', 'pdf-redaction', 'ai-pdf-editor', 'pdf-to-img', 'grayscale-pdf', 'delete-pages', 'security-pdf', 'pdf-to-word', 'pdf-to-excel'].includes(currentTool.id)) return '.pdf';
     return '.pdf, image/*, video/*';
   };
 
@@ -311,7 +314,6 @@ export default function Home() {
     if (extraParam) formData.append("extra_param", extraParam);
 
     try {
-      // 🚀 ركز هنا: ضفتلك ?bypass_cache عشان يكسر أي كاش في المتصفح ويوصل للسيرفر الجديد غصب عنه
       const res = await axios.post(`${API_URL}/${currentTool.id}/?bypass_cache=${Date.now()}`, formData, { 
           responseType: 'blob', 
           timeout: 300000,
