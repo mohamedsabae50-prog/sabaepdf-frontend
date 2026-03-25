@@ -43,7 +43,7 @@ const t = {
     businessUnlimited: "مرحباً بك في مساحة الأعمال الفائقة 💼",
     loginRequired: "سجل دخولك أو رقي حسابك عشان تستخدم الأداة 🔒",
     comingSoonTitle: "قريباً جداً! 🚀",
-    comingSoonText: "عذراً يا بطل! هذه الأداة تتطلب واجهة وتجهيزات خاصة، وجاري العمل عليها لتكون متاحة قريباً جداً.",
+    comingSoonText: "عذراً يا بطل! هذه الأداة تخضع لتحديثات شاملة لربطها بسيرفرات ذكاء اصطناعي أقوى، وجاري العمل عليها لتكون متاحة قريباً جداً.",
     footerDesc: "منصتك الأولى للتعامل مع الملفات بذكاء وسرعة.",
     contactUs: "تواصل معنا",
     terms: "شروط الخدمة",
@@ -90,7 +90,7 @@ const t = {
     businessUnlimited: "Welcome to the Ultimate Business Workspace 💼",
     loginRequired: "Login or upgrade to use this tool 🔒",
     comingSoonTitle: "Coming Soon! 🚀",
-    comingSoonText: "Sorry hero! This tool requires a special interface and setup. We are currently working on it.",
+    comingSoonText: "Sorry hero! This tool is undergoing major AI server upgrades and will be available very soon.",
     footerDesc: "Your premier platform for smart and fast file handling.",
     contactUs: "Contact Us",
     terms: "Terms of Service",
@@ -103,9 +103,9 @@ const t = {
 const tools = [
   { id: 'ai-pdf-translator', nameAr: 'ترجمة ذكية (AI)', nameEn: 'Smart Translation', icon: '🌍', color: 'from-blue-600 to-indigo-900', neon: '#3b82f6', descAr: 'ترجمة كاملة مع حفظ التنسيق.', reqPlan: 'Business', isAI: true },
   { id: 'pdf-to-excel', nameAr: 'PDF لـ Excel (OCR)', nameEn: 'Pro OCR to Excel', icon: '📊', color: 'from-green-600 to-emerald-900', neon: '#059669', descAr: 'استخراج الجداول بدقة عالية.', reqPlan: 'Business' },
-  { id: 'ai-pdf-editor', nameAr: 'تعديل ذكي (AI)', nameEn: 'AI Editor', icon: '✨', color: 'from-purple-600 to-fuchsia-800', neon: '#d946ef', descAr: 'أعد صياغة النصوص داخل الملف.', reqPlan: 'PRO', inputPlaceholderAr: 'اكتب التعديل اللي عايزه (مثال: أعد صياغة هذا الملف)...', isAI: true },
+  { id: 'ai-pdf-editor', nameAr: 'تعديل ذكي (AI)', nameEn: 'AI Editor', icon: '✨', color: 'from-purple-600 to-fuchsia-800', neon: '#d946ef', descAr: 'أعد صياغة النصوص داخل الملف.', reqPlan: 'PRO', inputPlaceholderAr: 'اكتب التعديل اللي عايزه (مثال: أعد صياغة هذا الملف)...', isAI: true, isComingSoon: true }, // قفلنا دي
   { id: 'pdf-redaction', nameAr: 'تعتيم حساس', nameEn: 'Smart Redaction', icon: '⬛', color: 'from-gray-700 to-black', neon: '#ffffff', descAr: 'إخفاء الأرقام والأسماء للأبد.', reqPlan: 'PRO', inputPlaceholderAr: 'الكلمة أو الرقم المراد إخفاؤه وتمويهه...' },
-  { id: 'ai-summarizer', nameAr: 'تلخيص PDF (AI)', nameEn: 'AI Summarizer', icon: '🧠', color: 'from-indigo-600 to-blue-800', neon: '#4f46e5', descAr: 'لخص 100 صفحة في ثواني.', reqPlan: 'PRO', isAI: true },
+  { id: 'ai-summarizer', nameAr: 'تلخيص PDF (AI)', nameEn: 'AI Summarizer', icon: '🧠', color: 'from-indigo-600 to-blue-800', neon: '#4f46e5', descAr: 'لخص 100 صفحة في ثواني.', reqPlan: 'PRO', isAI: true, isComingSoon: true }, // وقفلنا دي
   { id: 'bg-remover', nameAr: 'إزالة الخلفية (AI)', nameEn: 'Remove BG', icon: '✂️', color: 'from-fuchsia-500 to-purple-600', neon: '#d946ef', descAr: 'مسح الخلفية بالذكاء الاصطناعي.', reqPlan: 'PRO', isAI: true },
   { id: 'image-upscaler', nameAr: 'تكبير الصور (4K)', nameEn: 'Image Upscaler', icon: '🪄', color: 'from-orange-500 to-red-600', neon: '#f97316', descAr: 'تحسين جودة الصور الضعيفة.', reqPlan: 'PRO', isAI: true },
   { id: 'mp4-to-mp3', nameAr: 'استخراج الصوت', nameEn: 'MP4 to MP3', icon: '🎧', color: 'from-cyan-500 to-blue-600', neon: '#06b6d4', descAr: 'فصل الصوت كملف MP3.', reqPlan: 'PRO' }, 
@@ -548,7 +548,7 @@ export default function Home() {
             </h2>
 
             {/* رسالة تنبيه لأدوات الذكاء الاصطناعي ⚠️ */}
-            {(activeTool as any).isAI && (
+            {(activeTool as any).isAI && !(activeTool as any).isComingSoon && (
                 <div className="bg-yellow-500/10 border border-yellow-500/30 text-yellow-500 text-sm font-bold p-4 rounded-2xl mb-8 flex items-center justify-center gap-2 shadow-inner">
                     <span className="text-xl">⚠️</span> تنويه: هذه الأداة تعمل بالذكاء الاصطناعي، يُرجى مراجعة النتيجة لاحتمالية وجود أخطاء.
                 </div>
