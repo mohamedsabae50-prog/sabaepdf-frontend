@@ -131,14 +131,19 @@ const tools = [
     ]
   },
   
-  { id: 'pdf-to-word', nameAr: 'PDF لـ Word', nameEn: 'PDF to Word', icon: '📝', color: 'from-emerald-500 to-teal-600', neon: '#10b981', descAr: 'تحويل الملف لنص قابل للتعديل.', reqPlan: 'Free' },
+  // 🌟 الكومبو الجديد: Word ↔ PDF
+  {
+    id: 'word-pdf-combo', nameAr: 'Word ↔ PDF', nameEn: 'Word ↔ PDF', icon: '📝', color: 'from-emerald-500 to-teal-600', neon: '#10b981', descAr: 'تحويل متبادل بين الوورد والـ PDF.', reqPlan: 'Free', isCombo: true,
+    subTools: [
+      { id: 'pdf-to-word', nameAr: 'PDF لـ Word', nameEn: 'PDF to Word', icon: '📄', reqPlan: 'Free' },
+      { id: 'word-to-pdf', nameAr: 'Word لـ PDF', nameEn: 'Word to PDF', icon: '📝', reqPlan: 'Free' }
+    ]
+  },
+
   { id: 'merge-pdf', nameAr: 'دمج ملفات', nameEn: 'Merge PDF', icon: '📑', color: 'from-blue-600 to-indigo-700', neon: '#3b82f6', descAr: 'دمج عدة ملفات في مستند واحد.', reqPlan: 'Free' },
   { id: 'grayscale-pdf', nameAr: 'توفير حبر', nameEn: 'Grayscale', icon: '🏁', color: 'from-gray-500 to-slate-700', neon: '#64748b', descAr: 'تحويل لأبيض وأسود.', reqPlan: 'Free' },
   { id: 'delete-pages', nameAr: 'مسح صفحات', nameEn: 'Delete Pages', icon: '✂️', color: 'from-red-500 to-pink-600', neon: '#ec4899', descAr: 'حذف صفحات من الملف.', reqPlan: 'Free', inputPlaceholderAr: 'أرقام الصفحات (1, 3)' },
-  
-  // 🚀 تم تغيير الوصف ليتناسب مع اقتصارها على ملفات الـ PDF
   { id: 'rotate-pdf', nameAr: 'تدوير الملف', nameEn: 'Rotate PDF', icon: '🔄', color: 'from-yellow-500 to-orange-600', neon: '#f59e0b', descAr: 'تدوير صفحات الـ PDF.', reqPlan: 'Free', inputPlaceholderAr: 'الزاوية (90, 180)' },
-  
   { id: 'security-pdf', nameAr: 'قفل وفك التشفير', nameEn: 'Lock & Unlock', icon: '🔒', color: 'from-purple-600 to-violet-700', neon: '#a78bfa', descAr: 'تشفير أو فك الحماية.', reqPlan: 'Free', inputPlaceholderAr: 'اكتب كلمة السر' }
 ];
 
@@ -263,8 +268,9 @@ export default function Home() {
     }
   };
 
-  // 🚀 تم إزالة rotate-pdf من الصور وإضافته لـ الـ PDF فقط
+  // 🚀 تحديد الملفات المسموحة بناءً على الأداة
   const getAcceptTypes = () => {
+    if (currentTool.id === 'word-to-pdf') return '.doc,.docx,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document';
     if (['img-to-pdf', 'image-upscaler', 'watermark-remover', 'bg-remover'].includes(currentTool.id)) return 'image/*';
     if (currentTool.id === 'mp4-to-mp3') return 'video/*, audio/*';
     if (['rotate-pdf', 'ai-summarizer', 'ai-pdf-translator', 'pdf-redaction', 'ai-pdf-editor', 'pdf-to-img', 'grayscale-pdf', 'delete-pages', 'security-pdf', 'pdf-to-word', 'pdf-to-excel'].includes(currentTool.id)) return '.pdf';
@@ -339,7 +345,8 @@ export default function Home() {
           else if (cType.includes('png')) ext = 'png';
           else ext = files.length === 1 && files[0] ? (files[0].name.split('.').pop() || 'zip') : 'zip';
       }
-      else if (['ai-summarizer', 'ai-pdf-translator', 'pdf-redaction', 'ai-pdf-editor', 'grayscale-pdf', 'rotate-pdf', 'security-pdf', 'delete-pages', 'merge-pdf'].includes(currentTool.id)) {
+      // 🚀 لو حولنا الوورد لـ PDF، الامتداد هيكون pdf
+      else if (['word-to-pdf', 'ai-summarizer', 'ai-pdf-translator', 'pdf-redaction', 'ai-pdf-editor', 'grayscale-pdf', 'rotate-pdf', 'security-pdf', 'delete-pages', 'merge-pdf'].includes(currentTool.id)) {
           ext = 'pdf';
       }
 
