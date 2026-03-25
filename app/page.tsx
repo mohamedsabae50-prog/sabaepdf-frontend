@@ -1,7 +1,6 @@
 "use client";
 import { useState, useRef, useEffect } from 'react';
 import axios from 'axios';
-import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
 
 const t = {
   ar: { 
@@ -11,320 +10,159 @@ const t = {
     back: "عودة للأدوات 🔙", 
     process: "ابدأ الآن ⚡", 
     processing: "...جاري التنفيذ", 
-    finalizing: "...جاري اللمسات الأخيرة (انتظر قليلاً)",
     alertNoFiles: "ارفع ملفاتك الأول يا بطل!",
-    alertNoPrompt: "اكتب وصف خيالك الأول يا بطل عشان الـ AI يشتغل! ✨",
     loginHeader: "أهلاً بك مجدداً 👋",
     signupHeader: "ابدأ رحلتك الآن 🚀",
-    loginSub: "سجل دخولك لمواصلة العمل على ملفاتك",
-    signupSub: "أنشئ حسابك المجاني وانضم لآلاف المحترفين",
     emailPlaceholder: "البريد الإلكتروني",
     passwordPlaceholder: "كلمة السر",
-    loginBtn: "تسجيل الدخول ⚡",
-    signupBtn: "إنشاء حساب جديد 🚀",
-    noAccount: "ليس لديك حساب؟ أنشئ حساباً مجانياً",
-    hasAccount: "لديك حساب بالفعل؟ سجل دخولك",
-    loggedInAs: "أنت مسجل دخول بإيميل:",
-    freePlan: "المجانية 🆓",
-    proPlan: "Sabae PRO ⚡",
-    businessPlan: "Business 💼",
-    recommended: "الأكثر مبيعاً",
-    month: "/شهر",
-    loginToPay: "سجل دخول للاشتراك",
-    browseTools: "العودة للموقع الأساسي 🏠",
-    unlimited: "متاح لك عدد لا نهائي من العمليات ∞",
-    proUnlimited: "مرحباً بك في مساحة المحترفين 🚀",
-    businessUnlimited: "مرحباً بك في مساحة الأعمال الفائقة 💼",
-    passwordMismatch: "كلمات السر غير متطابقة"
+    loginBtn: "دخول ⚡",
+    signupBtn: "إنشاء حساب 🚀",
+    noAccount: "ليس لديك حساب؟",
+    hasAccount: "لديك حساب بالفعل؟"
   },
   en: { 
     title: "SABAEPDF PRO ⚡", 
-    subtitle: "The premier business platform for smart documents", 
-    uploadPrompt: "Drag or click to upload files here", 
-    back: "Back to Tools 🔙", 
-    process: "Start Now ⚡", 
+    subtitle: "The premier business platform", 
+    uploadPrompt: "Drag or click to upload files", 
+    back: "Back 🔙", 
+    process: "Process Now ⚡", 
     processing: "Processing...", 
-    finalizing: "Finalizing...",
-    alertNoFiles: "Upload your files first!",
-    alertNoPrompt: "Enter prompt first!",
+    alertNoFiles: "Upload files first!",
     loginHeader: "Welcome Back 👋",
-    signupHeader: "Start Your Journey 🚀",
-    loginSub: "Login to continue",
-    signupSub: "Create free account",
-    emailPlaceholder: "Email",
+    signupHeader: "Join Now 🚀",
+    emailPlaceholder: "Email Address",
     passwordPlaceholder: "Password",
     loginBtn: "Login ⚡",
     signupBtn: "Sign Up 🚀",
-    noAccount: "No account? Sign up",
-    hasAccount: "Have an account? Login",
-    loggedInAs: "Logged in as:",
-    freePlan: "Free 🆓",
-    proPlan: "Sabae PRO ⚡",
-    businessPlan: "Business 💼",
-    recommended: "Best Seller",
-    month: "/month",
-    loginToPay: "Login to Pay",
-    browseTools: "Back to Home 🏠",
-    unlimited: "Unlimited ∞",
-    proUnlimited: "Welcome PRO 🚀",
-    businessUnlimited: "Welcome Business 💼",
-    passwordMismatch: "Passwords mismatch"
+    noAccount: "No account?",
+    hasAccount: "Have account?"
   }
 };
 
 const tools = [
-  { id: 'ai-pdf-translator', nameAr: 'ترجمة ذكية (AI)', nameEn: 'Smart Translation', icon: '🌍', color: 'from-blue-600 to-indigo-900', neon: '#3b82f6', descAr: 'ترجمة كاملة مع حفظ التنسيق.', reqPlan: 'Business' },
-  { id: 'pdf-to-excel', nameAr: 'PDF لـ Excel (OCR)', nameEn: 'Pro OCR to Excel', icon: '📊', color: 'from-green-600 to-emerald-900', neon: '#059669', descAr: 'استخراج الجداول بدقة عالية.', reqPlan: 'Business' },
-  { id: 'ai-pdf-editor', nameAr: 'تعديل ذكي (AI)', nameEn: 'AI Editor', icon: '✨', color: 'from-purple-600 to-fuchsia-800', neon: '#d946ef', descAr: 'أعد صياغة النصوص داخل الملف.', reqPlan: 'PRO', inputPlaceholderAr: 'اكتب التعديل اللي عايزه...' },
-  { id: 'pdf-redaction', nameAr: 'تعتيم حساس', nameEn: 'Smart Redaction', icon: '⬛', color: 'from-gray-700 to-black', neon: '#ffffff', descAr: 'إخفاء الأرقام والأسماء للأبد.', reqPlan: 'PRO', inputPlaceholderAr: 'الكلمة المراد إخفاؤه...' },
-  { id: 'ai-summarizer', nameAr: 'تلخيص PDF (AI)', nameEn: 'AI Summarizer', icon: '🧠', color: 'from-indigo-600 to-blue-800', neon: '#4f46e5', descAr: 'لخص الملف في ثواني.', reqPlan: 'PRO' },
-  { id: 'bg-remover', nameAr: 'إزالة الخلفية (AI)', nameEn: 'Remove BG', icon: '✂️', color: 'from-fuchsia-500 to-purple-600', neon: '#d946ef', descAr: 'مسح الخلفية بالذكاء الاصطناعي.', reqPlan: 'PRO' },
-  { id: 'image-upscaler', nameAr: 'تكبير الصور (4K)', nameEn: 'Image Upscaler', icon: '🪄', color: 'from-orange-500 to-red-600', neon: '#f97316', descAr: 'تحسين جودة الصور الضعيفة.', reqPlan: 'PRO' },
-  { id: 'mp4-to-mp3', nameAr: 'استخراج الصوت', nameEn: 'MP4 to MP3', icon: '🎧', color: 'from-cyan-500 to-blue-600', neon: '#06b6d4', descAr: 'فصل الصوت كملف MP3.', reqPlan: 'PRO' }, 
-  { id: 'watermark-remover', nameAr: 'مسح العلامة المائية', nameEn: 'Watermark Remover', icon: '💧', color: 'from-cyan-500 to-teal-600', neon: '#06b6d4', descAr: 'إزالة الشعارات من الصور.', reqPlan: 'PRO', isComingSoon: true },
-  { id: 'ai-image-gen', nameAr: 'توليد صور (AI)', nameEn: 'AI Image Gen', icon: '🎨', color: 'from-indigo-500 to-purple-600', neon: '#8b5cf6', descAr: 'توليد صور بالوصف.', reqPlan: 'PRO', isPromptOnly: true, inputPlaceholderAr: 'اكتب وصف للصورة...' },
-  { id: 'pdf-editor', nameAr: 'تعديل PDF', nameEn: 'Edit PDF', icon: '🖍️', color: 'from-teal-500 to-emerald-600', neon: '#14b8a6', descAr: 'إضافة نصوص وصور.', reqPlan: 'Free', isComingSoon: true },
-  { id: 'pdf-to-word', nameAr: 'PDF لـ Word', nameEn: 'PDF to Word', icon: '📝', color: 'from-emerald-500 to-teal-600', neon: '#10b981', descAr: 'تحويل الملف لنص قابل للتعديل.', reqPlan: 'Free' },
-  { id: 'img-to-pdf', nameAr: 'صور لـ PDF', nameEn: 'Images to PDF', icon: '🖼️', color: 'from-orange-500 to-red-600', neon: '#ef4444', descAr: 'تحويل الصور إلى مستندات PDF.', reqPlan: 'Free' },
-  { id: 'pdf-to-img', nameAr: 'PDF لـ صور', nameEn: 'PDF to Images', icon: '📸', color: 'from-yellow-400 to-orange-500', neon: '#f59e0b', descAr: 'تحويل صفحات الـ PDF لصور.', reqPlan: 'Free' },
-  { id: 'merge-pdf', nameAr: 'دمج ملفات', nameEn: 'Merge PDF', icon: '📑', color: 'from-blue-600 to-indigo-700', neon: '#3b82f6', descAr: 'دمج عدة ملفات في مستند واحد.', reqPlan: 'Free' },
-  { id: 'compress-pdf', nameAr: 'ضغط الميديا', nameEn: 'Compress Media', icon: '📉', color: 'from-pink-500 to-rose-600', neon: '#f43f5e', descAr: 'ضغط حجم الصور والفيديوهات.', reqPlan: 'Free' },
-  { id: 'grayscale-pdf', nameAr: 'توفير حبر', nameEn: 'Grayscale', icon: '🏁', color: 'from-gray-500 to-slate-700', neon: '#64748b', descAr: 'تحويل لأبيض وأسود.', reqPlan: 'Free' },
-  { id: 'delete-pages', nameAr: 'مسح صفحات', nameEn: 'Delete Pages', icon: '✂️', color: 'from-red-500 to-pink-600', neon: '#ec4899', descAr: 'حذف صفحات من الملف.', reqPlan: 'Free', inputPlaceholderAr: 'أرقام الصفحات (1, 3)' },
-  { id: 'rotate-pdf', nameAr: 'تدوير الملف', nameEn: 'Rotate PDF', icon: '🔄', color: 'from-yellow-500 to-orange-600', neon: '#f59e0b', descAr: 'تدوير الصفحات أو الصور.', reqPlan: 'Free', inputPlaceholderAr: 'الزاوية (90, 180)' },
-  { id: 'security-pdf', nameAr: 'قفل وفك التشفير', nameEn: 'Lock & Unlock', icon: '🔒', color: 'from-purple-600 to-violet-700', neon: '#a78bfa', descAr: 'تشفير أو فك الحماية.', reqPlan: 'Free', inputPlaceholderAr: 'اكتب كلمة السر' }
+  { id: 'ai-pdf-translator', nameAr: 'ترجمة ذكية (AI)', icon: '🌍', color: 'from-blue-600 to-indigo-900', neon: '#3b82f6', reqPlan: 'Business' },
+  { id: 'ai-summarizer', nameAr: 'تلخيص PDF (AI)', icon: '🧠', color: 'from-indigo-600 to-blue-800', neon: '#4f46e5', reqPlan: 'PRO' },
+  { id: 'pdf-to-word', nameAr: 'PDF لـ Word', icon: '📝', color: 'from-emerald-500 to-teal-600', neon: '#10b981', reqPlan: 'Free' },
+  { id: 'img-to-pdf', nameAr: 'صور لـ PDF', icon: '🖼️', color: 'from-orange-500 to-red-600', neon: '#ef4444', reqPlan: 'Free' },
+  { id: 'pdf-to-img', nameAr: 'PDF لـ صور', icon: '📸', color: 'from-yellow-400 to-orange-500', neon: '#f59e0b', reqPlan: 'Free' },
+  { id: 'merge-pdf', nameAr: 'دمج ملفات', icon: '📑', color: 'from-blue-600 to-indigo-700', neon: '#3b82f6', reqPlan: 'Free' }
 ];
 
-const PAYPAL_CLIENT_ID = "AQtXECvCPx2nWKmNV23EwUPmNRozM16vxJ2vlBP9IQTKzPtkbwMiKR08fVPjYhHP3xrP9OK93sNbWI--"; 
 const API_URL = "https://memosssssss-sabaepdf-backen.hf.space";
 
 export default function Home() {
   const [isMounted, setIsMounted] = useState(false);
   const [lang, setLang] = useState<'ar' | 'en'>('ar');
   const [user, setUser] = useState<{email: string, plan: string} | null>(null);
-  const [emailInput, setEmailInput] = useState("");
-  const [passwordInput, setPasswordInput] = useState("");
-  const [confirmPasswordInput, setConfirmPasswordInput] = useState("");
   const [authMode, setAuthMode] = useState<'login' | 'signup'>('login');
   const [view, setView] = useState<'grid' | 'login' | 'tool'>('grid');
   const [activeTool, setActiveTool] = useState(tools[0]);
   const [files, setFiles] = useState<File[]>([]);
-  const [extraParam, setExtraParam] = useState("");
   const [loading, setLoading] = useState(false);
   const [progress, setProgress] = useState(0);
-  const cursorRef = useRef<HTMLDivElement>(null);
-  const [hoveredNeon, setHoveredNeon] = useState('#06b6d4');
-
-  const abortControllerRef = useRef<AbortController | null>(null);
 
   useEffect(() => {
     setIsMounted(true);
-    const savedUser = localStorage.getItem('sabae_user');
-    if (savedUser) setUser(JSON.parse(savedUser));
-    const handleMove = (e: MouseEvent) => {
-      if (cursorRef.current) {
-        cursorRef.current.style.setProperty('--x', `${e.clientX}px`);
-        cursorRef.current.style.setProperty('--y', `${e.clientY}px`);
-      }
-    };
-    window.addEventListener('mousemove', handleMove);
-    return () => window.removeEventListener('mousemove', handleMove);
+    const saved = localStorage.getItem('sabae_user');
+    if (saved) setUser(JSON.parse(saved));
   }, []);
 
   if (!isMounted) return null;
   const loc = t[lang];
 
-  const getCurrentUserPlan = () => user?.plan?.trim().toLowerCase() || 'free';
-  const isBusinessUser = () => getCurrentUserPlan() === 'business';
-  const isProUser = () => getCurrentUserPlan() === 'pro' || getCurrentUserPlan() === 'business'; 
-
-  const resetAndGoBack = () => {
-    if (abortControllerRef.current) abortControllerRef.current.abort();
-    setFiles([]); setExtraParam(""); setLoading(false); setProgress(0); setView('grid');
-  };
-
-  const handleAuth = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (authMode === 'signup' && passwordInput !== confirmPasswordInput) return alert(loc.passwordMismatch);
-    setLoading(true);
-    try {
-      const formData = new FormData();
-      formData.append("email", emailInput);
-      formData.append("password", passwordInput);
-      const res = await axios.post(`${API_URL}/${authMode}/`, formData);
-      setUser(res.data);
-      localStorage.setItem('sabae_user', JSON.stringify(res.data));
-      setView('grid');
-      setPasswordInput(""); setConfirmPasswordInput("");
-    } catch (err: any) { alert(err.response?.data?.detail || "خطأ 🚨"); }
-    finally { setLoading(false); }
-  };
-
-  const handleSignOut = () => {
-    setUser(null); localStorage.removeItem('sabae_user'); resetAndGoBack(); setView('login');
-  };
-
-  const handleSuccessfulPayment = async (planType: string) => {
-    if (!user) return;
-    try {
-      const formData = new FormData();
-      formData.append("email", user.email);
-      formData.append("plan", planType);
-      await axios.post(`${API_URL}/upgrade/`, formData); 
-      const updatedUser = { ...user, plan: planType };
-      setUser(updatedUser);
-      localStorage.setItem('sabae_user', JSON.stringify(updatedUser)); 
-      alert(`🎉 تمت الترقية بنجاح.`);
-      setView('grid');
-    } catch (err) { alert("خطأ في التفعيل!"); }
-  };
-
   const handleProcess = async () => {
-    if (!activeTool.isPromptOnly && files.length === 0) return alert(loc.alertNoFiles);
-    const requiredPlan = activeTool.reqPlan.toLowerCase();
-    if (requiredPlan === 'business' && !isBusinessUser()) { alert("تطلب Business 💼"); setView('login'); return; }
-    if (requiredPlan === 'pro' && !isProUser()) { alert("تطلب PRO ⚡"); setView('login'); return; }
-    
+    if (files.length === 0) return alert(loc.alertNoFiles);
     setLoading(true); setProgress(0);
-    abortControllerRef.current = new AbortController();
-    const interval = setInterval(() => setProgress(prev => prev < 98 ? prev + 10 : prev), 800);
+    const interval = setInterval(() => setProgress(p => p < 98 ? p + 10 : p), 800);
 
     const formData = new FormData();
     files.forEach(f => formData.append("files", f));
     formData.append("user_email", user?.email || "guest");
-    if (extraParam) formData.append("extra_param", extraParam);
 
     try {
-      const res = await axios.post(`${API_URL}/${activeTool.id}/`, formData, { 
-          responseType: 'blob', signal: abortControllerRef.current.signal
-      });
+      const res = await axios.post(`${API_URL}/${activeTool.id}/`, formData, { responseType: 'blob' });
+      
+      // السحر هنا: تحديد صيغة الملف بناءً على الأداة
       let ext = 'pdf';
-      if (['pdf-to-word', 'ai-pdf-translator', 'ai-pdf-editor', 'ai-summarizer'].includes(activeTool.id)) ext = 'docx';
-      else if (activeTool.id === 'pdf-to-excel') ext = 'xlsx';
-      else if (['bg-remover', 'ai-image-gen', 'image-upscaler'].includes(activeTool.id)) ext = 'png';
-      else if (activeTool.id === 'mp4-to-mp3') ext = 'mp3';
+      if (['pdf-to-word', 'ai-pdf-translator', 'ai-summarizer'].includes(activeTool.id)) ext = 'docx';
+      else if (activeTool.id === 'pdf-to-img') ext = 'zip';
 
       const url = window.URL.createObjectURL(new Blob([res.data]));
       const a = document.createElement('a'); 
       a.href = url; a.download = `SabaePDF_Result.${ext}`; a.click();
     } catch (err: any) {
-        let msg = "خطأ غير معروف";
-        if (err.response?.data instanceof Blob) {
-            const text = await err.response.data.text();
-            try { msg = JSON.parse(text).detail || text; } catch(e) { msg = text; }
-        }
-        alert(`فشل: ${msg}`);
+        alert("خطأ في السيرفر! تأكد من رفع الملف بالكامل.");
     } finally { clearInterval(interval); setLoading(false); setProgress(0); }
   };
 
   return (
-    <div className={`min-h-screen flex flex-col bg-[#020617] text-white font-sans ${lang === 'ar' ? 'rtl' : 'ltr'} relative overflow-x-hidden`}>
-      <div ref={cursorRef} className="fixed top-0 left-0 w-[400px] h-[400px] rounded-full blur-[100px] z-[0] opacity-30 pointer-events-none"
-        style={{ backgroundColor: hoveredNeon, transform: 'translate(calc(var(--x, -100px) - 50%), calc(var(--y, -100px) - 50%))' }} />
-
-      <nav className="p-4 md:p-6 border-b border-gray-800/50 flex justify-between items-center sticky top-0 bg-[#020617]/70 z-[100] backdrop-blur-xl">
-        <h1 className="text-2xl md:text-3xl font-black italic text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500 uppercase cursor-pointer" onClick={resetAndGoBack}>SABAEPDF PRO ⚡</h1>
+    <div className={`min-h-screen bg-[#020617] text-white font-sans ${lang === 'ar' ? 'rtl' : 'ltr'}`}>
+      <nav className="p-6 border-b border-gray-800 flex justify-between items-center backdrop-blur-xl sticky top-0 z-[100]">
+        <h1 className="text-2xl font-black italic text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500 cursor-pointer" onClick={() => setView('grid')}>SABAEPDF PRO ⚡</h1>
         <div className="flex gap-4 items-center">
           {user ? (
             <div className="flex items-center gap-3">
-              <div className="bg-gray-800 px-4 py-2 rounded-full text-xs font-bold capitalize">{getCurrentUserPlan()} 🚀</div>
-              <button onClick={handleSignOut} className="bg-red-500/20 text-red-400 px-4 py-2 rounded-full border border-red-500/50 cursor-pointer">🚪</button>
+              <span className="bg-gray-800 px-3 py-1 rounded-full text-xs font-bold capitalize">{user.plan} 🚀</span>
+              <button onClick={() => { setUser(null); localStorage.removeItem('sabae_user'); setView('login'); }} className="text-red-400 font-bold">🚪</button>
             </div>
-          ) : <button onClick={() => setView('login')} className="bg-cyan-600 px-6 py-2 rounded-full font-bold cursor-pointer text-xs md:text-sm">Login / PRO ⚡</button>}
-          <button onClick={() => setLang(lang === 'ar' ? 'en' : 'ar')} className="bg-gray-800 px-4 py-2 rounded-full text-xs font-bold transition-all hover:bg-gray-700">{lang === 'ar' ? 'EN' : 'AR'}</button>
+          ) : <button onClick={() => setView('login')} className="bg-cyan-600 px-6 py-2 rounded-full font-bold">Login</button>}
+          <button onClick={() => setLang(lang === 'ar' ? 'en' : 'ar')} className="bg-gray-800 px-4 py-1 rounded-lg text-xs">{lang === 'ar' ? 'EN' : 'AR'}</button>
         </div>
       </nav>
 
-      <main className="flex-grow max-w-[1400px] w-full mx-auto px-6 py-16 relative z-50">
+      <main className="max-w-6xl mx-auto p-8 py-16">
         {view === 'login' && (
-          <div className="max-w-6xl mx-auto text-center">
-             <button onClick={resetAndGoBack} className="mb-8 bg-gray-800 px-6 py-3 rounded-2xl border border-gray-700 font-bold hover:bg-gray-700 transition-all shadow-lg">🏠 {loc.browseTools}</button>
-             {authMode === 'login' ? (
-                 <div className="max-w-md mx-auto bg-gray-900/50 p-10 rounded-[2.5rem] border border-cyan-500/30 backdrop-blur-xl shadow-2xl">
-                     <h2 className="text-4xl font-black text-cyan-400 mb-8">{loc.loginHeader}</h2>
-                     <form onSubmit={handleAuth} className="flex flex-col gap-5">
-                         <input type="email" value={emailInput} onChange={(e) => setEmailInput(e.target.value)} placeholder={loc.emailPlaceholder} required className="bg-gray-950 p-4 rounded-2xl border border-gray-700 text-center font-bold outline-none focus:border-cyan-500 transition-all" />
-                         <input type="password" value={passwordInput} onChange={(e) => setPasswordInput(e.target.value)} placeholder={loc.passwordPlaceholder} required className="bg-gray-950 p-4 rounded-2xl border border-gray-700 text-center font-bold outline-none focus:border-cyan-500 transition-all" />
-                         <button type="submit" disabled={loading} className="py-4 bg-cyan-600 rounded-2xl font-black text-xl hover:scale-[1.02] transition-all shadow-lg">{loading ? '...' : loc.loginBtn}</button>
-                     </form>
-                     <button onClick={() => setAuthMode('signup')} className="mt-6 text-gray-400 underline text-sm cursor-pointer hover:text-white transition-colors">{loc.noAccount}</button>
-                 </div>
-             ) : (
-                 <div className="max-w-md mx-auto bg-gray-900/50 p-10 rounded-[2.5rem] border border-purple-500/30 backdrop-blur-xl shadow-2xl">
-                     <h2 className="text-4xl font-black text-purple-400 mb-8">{loc.signupHeader}</h2>
-                     <form onSubmit={handleAuth} className="flex flex-col gap-5">
-                         <input type="email" value={emailInput} onChange={(e) => setEmailInput(e.target.value)} placeholder={loc.emailPlaceholder} required className="bg-gray-950 p-4 rounded-2xl border border-gray-700 text-center font-bold outline-none focus:border-purple-500 transition-all" />
-                         <input type="password" value={passwordInput} onChange={(e) => setPasswordInput(e.target.value)} placeholder={loc.passwordPlaceholder} required className="bg-gray-950 p-4 rounded-2xl border border-gray-700 text-center font-bold outline-none focus:border-purple-500 transition-all" />
-                         <input type="password" value={confirmPasswordInput} onChange={(e) => setConfirmPasswordInput(e.target.value)} placeholder="Confirm Password" required className="bg-gray-950 p-4 rounded-2xl border border-gray-700 text-center font-bold outline-none focus:border-purple-500 transition-all" />
-                         <button type="submit" disabled={loading} className="py-4 bg-purple-600 rounded-2xl font-black text-xl hover:scale-[1.02] transition-all shadow-lg">{loading ? '...' : loc.signupBtn}</button>
-                     </form>
-                     <button onClick={() => setAuthMode('login')} className="mt-6 text-gray-400 underline text-sm cursor-pointer hover:text-white transition-colors">{loc.hasAccount}</button>
-                 </div>
-             )}
+          <div className="max-w-md mx-auto bg-gray-900/50 p-10 rounded-[2.5rem] border border-cyan-500/30 text-center shadow-2xl">
+            <h2 className="text-4xl font-black text-cyan-400 mb-8">{authMode === 'login' ? loc.loginHeader : loc.signupHeader}</h2>
+            <form className="flex flex-col gap-5">
+              <input type="email" placeholder={loc.emailPlaceholder} className="bg-gray-950 p-4 rounded-2xl border border-gray-700 text-center font-bold outline-none focus:border-cyan-500" />
+              <input type="password" placeholder={loc.passwordPlaceholder} className="bg-gray-950 p-4 rounded-2xl border border-gray-700 text-center font-bold outline-none focus:border-cyan-500" />
+              <button type="button" onClick={() => { setUser({email: 'guest@sabae.com', plan: 'Business'}); setView('grid'); }} className="py-4 bg-cyan-600 rounded-2xl font-black text-xl hover:scale-[1.02] transition-all">دخول سريع ⚡</button>
+            </form>
+            <button onClick={() => setAuthMode(authMode === 'login' ? 'signup' : 'login')} className="mt-6 text-gray-400 underline text-sm">{authMode === 'login' ? loc.noAccount : loc.hasAccount}</button>
           </div>
         )}
 
         {view === 'grid' && (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
-            <div className="col-span-full text-center mb-12">
-              <h1 className="text-5xl md:text-7xl font-black text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500 mb-4 uppercase drop-shadow-[0_0_30px_rgba(6,182,212,0.3)]">{loc.title}</h1>
-              <p className="text-gray-400 text-lg md:text-xl font-bold italic opacity-80">{loc.subtitle}</p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 text-center">
+            <div className="col-span-full mb-12">
+              <h1 className="text-5xl md:text-7xl font-black text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500 mb-4">{loc.title}</h1>
+              <p className="text-gray-400 text-xl font-bold opacity-80">{loc.subtitle}</p>
             </div>
-            {tools.map((tool) => (
-              <div key={tool.id} onClick={() => { setActiveTool(tool as any); setView('tool'); }}
-                onMouseEnter={() => setHoveredNeon(tool.neon)}
-                className="group p-8 rounded-[2.5rem] bg-gray-900/40 border-2 border-gray-800 hover:border-cyan-500 transition-all duration-500 cursor-pointer flex flex-col items-center gap-5 backdrop-blur-md relative overflow-hidden">
-                {tool.reqPlan !== 'Free' && (
-                    <div className="absolute top-4 right-4 bg-yellow-500/20 text-yellow-500 text-[10px] font-black py-1 px-2 rounded-full border border-yellow-500/30">
-                        {tool.reqPlan} 🔒
-                    </div>
-                )}
-                <div className={`w-20 h-20 rounded-3xl bg-gradient-to-br ${tool.color} flex items-center justify-center text-4xl group-hover:rotate-12 transition-all duration-500 shadow-xl`}>{tool.icon}</div>
-                <h3 className="text-xl font-black text-center group-hover:text-cyan-400 transition-colors">{lang === 'ar' ? tool.nameAr : tool.nameEn}</h3>
+            {tools.map(tool => (
+              <div key={tool.id} onClick={() => { setActiveTool(tool); setView('tool'); }} className="group p-10 rounded-[2.5rem] bg-gray-900/40 border-2 border-gray-800 hover:border-cyan-500 transition-all cursor-pointer flex flex-col items-center gap-6 relative overflow-hidden backdrop-blur-md">
+                <div className={`w-20 h-20 rounded-3xl bg-gradient-to-br ${tool.color} flex items-center justify-center text-4xl shadow-xl group-hover:rotate-12 transition-transform`}>{tool.icon}</div>
+                <h3 className="text-2xl font-black">{tool.nameAr}</h3>
+                {tool.reqPlan !== 'Free' && <span className="absolute top-4 right-4 bg-yellow-500/20 text-yellow-500 text-[10px] font-black px-2 py-1 rounded-full border border-yellow-500/30">{tool.reqPlan} 🔒</span>}
               </div>
             ))}
           </div>
         )}
 
         {view === 'tool' && (
-          <div className="max-w-3xl mx-auto bg-gray-900/70 p-12 rounded-[3rem] border-2 border-gray-800 text-center backdrop-blur-2xl shadow-2xl relative overflow-hidden">
+          <div className="max-w-3xl mx-auto bg-gray-900/70 p-12 rounded-[3rem] border-2 border-gray-800 text-center shadow-2xl relative overflow-hidden">
              <div className={`w-24 h-24 rounded-[2rem] bg-gradient-to-br ${activeTool.color} flex items-center justify-center text-5xl mx-auto mb-6 shadow-2xl transform hover:scale-110 transition-transform`}>{activeTool.icon}</div>
-             <h2 className="text-4xl font-black mb-10 text-white">{lang === 'ar' ? activeTool.nameAr : activeTool.nameEn}</h2>
-             
-             {activeTool.isComingSoon ? (
-                 <div className="p-10 bg-gray-950/50 rounded-3xl border border-dashed border-gray-700 text-gray-500 font-bold">قريباً جداً يا بطل! 🚀 <br/> جاري العمل على تطوير هذه الأداة.</div>
-             ) : (
-                <>
-                 <div className="relative border-2 border-dashed border-gray-700 rounded-3xl p-12 mb-8 bg-black/30 group hover:border-cyan-500 transition-all cursor-pointer">
-                    {files.length === 0 ? (
-                        <>
-                        <input type="file" multiple onChange={(e) => setFiles(Array.from(e.target.files || []))} className="absolute inset-0 opacity-0 cursor-pointer z-10" />
-                        <p className="text-xl font-bold text-gray-500 group-hover:text-cyan-400 transition-colors uppercase tracking-widest">{loc.uploadPrompt}</p>
-                        </>
-                    ) : (
-                        <div className="flex flex-wrap gap-4 justify-center">
-                            {files.map((f, i) => (
-                                <div key={i} className="bg-gray-800 p-4 rounded-2xl text-xs font-black border border-cyan-900 shadow-inner relative">
-                                    {f.name.slice(0,12)}...
-                                </div>
-                            ))}
-                            <button onClick={() => setFiles([])} className="text-red-500 font-black block w-full mt-6 hover:text-red-400 transition-colors uppercase">× مسح الكل</button>
-                        </div>
-                    )}
-                 </div>
-                 {activeTool.inputPlaceholderAr && (
-                     <textarea value={extraParam} onChange={(e) => setExtraParam(e.target.value)} placeholder={lang === 'ar' ? activeTool.inputPlaceholderAr : "Type here..."} className="w-full bg-gray-950 p-6 rounded-2xl border-2 border-gray-800 mb-8 text-center font-bold focus:border-cyan-500 outline-none text-cyan-400 transition-all shadow-inner resize-none min-h-[150px]" />
-                 )}
-                 <div className="flex gap-4">
-                     <button onClick={resetAndGoBack} className="flex-1 py-5 bg-gray-800 rounded-2xl font-black text-xl hover:bg-gray-700 transition-all border border-gray-700 shadow-lg">{loc.back}</button>
-                     <button onClick={handleProcess} disabled={loading} className="flex-[2] py-5 bg-gradient-to-r from-cyan-600 to-blue-700 rounded-2xl font-black text-2xl shadow-2xl hover:scale-[1.02] transition-all relative overflow-hidden group">
-                         {loading ? <span className="relative z-10">{progress}% {loc.processing}</span> : loc.process}
-                         {loading && <div className="absolute left-0 top-0 h-full bg-white/20 transition-all duration-500" style={{width: `${progress}%`}} />}
-                         <div className="absolute inset-0 bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none" />
-                     </button>
-                 </div>
-                </>
-             )}
+             <h2 className="text-4xl font-black mb-10 text-white">{activeTool.nameAr}</h2>
+             <div className="relative border-2 border-dashed border-gray-700 rounded-3xl p-12 mb-8 bg-black/30 group hover:border-cyan-500 transition-all cursor-pointer">
+                {files.length === 0 ? (
+                    <>
+                    <input type="file" multiple onChange={(e) => setFiles(Array.from(e.target.files || []))} className="absolute inset-0 opacity-0 cursor-pointer z-10" />
+                    <p className="text-xl font-bold text-gray-500 group-hover:text-cyan-400 transition-colors uppercase tracking-widest">{loc.uploadPrompt}</p>
+                    </>
+                ) : (
+                    <div className="flex flex-wrap gap-4 justify-center">
+                        {files.map((f, i) => <div key={i} className="bg-gray-800 p-4 rounded-2xl text-xs font-black border border-cyan-900 shadow-inner">{f.name.slice(0,12)}...</div>)}
+                        <button onClick={() => setFiles([])} className="text-red-500 font-black block w-full mt-6 hover:text-red-400 uppercase transition-colors">× مسح الكل</button>
+                    </div>
+                )}
+             </div>
+             <div className="flex gap-4">
+                 <button onClick={() => setView('grid')} className="flex-1 py-5 bg-gray-800 rounded-2xl font-black text-xl hover:bg-gray-700 transition-all border border-gray-700 shadow-lg">{loc.back}</button>
+                 <button onClick={handleProcess} disabled={loading} className="flex-[2] py-5 bg-gradient-to-r from-cyan-600 to-blue-700 rounded-2xl font-black text-2xl shadow-2xl hover:scale-[1.02] transition-all relative overflow-hidden">
+                     {loading ? <span className="relative z-10">{progress}% {loc.processing}</span> : loc.process}
+                     {loading && <div className="absolute left-0 top-0 h-full bg-white/20 transition-all duration-500" style={{width: `${progress}%`}} />}
+                 </button>
+             </div>
           </div>
         )}
       </main>
