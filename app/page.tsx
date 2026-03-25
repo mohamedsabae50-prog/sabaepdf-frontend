@@ -115,6 +115,9 @@ const tools = [
   { id: 'watermark-remover', nameAr: 'مسح العلامة المائية', nameEn: 'Watermark Remover', icon: '💧', color: 'from-cyan-500 to-teal-600', neon: '#06b6d4', descAr: 'إزالة الشعارات والنصوص من الصور تلقائياً.', reqPlan: 'PRO' },
   { id: 'ai-image-gen', nameAr: 'توليد صور (AI)', nameEn: 'AI Image Gen', icon: '🎨', color: 'from-indigo-500 to-purple-600', neon: '#8b5cf6', descAr: 'توليد صور بالوصف.', reqPlan: 'PRO', isPromptOnly: true, inputPlaceholderAr: 'اكتب وصف للصورة (يفضل باللغة الإنجليزية)...', isAI: true },
   
+  // 🚀 الأداة طلعناها كارت منفصل بره عشان تظهر بوضوح
+  { id: 'image-converter', nameAr: 'محول صيغ الصور', nameEn: 'Image Converter', icon: '💱', color: 'from-teal-500 to-emerald-600', neon: '#10b981', descAr: 'حول صورتك لأي صيغة (JPG, PNG, WEBP).', reqPlan: 'Free', inputPlaceholderAr: 'اكتب الصيغة المطلوبة (مثال: jpg, png, webp)...' },
+
   {
     id: 'pdf-img-combo', nameAr: 'صور ↔ PDF', nameEn: 'PDF ↔ Images', icon: '🔁', color: 'from-orange-500 to-red-600', neon: '#ef4444', descAr: 'تحويل متبادل بين الصور والـ PDF.', reqPlan: 'Free', isCombo: true,
     subTools: [
@@ -128,8 +131,7 @@ const tools = [
     subTools: [
       { id: 'compress-pdf', nameAr: 'ضغط الميديا', nameEn: 'Compress Media', icon: '📉', reqPlan: 'Free' },
       { id: 'image-upscaler', nameAr: 'تكبير الصور (4K)', nameEn: 'Image Upscaler', icon: '🪄', reqPlan: 'PRO', isAI: true },
-      { id: 'grayscale-image', nameAr: 'صورة أبيض وأسود', nameEn: 'Grayscale Image', icon: '🏁', reqPlan: 'Free' },
-      { id: 'image-converter', nameAr: 'محول صيغ الصور', nameEn: 'Image Converter', icon: '💱', reqPlan: 'Free', inputPlaceholderAr: 'اكتب الصيغة المطلوبة (مثال: jpg, png, webp)...' }
+      { id: 'grayscale-image', nameAr: 'صورة أبيض وأسود', nameEn: 'Grayscale Image', icon: '🏁', reqPlan: 'Free' }
     ]
   },
   
