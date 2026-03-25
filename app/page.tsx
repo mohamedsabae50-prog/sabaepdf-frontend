@@ -102,7 +102,7 @@ const t = {
   }
 };
 
-// تم رفع الـ isComingSoon عن الأدوات المطلوبة عشان تفتح طبيعي
+// 🚀 تم دمج الأدوات المتشابهة لتخفيف الزحمة
 const tools = [
   { id: 'ai-pdf-translator', nameAr: 'ترجمة ذكية (AI)', nameEn: 'Smart Translation', icon: '🌍', color: 'from-blue-600 to-indigo-900', neon: '#3b82f6', descAr: 'ترجمة كاملة مع حفظ التنسيق.', reqPlan: 'Business', isAI: true },
   { id: 'pdf-to-excel', nameAr: 'PDF لـ Excel (OCR)', nameEn: 'Pro OCR to Excel', icon: '📊', color: 'from-green-600 to-emerald-900', neon: '#059669', descAr: 'استخراج الجداول بدقة عالية.', reqPlan: 'Business' },
@@ -110,16 +110,31 @@ const tools = [
   { id: 'pdf-redaction', nameAr: 'تعتيم حساس', nameEn: 'Smart Redaction', icon: '⬛', color: 'from-gray-700 to-black', neon: '#ffffff', descAr: 'إخفاء الأرقام والأسماء للأبد.', reqPlan: 'PRO', inputPlaceholderAr: 'الكلمة أو الرقم المراد إخفاؤه وتمويهه...' },
   { id: 'ai-summarizer', nameAr: 'تلخيص PDF (AI)', nameEn: 'AI Summarizer', icon: '🧠', color: 'from-indigo-600 to-blue-800', neon: '#4f46e5', descAr: 'لخص 100 صفحة في ثواني.', reqPlan: 'PRO', isAI: true },
   { id: 'bg-remover', nameAr: 'إزالة الخلفية (AI)', nameEn: 'Remove BG', icon: '✂️', color: 'from-fuchsia-500 to-purple-600', neon: '#d946ef', descAr: 'مسح الخلفية بالذكاء الاصطناعي.', reqPlan: 'PRO', isAI: true },
-  { id: 'image-upscaler', nameAr: 'تكبير الصور (4K)', nameEn: 'Image Upscaler', icon: '🪄', color: 'from-orange-500 to-red-600', neon: '#f97316', descAr: 'تحسين جودة الصور الضعيفة.', reqPlan: 'PRO', isAI: true },
   { id: 'mp4-to-mp3', nameAr: 'استخراج الصوت', nameEn: 'MP4 to MP3', icon: '🎧', color: 'from-cyan-500 to-blue-600', neon: '#06b6d4', descAr: 'فصل الصوت كملف MP3.', reqPlan: 'PRO' }, 
   { id: 'watermark-remover', nameAr: 'مسح العلامة المائية', nameEn: 'Watermark Remover', icon: '💧', color: 'from-cyan-500 to-teal-600', neon: '#06b6d4', descAr: 'إزالة الشعارات من الصور.', reqPlan: 'PRO', isComingSoon: true },
   { id: 'ai-image-gen', nameAr: 'توليد صور (AI)', nameEn: 'AI Image Gen', icon: '🎨', color: 'from-indigo-500 to-purple-600', neon: '#8b5cf6', descAr: 'توليد صور بالوصف.', reqPlan: 'PRO', isPromptOnly: true, inputPlaceholderAr: 'اكتب وصف للصورة (يفضل باللغة الإنجليزية)...', isAI: true },
+  
+  // 🌟 مجموعة التحويل المزدوجة (صور و PDF)
+  {
+    id: 'pdf-img-combo', nameAr: 'صور ↔ PDF', nameEn: 'PDF ↔ Images', icon: '🔁', color: 'from-orange-500 to-red-600', neon: '#ef4444', descAr: 'تحويل متبادل بين الصور والـ PDF.', reqPlan: 'Free', isCombo: true,
+    subTools: [
+      { id: 'pdf-to-img', nameAr: 'PDF لـ صور', nameEn: 'PDF to Images', icon: '📸', reqPlan: 'Free' },
+      { id: 'img-to-pdf', nameAr: 'صور لـ PDF', nameEn: 'Images to PDF', icon: '🖼️', reqPlan: 'Free' }
+    ]
+  },
+
+  // 🌟 مجموعة التحسين والضغط (ضغط الميديا + تكبير الصور)
+  {
+    id: 'media-optimizer', nameAr: 'تحسين الميديا', nameEn: 'Media Optimizer', icon: '⚖️', color: 'from-pink-500 to-rose-600', neon: '#f43f5e', descAr: 'ضغط وتكبير جودة الملفات والصور.', reqPlan: 'Free', isCombo: true,
+    subTools: [
+      { id: 'compress-pdf', nameAr: 'ضغط الميديا', nameEn: 'Compress Media', icon: '📉', reqPlan: 'Free' },
+      { id: 'image-upscaler', nameAr: 'تكبير الصور (4K)', nameEn: 'Image Upscaler', icon: '🪄', reqPlan: 'PRO', isAI: true }
+    ]
+  },
+
   { id: 'pdf-editor', nameAr: 'تعديل PDF', nameEn: 'Edit PDF', icon: '🖍️', color: 'from-teal-500 to-emerald-600', neon: '#14b8a6', descAr: 'إضافة نصوص، صور، وتوقيع.', reqPlan: 'Free', isComingSoon: true },
   { id: 'pdf-to-word', nameAr: 'PDF لـ Word', nameEn: 'PDF to Word', icon: '📝', color: 'from-emerald-500 to-teal-600', neon: '#10b981', descAr: 'تحويل الملف لنص قابل للتعديل.', reqPlan: 'Free' },
-  { id: 'img-to-pdf', nameAr: 'صور لـ PDF', nameEn: 'Images to PDF', icon: '🖼️', color: 'from-orange-500 to-red-600', neon: '#ef4444', descAr: 'تحويل الصور إلى مستندات PDF.', reqPlan: 'Free' },
-  { id: 'pdf-to-img', nameAr: 'PDF لـ صور', nameEn: 'PDF to Images', icon: '📸', color: 'from-yellow-400 to-orange-500', neon: '#f59e0b', descAr: 'تحويل صفحات الـ PDF لصور.', reqPlan: 'Free' },
   { id: 'merge-pdf', nameAr: 'دمج ملفات', nameEn: 'Merge PDF', icon: '📑', color: 'from-blue-600 to-indigo-700', neon: '#3b82f6', descAr: 'دمج عدة ملفات في مستند واحد.', reqPlan: 'Free' },
-  { id: 'compress-pdf', nameAr: 'ضغط الميديا', nameEn: 'Compress Media', icon: '📉', color: 'from-pink-500 to-rose-600', neon: '#f43f5e', descAr: 'ضغط حجم الصور والفيديوهات.', reqPlan: 'Free' },
   { id: 'grayscale-pdf', nameAr: 'توفير حبر', nameEn: 'Grayscale', icon: '🏁', color: 'from-gray-500 to-slate-700', neon: '#64748b', descAr: 'تحويل لأبيض وأسود.', reqPlan: 'Free' },
   { id: 'delete-pages', nameAr: 'مسح صفحات', nameEn: 'Delete Pages', icon: '✂️', color: 'from-red-500 to-pink-600', neon: '#ec4899', descAr: 'حذف صفحات من الملف.', reqPlan: 'Free', inputPlaceholderAr: 'أرقام الصفحات (1, 3)' },
   { id: 'rotate-pdf', nameAr: 'تدوير الملف', nameEn: 'Rotate PDF', icon: '🔄', color: 'from-yellow-500 to-orange-600', neon: '#f59e0b', descAr: 'تدوير الصفحات أو الصور.', reqPlan: 'Free', inputPlaceholderAr: 'الزاوية (90, 180)' },
@@ -141,7 +156,10 @@ export default function Home() {
   
   const [authMode, setAuthMode] = useState<'login' | 'signup'>('login');
   const [view, setView] = useState<'grid' | 'login' | 'tool'>('grid');
-  const [activeTool, setActiveTool] = useState(tools[0]);
+  
+  const [activeTool, setActiveTool] = useState<any>(tools[0]);
+  const [activeSubTool, setActiveSubTool] = useState<any>(null); // 👈 حالة لتتبع الأداة الفرعية في الكومبو
+  
   const [files, setFiles] = useState<File[]>([]);
   const [extraParam, setExtraParam] = useState("");
   const [loading, setLoading] = useState(false);
@@ -175,6 +193,9 @@ export default function Home() {
   const isBusinessUser = () => getCurrentUserPlan() === 'business';
   const isProUser = () => getCurrentUserPlan() === 'pro' || getCurrentUserPlan() === 'business'; 
 
+  // 👈 دالة بتحدد إحنا شغالين على أداة رئيسية ولا أداة فرعية من الكومبو
+  const currentTool = activeSubTool || activeTool;
+
   const resetAndGoBack = () => {
     if (abortControllerRef.current) {
         abortControllerRef.current.abort();
@@ -184,6 +205,7 @@ export default function Home() {
     setExtraParam("");
     setLoading(false);
     setProgress(0);
+    setActiveSubTool(null);
     setView('grid');
   };
 
@@ -242,18 +264,18 @@ export default function Home() {
   };
 
   const getAcceptTypes = () => {
-    if (activeTool.id === 'rotate-pdf') return '.pdf, image/*';
-    if (['img-to-pdf', 'image-upscaler', 'watermark-remover', 'bg-remover'].includes(activeTool.id)) return 'image/*';
-    if (activeTool.id === 'mp4-to-mp3') return 'video/*, audio/*';
-    if (['ai-summarizer', 'ai-pdf-translator', 'pdf-redaction', 'ai-pdf-editor', 'pdf-editor', 'pdf-to-img', 'grayscale-pdf', 'delete-pages', 'security-pdf', 'pdf-to-word', 'pdf-to-excel'].includes(activeTool.id)) return '.pdf';
+    if (currentTool.id === 'rotate-pdf') return '.pdf, image/*';
+    if (['img-to-pdf', 'image-upscaler', 'watermark-remover', 'bg-remover'].includes(currentTool.id)) return 'image/*';
+    if (currentTool.id === 'mp4-to-mp3') return 'video/*, audio/*';
+    if (['ai-summarizer', 'ai-pdf-translator', 'pdf-redaction', 'ai-pdf-editor', 'pdf-editor', 'pdf-to-img', 'grayscale-pdf', 'delete-pages', 'security-pdf', 'pdf-to-word', 'pdf-to-excel'].includes(currentTool.id)) return '.pdf';
     return '.pdf, image/*, video/*';
   };
 
   const handleProcess = async () => {
-    if (!activeTool.isPromptOnly && files.length === 0) return alert(loc.alertNoFiles);
-    if (activeTool.isPromptOnly && !extraParam.trim()) return alert(loc.alertNoPrompt);
+    if (!currentTool.isPromptOnly && files.length === 0) return alert(loc.alertNoFiles);
+    if (currentTool.isPromptOnly && !extraParam.trim()) return alert(loc.alertNoPrompt);
 
-    const requiredPlan = activeTool.reqPlan.toLowerCase();
+    const requiredPlan = currentTool.reqPlan.toLowerCase();
     if (requiredPlan === 'business' && !isBusinessUser()) {
         alert("هذه الأداة تتطلب اشتراك Business 💼");
         setView('login'); return;
@@ -276,14 +298,14 @@ export default function Home() {
     }, 800);
 
     const formData = new FormData();
-    if (!activeTool.isPromptOnly) {
+    if (!currentTool.isPromptOnly) {
       files.forEach(f => formData.append("files", f));
     }
     formData.append("user_email", user?.email || "guest");
     if (extraParam) formData.append("extra_param", extraParam);
 
     try {
-      const res = await axios.post(`${API_URL}/${activeTool.id}/`, formData, { 
+      const res = await axios.post(`${API_URL}/${currentTool.id}/`, formData, { 
           responseType: 'blob', 
           timeout: 300000,
           signal: abortControllerRef.current.signal
@@ -294,21 +316,21 @@ export default function Home() {
       let ext = 'pdf'; 
       const cType = res.headers['content-type'] || '';
       
-      if (activeTool.id === 'pdf-to-word') ext = 'docx';
-      else if (activeTool.id === 'pdf-to-excel') ext = 'xlsx';
-      else if (['bg-remover', 'ai-image-gen', 'image-upscaler', 'watermark-remover'].includes(activeTool.id)) ext = 'png'; 
-      else if (activeTool.id === 'mp4-to-mp3') ext = 'mp3';
-      else if (activeTool.id === 'pdf-to-img') {
+      if (currentTool.id === 'pdf-to-word') ext = 'docx';
+      else if (currentTool.id === 'pdf-to-excel') ext = 'xlsx';
+      else if (['bg-remover', 'ai-image-gen', 'image-upscaler', 'watermark-remover'].includes(currentTool.id)) ext = 'png'; 
+      else if (currentTool.id === 'mp4-to-mp3') ext = 'mp3';
+      else if (currentTool.id === 'pdf-to-img') {
           ext = cType.includes('zip') ? 'zip' : 'png';
       }
-      else if (activeTool.id === 'compress-pdf') {
+      else if (currentTool.id === 'compress-pdf') {
           if (cType.includes('zip')) ext = 'zip';
           else if (cType.includes('mp4')) ext = 'mp4';
           else if (cType.includes('jpeg')) ext = 'jpg';
           else if (cType.includes('png')) ext = 'png';
           else ext = files.length === 1 && files[0] ? (files[0].name.split('.').pop() || 'zip') : 'zip';
       }
-      else if (['ai-summarizer', 'ai-pdf-translator', 'pdf-redaction', 'ai-pdf-editor', 'pdf-editor', 'grayscale-pdf', 'rotate-pdf', 'security-pdf', 'delete-pages', 'merge-pdf'].includes(activeTool.id)) {
+      else if (['ai-summarizer', 'ai-pdf-translator', 'pdf-redaction', 'ai-pdf-editor', 'pdf-editor', 'grayscale-pdf', 'rotate-pdf', 'security-pdf', 'delete-pages', 'merge-pdf'].includes(currentTool.id)) {
           ext = 'pdf';
       }
 
@@ -317,7 +339,7 @@ export default function Home() {
           const originalName = files[0].name;
           const lastDot = originalName.lastIndexOf('.');
           finalFileName = lastDot !== -1 ? originalName.substring(0, lastDot) : originalName;
-      } else if (activeTool.isPromptOnly && extraParam) {
+      } else if (currentTool.isPromptOnly && extraParam) {
           finalFileName = extraParam.substring(0, 20).replace(/[^a-zA-Z0-9\u0600-\u06FF]/g, '_') || "AI_Generated";
       }
 
@@ -351,8 +373,8 @@ export default function Home() {
   };
 
   const isLocked = () => {
-    if (!user && activeTool.reqPlan !== 'Free') return true;
-    const requiredPlan = activeTool.reqPlan.toLowerCase();
+    if (!user && currentTool.reqPlan !== 'Free') return true;
+    const requiredPlan = currentTool.reqPlan.toLowerCase();
     if (requiredPlan === 'business' && !isBusinessUser()) return true;
     if (requiredPlan === 'pro' && !isProUser()) return true;
     return false;
@@ -370,14 +392,11 @@ export default function Home() {
         <div className="flex gap-2 md:gap-4 items-center">
           {user ? (
             <div className="flex items-center gap-2 md:gap-3 mr-2 md:mr-4">
-              
-              {/* زرار الترقية السريع للباقات المجانية */}
               {getCurrentUserPlan() === 'free' && (
                   <button onClick={() => { resetAndGoBack(); setView('login'); }} className="bg-gradient-to-r from-yellow-500 to-orange-500 text-black px-4 py-1.5 md:py-2 rounded-full font-black text-xs md:text-sm hover:scale-105 transition-all shadow-[0_0_10px_rgba(234,179,8,0.4)] animate-pulse cursor-pointer">
                       {loc.upgradeBtn}
                   </button>
               )}
-
               <div className={`bg-gradient-to-r ${isBusinessUser() ? 'from-purple-600 to-indigo-600' : isProUser() ? 'from-cyan-600 to-blue-600' : 'from-gray-600 to-gray-500'} px-4 py-2 rounded-full text-white font-black text-xs md:text-sm shadow-lg flex items-center gap-2`}>
                 <span className="capitalize">{getCurrentUserPlan()}</span> {getCurrentUserPlan() !== 'free' && '🚀'}
               </div>
@@ -515,7 +534,12 @@ export default function Home() {
               <p className="text-gray-400 text-lg md:text-2xl font-bold italic opacity-90">{loc.subtitle}</p>
             </div>
             {tools.map((t) => (
-              <div key={t.id} onClick={() => { setActiveTool(t as any); setFiles([]); setExtraParam(""); setView('tool'); }} 
+              <div key={t.id} onClick={() => { 
+                  setActiveTool(t as any); 
+                  if (t.isCombo) setActiveSubTool(t.subTools[0]); // 👈 لو كومبو نشغل أول أداة فيه تلقائياً
+                  else setActiveSubTool(null);
+                  setFiles([]); setExtraParam(""); setView('tool'); 
+                }} 
                 onMouseEnter={() => { setHoveredNeon(t.neon); setHoveredCardId(t.id); }} 
                 onMouseLeave={() => { setHoveredNeon('#06b6d4'); setHoveredCardId(null); }}
                 style={{ boxShadow: hoveredCardId === t.id ? `0 0 30px ${t.neon}70` : '0 10px 30px rgba(0,0,0,0.3)', borderColor: hoveredCardId === t.id ? t.neon : 'rgba(31, 41, 55, 0.8)' }}
@@ -552,20 +576,38 @@ export default function Home() {
 
         {view === 'tool' && (
           <div className="max-w-4xl mx-auto bg-gray-900/60 border-2 border-gray-800/80 rounded-[3rem] p-12 shadow-[0_0_80px_rgba(0,0,0,0.6)] backdrop-blur-xl text-center relative overflow-hidden">
-            <div className={`w-28 h-28 rounded-[2rem] bg-gradient-to-br ${activeTool.color} flex items-center justify-center text-6xl mx-auto mb-6 shadow-2xl transform hover:scale-110 transition-transform duration-500`}>{activeTool.icon}</div>
+            <div className={`w-28 h-28 rounded-[2rem] bg-gradient-to-br ${activeTool.color} flex items-center justify-center text-6xl mx-auto mb-6 shadow-2xl transform hover:scale-110 transition-transform duration-500`}>{currentTool.icon}</div>
             
-            <h2 className="text-5xl font-black text-white mb-4 leading-tight">
-              {lang === 'ar' ? activeTool.nameAr : activeTool.nameEn}
+            <h2 className="text-5xl font-black text-white mb-8 leading-tight">
+              {lang === 'ar' ? currentTool.nameAr : currentTool.nameEn}
             </h2>
 
+            {/* 🌟 أزرار التبديل الذكية للكومبو (بتفضل ظاهرة حتى لو الأداة مقفولة) */}
+            {activeTool.isCombo && (
+                <div className="flex flex-wrap justify-center gap-2 md:gap-4 mb-10 bg-gray-900/80 p-2 rounded-3xl w-fit mx-auto border border-gray-700 shadow-inner relative z-50">
+                    {activeTool.subTools.map((sub: any) => (
+                        <button
+                            key={sub.id}
+                            onClick={() => { setActiveSubTool(sub); setFiles([]); setExtraParam(""); }}
+                            className={`py-3 px-6 rounded-2xl font-black text-sm md:text-lg transition-all flex items-center gap-2 cursor-pointer ${currentTool.id === sub.id ? 'bg-cyan-600 text-white shadow-[0_0_15px_rgba(8,145,178,0.5)]' : 'text-gray-400 hover:text-white hover:bg-gray-800'}`}
+                        >
+                            <span>{sub.icon}</span>
+                            <span>{lang === 'ar' ? sub.nameAr : sub.nameEn}</span>
+                            {/* شارة صغيرة بتظهر لو التاب ده بالذات محتاج PRO */}
+                            {sub.reqPlan === 'PRO' && <span className="bg-gradient-to-r from-yellow-400 to-orange-500 text-black text-[10px] px-2 py-0.5 rounded-full ml-1">PRO</span>}
+                        </button>
+                    ))}
+                </div>
+            )}
+
             {/* رسالة تنبيه لأدوات الذكاء الاصطناعي ⚠️ */}
-            {(activeTool as any).isAI && !(activeTool as any).isComingSoon && (
+            {(currentTool as any).isAI && !(currentTool as any).isComingSoon && (
                 <div className="bg-yellow-500/10 border border-yellow-500/30 text-yellow-500 text-sm font-bold p-4 rounded-2xl mb-8 flex items-center justify-center gap-2 shadow-inner">
                     <span className="text-xl">⚠️</span> تنويه: هذه الأداة تعمل بالذكاء الاصطناعي، يُرجى مراجعة النتيجة لاحتمالية وجود أخطاء.
                 </div>
             )}
             
-            {(activeTool as any).isComingSoon ? (
+            {(currentTool as any).isComingSoon ? (
                 <div className="py-10 px-6 rounded-[2.5rem] bg-gray-900/80 border-2 border-cyan-500/30 backdrop-blur-xl flex flex-col items-center gap-6 shadow-[0_0_50px_rgba(6,182,212,0.1)] mb-6">
                     <div className="text-7xl animate-pulse">🚀</div>
                     <h3 className="text-3xl font-black text-cyan-400">{loc.comingSoonTitle}</h3>
@@ -586,15 +628,17 @@ export default function Home() {
                     <button onClick={() => { resetAndGoBack(); setView('login'); }} className="bg-gradient-to-r from-yellow-500 to-orange-500 text-black font-black py-4 px-10 rounded-2xl text-xl hover:scale-105 transition-all shadow-lg cursor-pointer">
                         الترقية الآن ⚡
                     </button>
-                    <button onClick={resetAndGoBack} className="text-gray-500 hover:text-white underline font-bold cursor-pointer">{loc.browseTools}</button>
+                    {!activeTool.isCombo && (
+                        <button onClick={resetAndGoBack} className="text-gray-500 hover:text-white underline font-bold cursor-pointer">{loc.browseTools}</button>
+                    )}
                 </div>
             ) : (
                 <>
                     <p className="text-gray-400 font-bold mb-10">{isBusinessUser() ? loc.businessUnlimited : isProUser() ? loc.proUnlimited : loc.unlimited}</p>
                     
-                    {activeTool.isPromptOnly ? (
+                    {currentTool.isPromptOnly ? (
                       <div className="mb-10 relative z-50">
-                        <textarea value={extraParam} onChange={(e) => setExtraParam(e.target.value)} placeholder={lang === 'ar' ? activeTool.inputPlaceholderAr : "Enter your prompt..."} className="w-full bg-gray-950/80 border-2 border-dashed border-gray-600 rounded-[2.5rem] p-8 text-2xl text-cyan-400 outline-none focus:border-cyan-500 font-bold min-h-[250px] resize-y text-center transition-all shadow-inner" dir={lang === 'ar' ? 'rtl' : 'ltr'} />
+                        <textarea value={extraParam} onChange={(e) => setExtraParam(e.target.value)} placeholder={lang === 'ar' ? currentTool.inputPlaceholderAr : "Enter your prompt..."} className="w-full bg-gray-950/80 border-2 border-dashed border-gray-600 rounded-[2.5rem] p-8 text-2xl text-cyan-400 outline-none focus:border-cyan-500 font-bold min-h-[250px] resize-y text-center transition-all shadow-inner" dir={lang === 'ar' ? 'rtl' : 'ltr'} />
                       </div>
                     ) : (
                       <>
@@ -617,9 +661,9 @@ export default function Home() {
                             </div>
                         )}
                         </div>
-                        {(activeTool.inputPlaceholderAr) && (
+                        {(currentTool.inputPlaceholderAr) && (
                         <div className="mb-10 relative z-50">
-                            <input type="text" value={extraParam} onChange={(e) => setExtraParam(e.target.value)} placeholder={lang === 'ar' ? activeTool.inputPlaceholderAr : ''} className="w-full bg-gray-950/80 border-2 border-gray-700 rounded-2xl p-5 text-xl text-white outline-none focus:border-cyan-500 text-center font-bold" />
+                            <input type="text" value={extraParam} onChange={(e) => setExtraParam(e.target.value)} placeholder={lang === 'ar' ? currentTool.inputPlaceholderAr : ''} className="w-full bg-gray-950/80 border-2 border-gray-700 rounded-2xl p-5 text-xl text-white outline-none focus:border-cyan-500 text-center font-bold" />
                         </div>
                         )}
                       </>
