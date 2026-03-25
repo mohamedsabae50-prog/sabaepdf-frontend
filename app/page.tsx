@@ -112,10 +112,9 @@ const tools = [
   { id: 'ai-summarizer', nameAr: 'تلخيص PDF (AI)', nameEn: 'AI Summarizer', icon: '🧠', color: 'from-indigo-600 to-blue-800', neon: '#4f46e5', descAr: 'لخص 100 صفحة في ثواني.', reqPlan: 'PRO', isAI: true },
   { id: 'bg-remover', nameAr: 'إزالة الخلفية (AI)', nameEn: 'Remove BG', icon: '✂️', color: 'from-fuchsia-500 to-purple-600', neon: '#d946ef', descAr: 'مسح الخلفية بالذكاء الاصطناعي.', reqPlan: 'PRO', isAI: true },
   { id: 'mp4-to-mp3', nameAr: 'استخراج الصوت', nameEn: 'MP4 to MP3', icon: '🎧', color: 'from-cyan-500 to-blue-600', neon: '#06b6d4', descAr: 'فصل الصوت كملف MP3.', reqPlan: 'PRO' }, 
- { id: 'watermark-remover', nameAr: 'مسح العلامة المائية', nameEn: 'Watermark Remover', icon: '💧', color: 'from-cyan-500 to-teal-600', neon: '#06b6d4', descAr: 'إزالة الشعارات والنصوص من الصور تلقائياً.', reqPlan: 'PRO' },
+  { id: 'watermark-remover', nameAr: 'مسح العلامة المائية', nameEn: 'Watermark Remover', icon: '💧', color: 'from-cyan-500 to-teal-600', neon: '#06b6d4', descAr: 'إزالة الشعارات والنصوص من الصور تلقائياً.', reqPlan: 'PRO' },
   { id: 'ai-image-gen', nameAr: 'توليد صور (AI)', nameEn: 'AI Image Gen', icon: '🎨', color: 'from-indigo-500 to-purple-600', neon: '#8b5cf6', descAr: 'توليد صور بالوصف.', reqPlan: 'PRO', isPromptOnly: true, inputPlaceholderAr: 'اكتب وصف للصورة (يفضل باللغة الإنجليزية)...', isAI: true },
   
-  // 🌟 تعديل نصوص كومبو الصور عشان ميتعكسش
   {
     id: 'pdf-img-combo', nameAr: 'صور ↔ PDF', nameEn: 'PDF ↔ Images', icon: '🔁', color: 'from-orange-500 to-red-600', neon: '#ef4444', descAr: 'تحويل متبادل بين الصور والـ PDF.', reqPlan: 'Free', isCombo: true,
     subTools: [
@@ -128,11 +127,12 @@ const tools = [
     id: 'media-optimizer', nameAr: 'تحسين الميديا', nameEn: 'Media Optimizer', icon: '⚖️', color: 'from-pink-500 to-rose-600', neon: '#f43f5e', descAr: 'ضغط وتكبير جودة الملفات والصور.', reqPlan: 'Free', isCombo: true,
     subTools: [
       { id: 'compress-pdf', nameAr: 'ضغط الميديا', nameEn: 'Compress Media', icon: '📉', reqPlan: 'Free' },
-      { id: 'image-upscaler', nameAr: 'تكبير الصور (4K)', nameEn: 'Image Upscaler', icon: '🪄', reqPlan: 'PRO', isAI: true }
+      { id: 'image-upscaler', nameAr: 'تكبير الصور (4K)', nameEn: 'Image Upscaler', icon: '🪄', reqPlan: 'PRO', isAI: true },
+      { id: 'grayscale-image', nameAr: 'صورة أبيض وأسود', nameEn: 'Grayscale Image', icon: '🏁', reqPlan: 'Free' },
+      { id: 'image-converter', nameAr: 'محول صيغ الصور', nameEn: 'Image Converter', icon: '💱', reqPlan: 'Free', inputPlaceholderAr: 'اكتب الصيغة المطلوبة (مثال: jpg, png, webp)...' }
     ]
   },
   
-  // 🌟 تعديل نصوص كومبو الوورد عشان ميتعكسش وتكون واضحة
   {
     id: 'word-pdf-combo', nameAr: 'Word ↔ PDF', nameEn: 'Word ↔ PDF', icon: '📝', color: 'from-emerald-500 to-teal-600', neon: '#10b981', descAr: 'تحويل متبادل بين الوورد والـ PDF.', reqPlan: 'Free', isCombo: true,
     subTools: [
@@ -271,7 +271,7 @@ export default function Home() {
 
   const getAcceptTypes = () => {
     if (currentTool.id === 'word-to-pdf') return '.doc,.docx,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document';
-    if (['img-to-pdf', 'image-upscaler', 'watermark-remover', 'bg-remover'].includes(currentTool.id)) return 'image/*';
+    if (['img-to-pdf', 'image-upscaler', 'watermark-remover', 'bg-remover', 'image-converter'].includes(currentTool.id)) return 'image/*';
     if (currentTool.id === 'mp4-to-mp3') return 'video/*, audio/*';
     if (['rotate-pdf', 'ai-summarizer', 'ai-pdf-translator', 'pdf-redaction', 'ai-pdf-editor', 'pdf-to-img', 'grayscale-pdf', 'delete-pages', 'security-pdf', 'pdf-to-word', 'pdf-to-excel'].includes(currentTool.id)) return '.pdf';
     return '.pdf, image/*, video/*';
@@ -320,11 +320,11 @@ export default function Home() {
     if (extraParam) formData.append("extra_param", extraParam);
 
     try {
-     const res = await axios.post(`${API_URL}/${currentTool.id}/?bypass_cache=${Date.now()}`, formData, { 
-    responseType: 'blob', 
-    timeout: 0, // 🚀 ممنوع تفصل الاتصال مهما غبت
-    signal: abortControllerRef.current.signal
-});
+      const res = await axios.post(`${API_URL}/${currentTool.id}/?bypass_cache=${Date.now()}`, formData, { 
+          responseType: 'blob', 
+          timeout: 0,
+          signal: abortControllerRef.current.signal
+      });
       setProgress(100);
       const url = window.URL.createObjectURL(new Blob([res.data]));
       
@@ -335,6 +335,9 @@ export default function Home() {
       else if (currentTool.id === 'pdf-to-excel') ext = 'xlsx';
       else if (['bg-remover', 'image-upscaler', 'watermark-remover', 'ai-image-gen'].includes(currentTool.id)) ext = 'png'; 
       else if (currentTool.id === 'mp4-to-mp3') ext = 'mp3';
+      else if (currentTool.id === 'image-converter') {
+          ext = extraParam.toLowerCase().replace('.', '').trim() || 'png';
+      }
       else if (currentTool.id === 'pdf-to-img') {
           ext = cType.includes('zip') ? 'zip' : 'png';
       }
