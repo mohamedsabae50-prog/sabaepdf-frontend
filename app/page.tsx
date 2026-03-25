@@ -282,9 +282,8 @@ export default function Home() {
         setView('login'); return;
     }
 
-    // 🚀 كشف استباقي لحجم الملف لحماية السيرفر من الوقوع
     if (getCurrentUserPlan() === 'free') {
-        const MAX_FREE_SIZE = 150 * 1024 * 1024; // 150 ميجابايت كحد أقصى للخطة المجانية
+        const MAX_FREE_SIZE = 150 * 1024 * 1024;
         const totalSize = files.reduce((acc, file) => acc + file.size, 0);
         if (totalSize > MAX_FREE_SIZE) {
             alert(loc.sizeLimitAlert);
@@ -294,7 +293,6 @@ export default function Home() {
     
     setLoading(true);
     setProgress(0);
-    abortControllerRef.current = new AbortController();
     
     const interval = setInterval(() => {
       setProgress((prev) => {
@@ -304,6 +302,41 @@ export default function Home() {
       });
     }, 800);
 
+    // ==============================================================
+    // 🚀 الحل الجذري لأداة توليد الصور (معالجة من المتصفح مباشرة)
+    // ==============================================================
+    if (currentTool.id === 'ai-image-gen') {
+      try {
+        const encodedPrompt = encodeURIComponent(extraParam);
+        const seed = Math.floor(Math.random() * 9999999);
+        const imgUrl = `https://image.pollinations.ai/prompt/${encodedPrompt}?width=1024&height=1024&nologo=true&seed=${seed}`;
+
+        const response = await fetch(imgUrl);
+        if (!response.ok) throw new Error("السيرفرات العالمية مشغولة، جرب وصف آخر لاحقاً.");
+        
+        const blob = await response.blob();
+        const url = window.URL.createObjectURL(blob);
+        
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `Sabae_AI_Art_${seed}.png`;
+        a.click();
+        
+        setProgress(100);
+        clearInterval(interval);
+        setTimeout(() => { setLoading(false); setProgress(0); }, 1000);
+        return; // بنوقف تنفيذ الدالة هنا عشان ميبعتش للسيرفر
+      } catch (err: any) {
+        clearInterval(interval);
+        setLoading(false);
+        setProgress(0);
+        alert(`فشل التوليد ❌\nالسبب: ${err.message}`);
+        return;
+      }
+    }
+
+    // --- المعالجة لباقي الأدوات على الباك إند ---
+    abortControllerRef.current = new AbortController();
     const formData = new FormData();
     if (!currentTool.isPromptOnly) {
       files.forEach(f => formData.append("files", f));
@@ -325,7 +358,7 @@ export default function Home() {
       
       if (currentTool.id === 'pdf-to-word') ext = 'docx';
       else if (currentTool.id === 'pdf-to-excel') ext = 'xlsx';
-      else if (['bg-remover', 'ai-image-gen', 'image-upscaler', 'watermark-remover'].includes(currentTool.id)) ext = 'png'; 
+      else if (['bg-remover', 'image-upscaler', 'watermark-remover'].includes(currentTool.id)) ext = 'png'; 
       else if (currentTool.id === 'mp4-to-mp3') ext = 'mp3';
       else if (currentTool.id === 'pdf-to-img') {
           ext = cType.includes('zip') ? 'zip' : 'png';
