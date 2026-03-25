@@ -43,13 +43,14 @@ const t = {
     businessUnlimited: "مرحباً بك في مساحة الأعمال الفائقة 💼",
     loginRequired: "سجل دخولك أو رقي حسابك عشان تستخدم الأداة 🔒",
     comingSoonTitle: "قريباً جداً! 🚀",
-    comingSoonText: "عذراً يا بطل! هذه الأداة تخضع لتحديثات شاملة لربطها بسيرفرات ذكاء اصطناعي أقوى، وجاري العمل عليها لتكون متاحة قريباً جداً.",
+    comingSoonText: "عذراً يا بطل! هذه الأداة تتطلب واجهة وتجهيزات خاصة، وجاري العمل عليها لتكون متاحة قريباً جداً.",
     footerDesc: "منصتك الأولى للتعامل مع الملفات بذكاء وسرعة.",
     contactUs: "تواصل معنا",
     terms: "شروط الخدمة",
     privacy: "سياسة الخصوصية",
     rights: "جميع الحقوق محفوظة © 2026 SABAEPDF PRO",
     closeBtn: "إغلاق ❌",
+    upgradeBtn: "الترقية ⚡"
   },
   en: { 
     title: "SABAEPDF PRO ⚡", 
@@ -90,22 +91,24 @@ const t = {
     businessUnlimited: "Welcome to the Ultimate Business Workspace 💼",
     loginRequired: "Login or upgrade to use this tool 🔒",
     comingSoonTitle: "Coming Soon! 🚀",
-    comingSoonText: "Sorry hero! This tool is undergoing major AI server upgrades and will be available very soon.",
+    comingSoonText: "Sorry hero! This tool requires a special interface and setup. We are currently working on it.",
     footerDesc: "Your premier platform for smart and fast file handling.",
     contactUs: "Contact Us",
     terms: "Terms of Service",
     privacy: "Privacy Policy",
     rights: "All Rights Reserved © 2026 SABAEPDF PRO",
     closeBtn: "Close ❌",
+    upgradeBtn: "Upgrade ⚡"
   }
 };
 
+// 🚀 رفعنا الحظر (isComingSoon) عن أداة التعديل والتلخيص
 const tools = [
   { id: 'ai-pdf-translator', nameAr: 'ترجمة ذكية (AI)', nameEn: 'Smart Translation', icon: '🌍', color: 'from-blue-600 to-indigo-900', neon: '#3b82f6', descAr: 'ترجمة كاملة مع حفظ التنسيق.', reqPlan: 'Business', isAI: true },
   { id: 'pdf-to-excel', nameAr: 'PDF لـ Excel (OCR)', nameEn: 'Pro OCR to Excel', icon: '📊', color: 'from-green-600 to-emerald-900', neon: '#059669', descAr: 'استخراج الجداول بدقة عالية.', reqPlan: 'Business' },
-  { id: 'ai-pdf-editor', nameAr: 'تعديل ذكي (AI)', nameEn: 'AI Editor', icon: '✨', color: 'from-purple-600 to-fuchsia-800', neon: '#d946ef', descAr: 'أعد صياغة النصوص داخل الملف.', reqPlan: 'PRO', inputPlaceholderAr: 'اكتب التعديل اللي عايزه (مثال: أعد صياغة هذا الملف)...', isAI: true, isComingSoon: true }, // قفلنا دي
+  { id: 'ai-pdf-editor', nameAr: 'تعديل ذكي (AI)', nameEn: 'AI Editor', icon: '✨', color: 'from-purple-600 to-fuchsia-800', neon: '#d946ef', descAr: 'أعد صياغة النصوص داخل الملف.', reqPlan: 'PRO', inputPlaceholderAr: 'اكتب التعديل اللي عايزه (مثال: أعد صياغة هذا الملف)...', isAI: true },
   { id: 'pdf-redaction', nameAr: 'تعتيم حساس', nameEn: 'Smart Redaction', icon: '⬛', color: 'from-gray-700 to-black', neon: '#ffffff', descAr: 'إخفاء الأرقام والأسماء للأبد.', reqPlan: 'PRO', inputPlaceholderAr: 'الكلمة أو الرقم المراد إخفاؤه وتمويهه...' },
-  { id: 'ai-summarizer', nameAr: 'تلخيص PDF (AI)', nameEn: 'AI Summarizer', icon: '🧠', color: 'from-indigo-600 to-blue-800', neon: '#4f46e5', descAr: 'لخص 100 صفحة في ثواني.', reqPlan: 'PRO', isAI: true, isComingSoon: true }, // وقفلنا دي
+  { id: 'ai-summarizer', nameAr: 'تلخيص PDF (AI)', nameEn: 'AI Summarizer', icon: '🧠', color: 'from-indigo-600 to-blue-800', neon: '#4f46e5', descAr: 'لخص 100 صفحة في ثواني.', reqPlan: 'PRO', isAI: true },
   { id: 'bg-remover', nameAr: 'إزالة الخلفية (AI)', nameEn: 'Remove BG', icon: '✂️', color: 'from-fuchsia-500 to-purple-600', neon: '#d946ef', descAr: 'مسح الخلفية بالذكاء الاصطناعي.', reqPlan: 'PRO', isAI: true },
   { id: 'image-upscaler', nameAr: 'تكبير الصور (4K)', nameEn: 'Image Upscaler', icon: '🪄', color: 'from-orange-500 to-red-600', neon: '#f97316', descAr: 'تحسين جودة الصور الضعيفة.', reqPlan: 'PRO', isAI: true },
   { id: 'mp4-to-mp3', nameAr: 'استخراج الصوت', nameEn: 'MP4 to MP3', icon: '🎧', color: 'from-cyan-500 to-blue-600', neon: '#06b6d4', descAr: 'فصل الصوت كملف MP3.', reqPlan: 'PRO' }, 
@@ -367,6 +370,14 @@ export default function Home() {
         <div className="flex gap-2 md:gap-4 items-center">
           {user ? (
             <div className="flex items-center gap-2 md:gap-3 mr-2 md:mr-4">
+              
+              {/* 🚀 الزرار الذهبي للترقية بيظهر بس لو الخطة مجانية */}
+              {getCurrentUserPlan() === 'free' && (
+                  <button onClick={() => { resetAndGoBack(); setView('login'); }} className="bg-gradient-to-r from-yellow-500 to-orange-500 text-black px-4 py-1.5 md:py-2 rounded-full font-black text-xs md:text-sm hover:scale-105 transition-all shadow-[0_0_10px_rgba(234,179,8,0.4)] animate-pulse cursor-pointer">
+                      {loc.upgradeBtn}
+                  </button>
+              )}
+
               <div className={`bg-gradient-to-r ${isBusinessUser() ? 'from-purple-600 to-indigo-600' : isProUser() ? 'from-cyan-600 to-blue-600' : 'from-gray-600 to-gray-500'} px-4 py-2 rounded-full text-white font-black text-xs md:text-sm shadow-lg flex items-center gap-2`}>
                 <span className="capitalize">{getCurrentUserPlan()}</span> {getCurrentUserPlan() !== 'free' && '🚀'}
               </div>
