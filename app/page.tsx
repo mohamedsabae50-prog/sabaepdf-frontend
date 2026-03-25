@@ -128,9 +128,6 @@ const tools = [
       { id: 'image-upscaler', nameAr: 'تكبير الصور (4K)', nameEn: 'Image Upscaler', icon: '🪄', reqPlan: 'PRO', isAI: true }
     ]
   },
-
-  // 🚀 فتحنا أداة التعديل وحطينا ليها حقل إدخال للنص
-  { id: 'pdf-editor', nameAr: 'إضافة نص / تعديل', nameEn: 'Add Text to PDF', icon: '🖍️', color: 'from-teal-500 to-emerald-600', neon: '#14b8a6', descAr: 'إضافة نصوص أو علامة مائية للملف.', reqPlan: 'Free', inputPlaceholderAr: 'اكتب النص المراد إضافته كعلامة مائية...' },
   
   { id: 'pdf-to-word', nameAr: 'PDF لـ Word', nameEn: 'PDF to Word', icon: '📝', color: 'from-emerald-500 to-teal-600', neon: '#10b981', descAr: 'تحويل الملف لنص قابل للتعديل.', reqPlan: 'Free' },
   { id: 'merge-pdf', nameAr: 'دمج ملفات', nameEn: 'Merge PDF', icon: '📑', color: 'from-blue-600 to-indigo-700', neon: '#3b82f6', descAr: 'دمج عدة ملفات في مستند واحد.', reqPlan: 'Free' },
@@ -265,7 +262,7 @@ export default function Home() {
     if (currentTool.id === 'rotate-pdf') return '.pdf, image/*';
     if (['img-to-pdf', 'image-upscaler', 'watermark-remover', 'bg-remover'].includes(currentTool.id)) return 'image/*';
     if (currentTool.id === 'mp4-to-mp3') return 'video/*, audio/*';
-    if (['ai-summarizer', 'ai-pdf-translator', 'pdf-redaction', 'ai-pdf-editor', 'pdf-editor', 'pdf-to-img', 'grayscale-pdf', 'delete-pages', 'security-pdf', 'pdf-to-word', 'pdf-to-excel'].includes(currentTool.id)) return '.pdf';
+    if (['ai-summarizer', 'ai-pdf-translator', 'pdf-redaction', 'ai-pdf-editor', 'pdf-to-img', 'grayscale-pdf', 'delete-pages', 'security-pdf', 'pdf-to-word', 'pdf-to-excel'].includes(currentTool.id)) return '.pdf';
     return '.pdf, image/*, video/*';
   };
 
@@ -328,7 +325,7 @@ export default function Home() {
           else if (cType.includes('png')) ext = 'png';
           else ext = files.length === 1 && files[0] ? (files[0].name.split('.').pop() || 'zip') : 'zip';
       }
-      else if (['ai-summarizer', 'ai-pdf-translator', 'pdf-redaction', 'ai-pdf-editor', 'pdf-editor', 'grayscale-pdf', 'rotate-pdf', 'security-pdf', 'delete-pages', 'merge-pdf'].includes(currentTool.id)) {
+      else if (['ai-summarizer', 'ai-pdf-translator', 'pdf-redaction', 'ai-pdf-editor', 'grayscale-pdf', 'rotate-pdf', 'security-pdf', 'delete-pages', 'merge-pdf'].includes(currentTool.id)) {
           ext = 'pdf';
       }
 
