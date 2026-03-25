@@ -102,7 +102,6 @@ const t = {
   }
 };
 
-// 🚀 تم دمج الأدوات المتشابهة لتخفيف الزحمة
 const tools = [
   { id: 'ai-pdf-translator', nameAr: 'ترجمة ذكية (AI)', nameEn: 'Smart Translation', icon: '🌍', color: 'from-blue-600 to-indigo-900', neon: '#3b82f6', descAr: 'ترجمة كاملة مع حفظ التنسيق.', reqPlan: 'Business', isAI: true },
   { id: 'pdf-to-excel', nameAr: 'PDF لـ Excel (OCR)', nameEn: 'Pro OCR to Excel', icon: '📊', color: 'from-green-600 to-emerald-900', neon: '#059669', descAr: 'استخراج الجداول بدقة عالية.', reqPlan: 'Business' },
@@ -114,7 +113,6 @@ const tools = [
   { id: 'watermark-remover', nameAr: 'مسح العلامة المائية', nameEn: 'Watermark Remover', icon: '💧', color: 'from-cyan-500 to-teal-600', neon: '#06b6d4', descAr: 'إزالة الشعارات من الصور.', reqPlan: 'PRO', isComingSoon: true },
   { id: 'ai-image-gen', nameAr: 'توليد صور (AI)', nameEn: 'AI Image Gen', icon: '🎨', color: 'from-indigo-500 to-purple-600', neon: '#8b5cf6', descAr: 'توليد صور بالوصف.', reqPlan: 'PRO', isPromptOnly: true, inputPlaceholderAr: 'اكتب وصف للصورة (يفضل باللغة الإنجليزية)...', isAI: true },
   
-  // 🌟 مجموعة التحويل المزدوجة (صور و PDF)
   {
     id: 'pdf-img-combo', nameAr: 'صور ↔ PDF', nameEn: 'PDF ↔ Images', icon: '🔁', color: 'from-orange-500 to-red-600', neon: '#ef4444', descAr: 'تحويل متبادل بين الصور والـ PDF.', reqPlan: 'Free', isCombo: true,
     subTools: [
@@ -123,7 +121,6 @@ const tools = [
     ]
   },
 
-  // 🌟 مجموعة التحسين والضغط (ضغط الميديا + تكبير الصور)
   {
     id: 'media-optimizer', nameAr: 'تحسين الميديا', nameEn: 'Media Optimizer', icon: '⚖️', color: 'from-pink-500 to-rose-600', neon: '#f43f5e', descAr: 'ضغط وتكبير جودة الملفات والصور.', reqPlan: 'Free', isCombo: true,
     subTools: [
@@ -132,7 +129,9 @@ const tools = [
     ]
   },
 
-  { id: 'pdf-editor', nameAr: 'تعديل PDF', nameEn: 'Edit PDF', icon: '🖍️', color: 'from-teal-500 to-emerald-600', neon: '#14b8a6', descAr: 'إضافة نصوص، صور، وتوقيع.', reqPlan: 'Free', isComingSoon: true },
+  // 🚀 فتحنا أداة التعديل وحطينا ليها حقل إدخال للنص
+  { id: 'pdf-editor', nameAr: 'إضافة نص / تعديل', nameEn: 'Add Text to PDF', icon: '🖍️', color: 'from-teal-500 to-emerald-600', neon: '#14b8a6', descAr: 'إضافة نصوص أو علامة مائية للملف.', reqPlan: 'Free', inputPlaceholderAr: 'اكتب النص المراد إضافته كعلامة مائية...' },
+  
   { id: 'pdf-to-word', nameAr: 'PDF لـ Word', nameEn: 'PDF to Word', icon: '📝', color: 'from-emerald-500 to-teal-600', neon: '#10b981', descAr: 'تحويل الملف لنص قابل للتعديل.', reqPlan: 'Free' },
   { id: 'merge-pdf', nameAr: 'دمج ملفات', nameEn: 'Merge PDF', icon: '📑', color: 'from-blue-600 to-indigo-700', neon: '#3b82f6', descAr: 'دمج عدة ملفات في مستند واحد.', reqPlan: 'Free' },
   { id: 'grayscale-pdf', nameAr: 'توفير حبر', nameEn: 'Grayscale', icon: '🏁', color: 'from-gray-500 to-slate-700', neon: '#64748b', descAr: 'تحويل لأبيض وأسود.', reqPlan: 'Free' },
@@ -158,7 +157,7 @@ export default function Home() {
   const [view, setView] = useState<'grid' | 'login' | 'tool'>('grid');
   
   const [activeTool, setActiveTool] = useState<any>(tools[0]);
-  const [activeSubTool, setActiveSubTool] = useState<any>(null); // 👈 حالة لتتبع الأداة الفرعية في الكومبو
+  const [activeSubTool, setActiveSubTool] = useState<any>(null);
   
   const [files, setFiles] = useState<File[]>([]);
   const [extraParam, setExtraParam] = useState("");
@@ -193,7 +192,6 @@ export default function Home() {
   const isBusinessUser = () => getCurrentUserPlan() === 'business';
   const isProUser = () => getCurrentUserPlan() === 'pro' || getCurrentUserPlan() === 'business'; 
 
-  // 👈 دالة بتحدد إحنا شغالين على أداة رئيسية ولا أداة فرعية من الكومبو
   const currentTool = activeSubTool || activeTool;
 
   const resetAndGoBack = () => {
@@ -536,7 +534,7 @@ export default function Home() {
             {tools.map((t) => (
               <div key={t.id} onClick={() => { 
                   setActiveTool(t as any); 
-                  if (t.isCombo) setActiveSubTool(t.subTools[0]); // 👈 لو كومبو نشغل أول أداة فيه تلقائياً
+                  if (t.isCombo) setActiveSubTool(t.subTools[0]); 
                   else setActiveSubTool(null);
                   setFiles([]); setExtraParam(""); setView('tool'); 
                 }} 
@@ -582,7 +580,6 @@ export default function Home() {
               {lang === 'ar' ? currentTool.nameAr : currentTool.nameEn}
             </h2>
 
-            {/* 🌟 أزرار التبديل الذكية للكومبو (بتفضل ظاهرة حتى لو الأداة مقفولة) */}
             {activeTool.isCombo && (
                 <div className="flex flex-wrap justify-center gap-2 md:gap-4 mb-10 bg-gray-900/80 p-2 rounded-3xl w-fit mx-auto border border-gray-700 shadow-inner relative z-50">
                     {activeTool.subTools.map((sub: any) => (
@@ -593,14 +590,12 @@ export default function Home() {
                         >
                             <span>{sub.icon}</span>
                             <span>{lang === 'ar' ? sub.nameAr : sub.nameEn}</span>
-                            {/* شارة صغيرة بتظهر لو التاب ده بالذات محتاج PRO */}
                             {sub.reqPlan === 'PRO' && <span className="bg-gradient-to-r from-yellow-400 to-orange-500 text-black text-[10px] px-2 py-0.5 rounded-full ml-1">PRO</span>}
                         </button>
                     ))}
                 </div>
             )}
 
-            {/* رسالة تنبيه لأدوات الذكاء الاصطناعي ⚠️ */}
             {(currentTool as any).isAI && !(currentTool as any).isComingSoon && (
                 <div className="bg-yellow-500/10 border border-yellow-500/30 text-yellow-500 text-sm font-bold p-4 rounded-2xl mb-8 flex items-center justify-center gap-2 shadow-inner">
                     <span className="text-xl">⚠️</span> تنويه: هذه الأداة تعمل بالذكاء الاصطناعي، يُرجى مراجعة النتيجة لاحتمالية وجود أخطاء.
