@@ -115,11 +115,12 @@ const tools = [
   { id: 'watermark-remover', nameAr: 'مسح العلامة المائية', nameEn: 'Watermark Remover', icon: '💧', color: 'from-cyan-500 to-teal-600', neon: '#06b6d4', descAr: 'إزالة الشعارات من الصور.', reqPlan: 'PRO', isComingSoon: true },
   { id: 'ai-image-gen', nameAr: 'توليد صور (AI)', nameEn: 'AI Image Gen', icon: '🎨', color: 'from-indigo-500 to-purple-600', neon: '#8b5cf6', descAr: 'توليد صور بالوصف.', reqPlan: 'PRO', isPromptOnly: true, inputPlaceholderAr: 'اكتب وصف للصورة (يفضل باللغة الإنجليزية)...', isAI: true },
   
+  // 🌟 تعديل نصوص كومبو الصور عشان ميتعكسش
   {
     id: 'pdf-img-combo', nameAr: 'صور ↔ PDF', nameEn: 'PDF ↔ Images', icon: '🔁', color: 'from-orange-500 to-red-600', neon: '#ef4444', descAr: 'تحويل متبادل بين الصور والـ PDF.', reqPlan: 'Free', isCombo: true,
     subTools: [
-      { id: 'pdf-to-img', nameAr: 'PDF لـ صور', nameEn: 'PDF to Images', icon: '📸', reqPlan: 'Free' },
-      { id: 'img-to-pdf', nameAr: 'صور لـ PDF', nameEn: 'Images to PDF', icon: '🖼️', reqPlan: 'Free' }
+      { id: 'pdf-to-img', nameAr: 'استخراج كصور', nameEn: 'To Images', icon: '📸', reqPlan: 'Free' },
+      { id: 'img-to-pdf', nameAr: 'تحويل إلى PDF', nameEn: 'To PDF', icon: '🖼️', reqPlan: 'Free' }
     ]
   },
 
@@ -131,12 +132,12 @@ const tools = [
     ]
   },
   
-  // 🌟 الكومبو الجديد: Word ↔ PDF
+  // 🌟 تعديل نصوص كومبو الوورد عشان ميتعكسش وتكون واضحة
   {
     id: 'word-pdf-combo', nameAr: 'Word ↔ PDF', nameEn: 'Word ↔ PDF', icon: '📝', color: 'from-emerald-500 to-teal-600', neon: '#10b981', descAr: 'تحويل متبادل بين الوورد والـ PDF.', reqPlan: 'Free', isCombo: true,
     subTools: [
-      { id: 'pdf-to-word', nameAr: 'PDF لـ Word', nameEn: 'PDF to Word', icon: '📄', reqPlan: 'Free' },
-      { id: 'word-to-pdf', nameAr: 'Word لـ PDF', nameEn: 'Word to PDF', icon: '📝', reqPlan: 'Free' }
+      { id: 'pdf-to-word', nameAr: 'تحويل إلى Word', nameEn: 'To Word', icon: '📄', reqPlan: 'Free' },
+      { id: 'word-to-pdf', nameAr: 'تحويل إلى PDF', nameEn: 'To PDF', icon: '📝', reqPlan: 'Free' }
     ]
   },
 
@@ -268,7 +269,6 @@ export default function Home() {
     }
   };
 
-  // 🚀 تحديد الملفات المسموحة بناءً على الأداة
   const getAcceptTypes = () => {
     if (currentTool.id === 'word-to-pdf') return '.doc,.docx,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document';
     if (['img-to-pdf', 'image-upscaler', 'watermark-remover', 'bg-remover'].includes(currentTool.id)) return 'image/*';
@@ -345,7 +345,6 @@ export default function Home() {
           else if (cType.includes('png')) ext = 'png';
           else ext = files.length === 1 && files[0] ? (files[0].name.split('.').pop() || 'zip') : 'zip';
       }
-      // 🚀 لو حولنا الوورد لـ PDF، الامتداد هيكون pdf
       else if (['word-to-pdf', 'ai-summarizer', 'ai-pdf-translator', 'pdf-redaction', 'ai-pdf-editor', 'grayscale-pdf', 'rotate-pdf', 'security-pdf', 'delete-pages', 'merge-pdf'].includes(currentTool.id)) {
           ext = 'pdf';
       }
