@@ -302,40 +302,6 @@ export default function Home() {
       });
     }, 800);
 
-    // ==============================================================
-    // 🚀 الحل الجذري لأداة توليد الصور (معالجة من المتصفح مباشرة)
-    // ==============================================================
-    if (currentTool.id === 'ai-image-gen') {
-      try {
-        const encodedPrompt = encodeURIComponent(extraParam);
-        const seed = Math.floor(Math.random() * 9999999);
-        const imgUrl = `https://image.pollinations.ai/prompt/${encodedPrompt}?width=1024&height=1024&nologo=true&seed=${seed}`;
-
-        const response = await fetch(imgUrl);
-        if (!response.ok) throw new Error("السيرفرات العالمية مشغولة، جرب وصف آخر لاحقاً.");
-        
-        const blob = await response.blob();
-        const url = window.URL.createObjectURL(blob);
-        
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = `Sabae_AI_Art_${seed}.png`;
-        a.click();
-        
-        setProgress(100);
-        clearInterval(interval);
-        setTimeout(() => { setLoading(false); setProgress(0); }, 1000);
-        return; // بنوقف تنفيذ الدالة هنا عشان ميبعتش للسيرفر
-      } catch (err: any) {
-        clearInterval(interval);
-        setLoading(false);
-        setProgress(0);
-        alert(`فشل التوليد ❌\nالسبب: ${err.message}`);
-        return;
-      }
-    }
-
-    // --- المعالجة لباقي الأدوات على الباك إند ---
     abortControllerRef.current = new AbortController();
     const formData = new FormData();
     if (!currentTool.isPromptOnly) {
@@ -358,7 +324,7 @@ export default function Home() {
       
       if (currentTool.id === 'pdf-to-word') ext = 'docx';
       else if (currentTool.id === 'pdf-to-excel') ext = 'xlsx';
-      else if (['bg-remover', 'image-upscaler', 'watermark-remover'].includes(currentTool.id)) ext = 'png'; 
+      else if (['bg-remover', 'image-upscaler', 'watermark-remover', 'ai-image-gen'].includes(currentTool.id)) ext = 'png'; 
       else if (currentTool.id === 'mp4-to-mp3') ext = 'mp3';
       else if (currentTool.id === 'pdf-to-img') {
           ext = cType.includes('zip') ? 'zip' : 'png';
