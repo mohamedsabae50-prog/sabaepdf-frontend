@@ -146,7 +146,6 @@ export default function Home() {
   const cursorRef = useRef<HTMLDivElement>(null);
   const [hoveredNeon, setHoveredNeon] = useState('#06b6d4');
   const [hoveredCardId, setHoveredCardId] = useState<string | null>(null);
-  const [modalContent, setModalContent] = useState<'terms' | 'privacy' | null>(null);
 
   const abortControllerRef = useRef<AbortController | null>(null);
 
@@ -296,7 +295,6 @@ export default function Home() {
       else if (activeTool.id === 'pdf-to-excel') ext = 'xlsx';
       else if (['bg-remover', 'ai-image-gen', 'image-upscaler', 'watermark-remover'].includes(activeTool.id)) ext = 'png'; 
       else if (activeTool.id === 'mp4-to-mp3') ext = 'mp3';
-      else if (['ai-summarizer', 'ai-pdf-translator', 'pdf-redaction', 'ai-pdf-editor', 'pdf-editor'].includes(activeTool.id)) ext = 'pdf'; 
       else if (activeTool.id === 'pdf-to-img') {
           ext = cType.includes('zip') ? 'zip' : 'png';
       }
@@ -307,7 +305,7 @@ export default function Home() {
           else if (cType.includes('png')) ext = 'png';
           else ext = files.length === 1 && files[0] ? (files[0].name.split('.').pop() || 'zip') : 'zip';
       }
-      else if (['grayscale-pdf', 'rotate-pdf', 'security-pdf', 'delete-pages', 'merge-pdf'].includes(activeTool.id)) {
+      else if (['ai-summarizer', 'ai-pdf-translator', 'pdf-redaction', 'ai-pdf-editor', 'pdf-editor', 'grayscale-pdf', 'rotate-pdf', 'security-pdf', 'delete-pages', 'merge-pdf'].includes(activeTool.id)) {
           ext = 'pdf';
       }
 
