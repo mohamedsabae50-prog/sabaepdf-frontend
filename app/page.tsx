@@ -51,7 +51,11 @@ const t = {
     rights: "جميع الحقوق محفوظة © 2026 SABAEPDF PRO",
     closeBtn: "إغلاق ❌",
     upgradeBtn: "الترقية ⚡",
-    sizeLimitAlert: "الملفات كبيرة جداً على الخطة المجانية! 😅 (أقصى حجم 150 ميجا). يرجى تقليل حجم الملفات أو الترقية لباقة احترافية ⚡"
+    sizeLimitAlert: "الملفات كبيرة جداً على الخطة المجانية! 😅 (أقصى حجم 150 ميجا). يرجى تقليل حجم الملفات أو الترقية لباقة احترافية ⚡",
+    aiWarning: "تنويه: هذه الأداة تعمل بالذكاء الاصطناعي، يُرجى مراجعة النتيجة لاحتمالية وجود أخطاء.",
+    lockedTitle: "ميزة حصرية للمشتركين",
+    lockedDesc: "للوصول لهذه الأداة، تحتاج إلى الترقية لباقة أعلى. استمتع بقوة الذكاء الاصطناعي في إدارة أعمالك!",
+    upgradeNowBtn: "الترقية الآن ⚡"
   },
   en: { 
     title: "SABAEPDF PRO ⚡", 
@@ -100,7 +104,11 @@ const t = {
     rights: "All Rights Reserved © 2026 SABAEPDF PRO",
     closeBtn: "Close ❌",
     upgradeBtn: "Upgrade ⚡",
-    sizeLimitAlert: "Files are too large for the free plan! 😅 (Max 150MB). Please reduce file size or upgrade to a Pro plan ⚡"
+    sizeLimitAlert: "Files are too large for the free plan! 😅 (Max 150MB). Please reduce file size or upgrade to a Pro plan ⚡",
+    aiWarning: "Note: This tool is powered by AI. Please review the output for potential inaccuracies.",
+    lockedTitle: "Exclusive Feature",
+    lockedDesc: "To access this tool, you need to upgrade to a higher plan. Enjoy the power of AI in managing your business!",
+    upgradeNowBtn: "Upgrade Now ⚡"
   }
 };
 
@@ -436,7 +444,7 @@ export default function Home() {
           <div className="max-w-6xl mx-auto text-center">
             <div className="mb-8 flex justify-center">
                <button onClick={resetAndGoBack} className="bg-gray-800/50 hover:bg-gray-700 text-white px-6 py-3 rounded-2xl border border-gray-700 font-bold flex items-center gap-2 transition-all hover:-translate-y-1">
-                  <span>🏠</span> {loc.browseTools}
+                 <span>🏠</span> {loc.browseTools}
                </button>
             </div>
 
@@ -620,7 +628,7 @@ export default function Home() {
 
             {(currentTool as any).isAI && !(currentTool as any).isComingSoon && (
                 <div className="bg-yellow-500/10 border border-yellow-500/30 text-yellow-500 text-sm font-bold p-4 rounded-2xl mb-8 flex items-center justify-center gap-2 shadow-inner">
-                    <span className="text-xl">⚠️</span> تنويه: هذه الأداة تعمل بالذكاء الاصطناعي، يُرجى مراجعة النتيجة لاحتمالية وجود أخطاء.
+                    <span className="text-xl">⚠️</span> {loc.aiWarning}
                 </div>
             )}
             
@@ -638,12 +646,12 @@ export default function Home() {
             ) : isLocked() ? (
                 <div className="py-10 px-6 rounded-[2.5rem] bg-gray-900/80 border-2 border-yellow-500/30 backdrop-blur-xl flex flex-col items-center gap-6 shadow-[0_0_50px_rgba(234,179,8,0.1)] mb-6">
                     <div className="text-7xl animate-bounce">🔒</div>
-                    <h3 className="text-2xl font-black text-yellow-500">ميزة حصرية للمشتركين</h3>
+                    <h3 className="text-2xl font-black text-yellow-500">{loc.lockedTitle}</h3>
                     <p className="text-gray-400 font-bold max-w-md">
-                        للوصول لهذه الأداة، تحتاج إلى الترقية لباقة أعلى. استمتع بقوة الذكاء الاصطناعي في إدارة أعمالك!
+                        {loc.lockedDesc}
                     </p>
                     <button onClick={() => { resetAndGoBack(); setView('login'); }} className="bg-gradient-to-r from-yellow-500 to-orange-500 text-black font-black py-4 px-10 rounded-2xl text-xl hover:scale-105 transition-all shadow-lg cursor-pointer">
-                        الترقية الآن ⚡
+                        {loc.upgradeNowBtn}
                     </button>
                     {!activeTool.isCombo && (
                         <button onClick={resetAndGoBack} className="text-gray-500 hover:text-white underline font-bold cursor-pointer">{loc.browseTools}</button>
