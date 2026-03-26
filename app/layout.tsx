@@ -15,9 +15,11 @@ const geistMono = Geist_Mono({
 
 export const metadata = {
   title: 'SABAEPDF PRO | Ultimate AI-Powered PDF & Media Suite',
-  description: 'SABAEPDF is an advanced AI platform for smart PDF summarization, image generation, and media processing.',
-  keywords: 'SABAEPDF, AI PDF Tools, PDF Summarizer, AI Image Generator',
-};
+  description: 'SABAEPDF PRO is an advanced AI-powered platform for smart document summarization, image generation, and media processing.',
+  verification: {
+    google: 'a7F1vhhf13Y6H0x5Q7HlVqv3QljNw4csd86Z53Vwacw',
+  },
+}
 
 export default function RootLayout({
   children,
